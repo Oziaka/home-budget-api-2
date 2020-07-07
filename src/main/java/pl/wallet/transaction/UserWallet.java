@@ -1,4 +1,4 @@
-package pl.wallet;
+package pl.wallet.transaction;
 
 import org.springframework.data.jpa.domain.Specification;
 import pl.user.User;

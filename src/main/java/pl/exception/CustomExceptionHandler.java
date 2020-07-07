@@ -23,21 +23,21 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(RuntimeException.class)
   public ResponseEntity handleAllExceptions (Exception exception, WebRequest request) {
     return ResponseEntity.status(BAD_REQUEST)
-      .body(new ErrorsResponse(Map.of("Server Error", Collections.singletonList(exception.getLocalizedMessage().replace("addTransaction.<cross-parameter>: ", "")))).getErrors());
+      .body(Map.of("Server Error", Collections.singletonList(exception.getLocalizedMessage().replace("addTransaction.<cross-parameter>: ", ""))));
   }
 
   @Override
   public ResponseEntity handleMethodArgumentNotValid (MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatus status, WebRequest request) {
     return ResponseEntity
       .status(BAD_REQUEST)
-      .body(new ErrorsResponse(exception.getBindingResult().getFieldErrors().stream()
+      .body(exception.getBindingResult().getFieldErrors().stream()
         .collect(Collectors.groupingBy(FieldError::getField))
         .entrySet().stream()
         .collect(Collectors.toMap(Map.Entry::getKey, fieldError -> fieldError.getValue()
           .stream()
           .map(ObjectError::getDefaultMessage)
           .map(message -> message.replace("addTransaction.<cross-parameter>:", ""))
-          .collect(Collectors.toList())))));
+          .collect(Collectors.toList()))));
   }
 }
 

@@ -14,7 +14,7 @@ public class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail,
 
   @Override
   public void initialize (UniqueUserEmail uniqueUserEmail) {
-    uniqueUserEmail.message();
+
   }
 
   @Override

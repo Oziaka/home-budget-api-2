@@ -20,7 +20,7 @@ import java.util.List;
 public class WalletResource {
   private WalletController walletController;
 
-  @PostMapping("/add")
+  @PutMapping("/add")
   public ResponseEntity<WalletDto> addWallet (Principal principal, @Valid @RequestBody WalletDto walletDto) {
     return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
   }

@@ -4,18 +4,16 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Controller;
-import pl.exception.SavedEntityCanNotHaveIdException;
-import pl.exception.SuchTransactionDoNotHavePropertyIsFinshed;
+import pl.exception.ReferenceTransactionMustBeLoanOrBorrowTransactionException;
+import pl.exception.TransactionBackMustHaveBackTransactionOfReferenceTransactionTypeException;
 import pl.user.User;
 import pl.user.UserService;
-import pl.wallet.UserWallet;
 import pl.wallet.Wallet;
 import pl.wallet.WalletService;
 import pl.wallet.category.Category;
 import pl.wallet.category.CategoryService;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,25 +26,42 @@ public class TransactionController {
   private CategoryService categoryService;
 
 
-  TransactionDto addTransaction (Principal principal, Long walletId, Long categoryId, TransactionDto transactionDto) {
-    if(transactionDto.getId() != null) throw new SavedEntityCanNotHaveIdException();
+  TransactionDto addTransaction (Principal principal, Long walletId, TransactionDto transactionDto) {
     User user = userService.getUserByEmail(principal.getName());
     Wallet wallet = getWallet(user, walletId);
-    Category category = getCategory(user, categoryId);
-    Transaction transaction = TransactionMapper.toEntity(transactionDto);
+    Category category = getCategory(user, transactionDto.getCategoryId());
+    Transaction transaction = TransactionMapper.toEntity(transactionDto, category);
+    transaction.setWallet(wallet);
+    if(transaction instanceof TransactionBack)
+      return addTransactionBack(transactionDto, category, transaction);
+    else
+      return addLoanOrBorrowOrSimpleTransaction(wallet, category, transaction);
+  }
 
-    if(category.getTransactionType().ordinal() == 2 || category.getTransactionType().ordinal() == 3)
-      transaction.setIsFinished(false);
-    else transaction.setIsFinished(true);
-
-    if(transaction.getDateOfPurchase() == null)
-      transaction.setDateOfPurchase(LocalDateTime.now());
-
+  private TransactionDto addLoanOrBorrowOrSimpleTransaction (Wallet wallet, Category category, Transaction transaction) {
     transaction.setWallet(wallet);
     transaction.setCategory(category);
     walletService.addTransaction(wallet, transaction);
     transaction = transactionService.save(transaction);
     return TransactionMapper.toDto(transaction);
+  }
+
+  private TransactionDto addTransactionBack (TransactionDto transactionDto, Category category, Transaction transaction) {
+    Transaction referenceTransaction = transactionService.getTransaction(transactionDto.getTransactionIdReference());
+    if(referenceTransaction instanceof TransactionLoanOrBorrow) {
+      TransactionLoanOrBorrow transactionLoanOrBorrow = (TransactionLoanOrBorrow) referenceTransaction;
+      Category transactionLoanOrBorrowCategory = transactionLoanOrBorrow.getCategory();
+      if((transactionLoanOrBorrowCategory.getTransactionType() == TransactionType.LOAN && category.getTransactionType() == TransactionType.LOAN_BACK) || (transactionLoanOrBorrowCategory.getTransactionType() == TransactionType.BORROW && category.getTransactionType() == TransactionType.BORROW_BACK)) {
+        TransactionBack savedTransactionBack = (TransactionBack) transactionService.save(transaction);
+        transactionLoanOrBorrow.addTransactionsBack(savedTransactionBack);
+        transactionService.save(transactionLoanOrBorrow);
+        return TransactionMapper.toDto(savedTransactionBack);
+      } else {
+        throw new TransactionBackMustHaveBackTransactionOfReferenceTransactionTypeException();
+      }
+    } else {
+      throw new ReferenceTransactionMustBeLoanOrBorrowTransactionException();
+    }
   }
 
   private Category getCategory (User user, Long categoryId) {
@@ -66,42 +81,31 @@ public class TransactionController {
     walletService.saveWallet(wallet);
   }
 
-  public List<TransactionDto> getWalletTransactions (Principal principal, Long walletId, Pageable pageable, Specification<Transaction> transactionSpecification) {
+  List<TransactionDto> getWalletTransactions (Principal principal, Pageable pageable, Specification<Transaction> transactionSpecification) {
     User user = userService.getUser(principal);
-//    walletService.isUserWallet(user, walletId);
     transactionSpecification.and(new UserWallet(user));
     return transactionService.getTransactionsByWalletId(pageable, transactionSpecification).stream().map(TransactionMapper::toDto).collect(Collectors.toList());
   }
 
-  public TransactionDto getTransaction (Principal principal, Long walletId, Long transactionId) {
+  TransactionDto getTransaction (Principal principal, Long walletId, Long transactionId) {
     User user = userService.getUser(principal);
     walletService.isUserWallet(user, walletId);
     return TransactionMapper.toDto(transactionService.getTransaction(transactionId));
   }
 
-  public TransactionDto editTransaction (Principal principal, Long walletId, TransactionDto transactionDto) {
+  TransactionDto editTransaction (Principal principal, Long walletId, Long transactionId, TransactionDto transactionDto) {
     User user = userService.getUser(principal);
     walletService.isUserWallet(user, walletId);
-
-    Transaction transaction = transactionService.getTransaction(transactionDto.getId());
-    transaction.setDescription(transactionDto.getDescription());
-    transaction.setName(transactionDto.getName());
-    transaction.setDateOfPurchase(transactionDto.getDateOfPurchase());
-    transaction.setPrice(transactionDto.getPrice());
-
+    Transaction transaction = transactionService.getTransaction(transactionId);
+    updateNotNullTransactionDtoValuesInTransaction(transactionDto, transaction);
     transactionService.save(transaction);
     return TransactionMapper.toDto(transaction);
   }
 
-  public TransactionDto switchIsFinished (Principal principal, Long walletId, Long transactionId) {
-    User user = userService.getUser(principal);
-    walletService.isUserWallet(user, walletId);
-    Transaction transaction = transactionService.getTransaction(transactionId);
-    if(transaction.getIsFinished() == null)
-      throw new SuchTransactionDoNotHavePropertyIsFinshed("This transaction do not have property is finished");
-    transaction.setIsFinished(!transaction.getIsFinished());
-    Transaction updateTransaction = transactionService.save(transaction);
-    return TransactionMapper.toDto(updateTransaction);
-
+  private void updateNotNullTransactionDtoValuesInTransaction (TransactionDto transactionDto, Transaction transaction) {
+    if(transactionDto.getDescription() != null) transaction.setDescription(transactionDto.getDescription());
+    if(transactionDto.getPrice() != null) transaction.setPrice(transactionDto.getPrice());
+    if(transactionDto.getDateOfPurchase() != null) transaction.setDateOfPurchase(transactionDto.getDateOfPurchase());
+    if(transactionDto.getName() != null) transaction.setName(transactionDto.getName());
   }
 }

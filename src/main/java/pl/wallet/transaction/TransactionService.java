@@ -22,7 +22,7 @@ public class TransactionService {
     return transactionRepository.findById(transactionId).orElseThrow(ThereIsNoYourPropertyException::new);
   }
 
-  List<Transaction> getTransactionsByWalletId (Pageable pageable, Specification<Transaction> transactionSpecification) {
+  List<? extends Transaction> getTransactionsByWalletId (Pageable pageable, Specification<Transaction> transactionSpecification) {
     return transactionRepository.findAll(transactionSpecification, pageable);
   }
 

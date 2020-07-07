@@ -1,2 +1,4 @@
-
+Create i18n messages
+Create interim payments
+Create friends and share the wallets add notification when friends some add
 

@@ -1,7 +1,9 @@
 package pl.wallet.transaction;
 
 import lombok.AllArgsConstructor;
-import net.kaczmarzyk.spring.data.jpa.domain.*;
+import net.kaczmarzyk.spring.data.jpa.domain.Equal;
+import net.kaczmarzyk.spring.data.jpa.domain.GreaterThanOrEqual;
+import net.kaczmarzyk.spring.data.jpa.domain.LessThanOrEqual;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.data.domain.Pageable;
@@ -21,36 +23,34 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet/{walletId}")
+@RequestMapping(path = "/wallet/{walletId}/transaction")
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
 public class TransactionResource {
   private TransactionController transactionController;
 
-  @BackTransactionOrSimpleTransaction(
-    message = "Back transaction should have reference to loan or borrow transation and transaction with set reference to another transaction should have set other transaction type")
-  @PutMapping("/category/{categoryId}/transaction/add")
-  public ResponseEntity<TransactionDto> addTransaction (Principal principal, @PathVariable Long categoryId, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(transactionController.addTransaction(principal, walletId, categoryId, transactionDto));
+  @PutMapping(value = "/add")
+  public ResponseEntity<TransactionDto> addTransaction (Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(transactionController.addTransaction(principal, walletId, transactionDto));
   }
 
-  @GetMapping(value = "/transaction/{transactionId}", consumes = MediaType.ALL_VALUE)
+  @GetMapping(value = "/{transactionId}", consumes = MediaType.ALL_VALUE)
   public ResponseEntity<TransactionDto> getTransaction (Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
     return ResponseEntity.ok(transactionController.getTransaction(principal, walletId, transactionId));
   }
 
-  @PostMapping(value = "/transaction/edit", consumes = MediaType.ALL_VALUE)
-  public ResponseEntity<TransactionDto> editTransaction (Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
-    return ResponseEntity.status(HttpStatus.ACCEPTED).body(transactionController.editTransaction(principal, walletId, transactionDto));
+  @PostMapping(value = "/{transactionId}/edit", consumes = MediaType.ALL_VALUE)
+  public ResponseEntity<TransactionDto> editTransaction (Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId, @Valid @RequestBody TransactionDto transactionDto) {
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(transactionController.editTransaction(principal, walletId, transactionId, transactionDto));
   }
 
-  @DeleteMapping(value = "/transaction/remove/{transactionId}", consumes = MediaType.ALL_VALUE, produces = MediaType.ALL_VALUE)
+  @DeleteMapping(value = "/{transactionId}/remove", consumes = MediaType.ALL_VALUE, produces = MediaType.ALL_VALUE)
   public ResponseEntity removeTransaction (Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
     transactionController.removeTransaction(principal, walletId, transactionId);
     return ResponseEntity.noContent().build();
   }
 
-  @GetMapping(value = "/transactions", consumes = MediaType.ALL_VALUE)
+  @GetMapping(value = "", consumes = MediaType.ALL_VALUE)
   public ResponseEntity<List<TransactionDto>> getWalletTransactions (Principal principal,
                                                                      @PageableDefault(page = 0, size = 40)
                                                                      @SortDefault.SortDefaults({
@@ -66,14 +66,7 @@ public class TransactionResource {
                                                                        @Spec(path = "dateOfPurchase", params = "start", spec = GreaterThanOrEqual.class),
                                                                        @Spec(path = "dateOfPurchase", params = "end", spec = LessThanOrEqual.class)
                                                                      })
-                                                                       Specification<Transaction> transactionSpecification,
-                                                                     @PathVariable Long walletId) {
-    return ResponseEntity.ok(transactionController.getWalletTransactions(principal, walletId, pageable, transactionSpecification));
+                                                                       Specification<Transaction> transactionSpecification) {
+    return ResponseEntity.ok(transactionController.getWalletTransactions(principal, pageable, transactionSpecification));
   }
-
-  @PostMapping(value = "/transaction/switchIsFinished/{transactionId}")
-  public ResponseEntity<TransactionDto> switchIsFinished (Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
-    return ResponseEntity.ok(this.transactionController.switchIsFinished(principal, walletId, transactionId));
-  }
-
 }

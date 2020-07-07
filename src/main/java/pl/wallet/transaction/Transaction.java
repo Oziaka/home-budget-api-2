@@ -1,12 +1,14 @@
 package pl.wallet.transaction;
 
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import pl.wallet.Wallet;
 import pl.wallet.category.Category;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -14,7 +16,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "transaction")
-@ToString
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Transaction {
 
   @Column(name = "transaction_id")
@@ -36,22 +38,18 @@ public class Transaction {
   @ManyToOne
   private Wallet wallet;
 
+  @CreationTimestamp
   private LocalDateTime dateOfPurchase;
 
-  private Boolean isFinished;
-
-  private Long transactionIdReference;
 
   @Builder
-  public Transaction (String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, Boolean isFinished, Long transactionIdReference) {
+  public Transaction (String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase) {
     this.name = name;
     this.description = description;
     this.category = category;
     this.price = price;
     this.wallet = wallet;
     this.dateOfPurchase = dateOfPurchase;
-    this.isFinished = isFinished;
-    this.transactionIdReference = transactionIdReference;
   }
 }
 
