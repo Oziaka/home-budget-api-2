@@ -79,7 +79,7 @@ class TransactionMapper {
   }
 
   private static boolean isLoanOrBorrowTransaction (TransactionDto transactionDto, Category category) {
-    return category.getTransactionType() == TransactionType.LOAN || category.getTransactionType() == TransactionType.BORROW;
+    return (category.getTransactionType() == TransactionType.LOAN || category.getTransactionType() == TransactionType.BORROW) && transactionDto.getTransactionIdReference() == null;
   }
 
   private static boolean isSimpleTransaction (TransactionDto transactionDto, Category category) {

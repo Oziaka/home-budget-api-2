@@ -33,7 +33,7 @@ public class TransactionController {
     Transaction transaction = TransactionMapper.toEntity(transactionDto, category);
     transaction.setWallet(wallet);
     if(transaction instanceof TransactionBack)
-      return addTransactionBack(transactionDto, category, transaction);
+      return addTransactionBack(walletId, transactionDto, category, transaction);
     else
       return addLoanOrBorrowOrSimpleTransaction(wallet, category, transaction);
   }
@@ -46,17 +46,13 @@ public class TransactionController {
     return TransactionMapper.toDto(transaction);
   }
 
-  private TransactionDto addTransactionBack (TransactionDto transactionDto, Category category, Transaction transaction) {
-    Transaction referenceTransaction = transactionService.getTransaction(transactionDto.getTransactionIdReference());
+  private TransactionDto addTransactionBack (Long walletId, TransactionDto transactionDto, Category category, Transaction transaction) {
+    Transaction referenceTransaction = transactionService.getTransaction(walletId, transactionDto.getTransactionIdReference());
     if(referenceTransaction instanceof TransactionLoanOrBorrow) {
       TransactionLoanOrBorrow transactionLoanOrBorrow = (TransactionLoanOrBorrow) referenceTransaction;
       Category transactionLoanOrBorrowCategory = transactionLoanOrBorrow.getCategory();
-      if((transactionLoanOrBorrowCategory.getTransactionType() == TransactionType.LOAN && category.getTransactionType() == TransactionType.LOAN_BACK) || (transactionLoanOrBorrowCategory.getTransactionType() == TransactionType.BORROW && category.getTransactionType() == TransactionType.BORROW_BACK)) {
-        TransactionBack transactionBack = (TransactionBack) transaction;
-        transactionBack.setTransactionLoanOrBorrow(transactionLoanOrBorrow);
-        TransactionBack savedTransactionBack = (TransactionBack) transactionService.save(transactionBack);
-        transactionLoanOrBorrow.addTransactionsBack(savedTransactionBack);
-        transactionService.save(transactionLoanOrBorrow);
+      if(correctTransactionType(category, transactionLoanOrBorrowCategory)) {
+        TransactionBack savedTransactionBack = saveTransactionBack((TransactionBack) transaction, transactionLoanOrBorrow);
         return TransactionMapper.toDto(savedTransactionBack);
       } else {
         throw new TransactionBackMustHaveBackTransactionOfReferenceTransactionTypeException();
@@ -64,6 +60,19 @@ public class TransactionController {
     } else {
       throw new ReferenceTransactionMustBeLoanOrBorrowTransactionException();
     }
+  }
+
+  private TransactionBack saveTransactionBack (TransactionBack transaction, TransactionLoanOrBorrow transactionLoanOrBorrow) {
+    TransactionBack transactionBack = transaction;
+    transactionBack.setTransactionLoanOrBorrow(transactionLoanOrBorrow);
+    TransactionBack savedTransactionBack = (TransactionBack) transactionService.save(transactionBack);
+    transactionLoanOrBorrow.addTransactionsBack(savedTransactionBack);
+    transactionService.save(transactionLoanOrBorrow);
+    return savedTransactionBack;
+  }
+
+  private boolean correctTransactionType (Category category, Category transactionLoanOrBorrowCategory) {
+    return (transactionLoanOrBorrowCategory.getTransactionType() == TransactionType.LOAN && category.getTransactionType() == TransactionType.LOAN_BACK) || (transactionLoanOrBorrowCategory.getTransactionType() == TransactionType.BORROW && category.getTransactionType() == TransactionType.BORROW_BACK);
   }
 
   private Category getCategory (User user, Long categoryId) {
@@ -77,7 +86,7 @@ public class TransactionController {
   void removeTransaction (Principal principal, Long walletId, Long transactionId) {
     User user = userService.getUserByEmail(principal.getName());
     Wallet wallet = getWallet(user, walletId);
-    Transaction transaction = transactionService.getTransaction(transactionId);
+    Transaction transaction = transactionService.getTransaction(walletId, transactionId);
     wallet.removeTransaction(transaction);
     transactionService.removeTransaction(transactionId);
     walletService.saveWallet(wallet);
@@ -87,19 +96,19 @@ public class TransactionController {
     User user = userService.getUser(principal);
     transactionSpecification.and(new UserWallet(user));
     transactionSpecification.and(new NotTransactionBack("TransactionBack"));
-    return transactionService.getTransactionsByWalletId(pageable, transactionSpecification).stream().filter(transaction -> !(transaction instanceof TransactionBack)).map(TransactionMapper::toDto).collect(Collectors.toList());
+    return transactionService.getTransactionsByWalletId(pageable, transactionSpecification).stream().map(TransactionMapper::toDto).collect(Collectors.toList());
   }
 
   TransactionDto getTransaction (Principal principal, Long walletId, Long transactionId) {
     User user = userService.getUser(principal);
     walletService.isUserWallet(user, walletId);
-    return TransactionMapper.toDto(transactionService.getTransaction(transactionId));
+    return TransactionMapper.toDto(transactionService.getTransaction(walletId, transactionId));
   }
 
   TransactionDto editTransaction (Principal principal, Long walletId, Long transactionId, TransactionDto transactionDto) {
     User user = userService.getUser(principal);
     walletService.isUserWallet(user, walletId);
-    Transaction transaction = transactionService.getTransaction(transactionId);
+    Transaction transaction = transactionService.getTransaction(walletId, transactionId);
     updateNotNullTransactionDtoValuesInTransaction(transactionDto, transaction);
     transactionService.save(transaction);
     return TransactionMapper.toDto(transaction);
