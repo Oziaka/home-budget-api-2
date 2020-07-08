@@ -37,7 +37,7 @@ public class TransactionDto {
   private CategoryDto categoryDto;
 
   @Null
-  private List<TransactionDto> transactionDtoList;
+  private List<TransactionDto> transactionsBack;
 
   private Long transactionIdReference;
 
@@ -50,7 +50,7 @@ public class TransactionDto {
     this.dateOfPurchase = dateOfPurchase;
     this.categoryId = categoryId;
     this.categoryDto = categoryDto;
-    this.transactionDtoList = transactionsBack;
+    this.transactionsBack = transactionsBack;
     this.transactionIdReference = transactionIdReference;
   }
 

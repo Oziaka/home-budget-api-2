@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class TransactionLoanOrBorrow extends Transaction {
-  @OneToMany
+  @OneToMany(mappedBy = "transactionLoanOrBorrow")
   private List<TransactionBack> transactionsBack;
   private Boolean isFinished;
 

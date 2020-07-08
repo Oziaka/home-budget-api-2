@@ -17,12 +17,16 @@ import java.util.List;
 @Entity
 @Table(name = "transaction")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@DiscriminatorColumn(name = "dType")
 public class Transaction {
 
   @Column(name = "transaction_id")
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+
+  @Column(insertable = false, updatable = false)
+  private String dType;
 
   @Column(nullable = false)
   private String name;

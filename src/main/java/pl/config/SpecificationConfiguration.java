@@ -1,4 +1,4 @@
-package pl;
+package pl.config;
 
 import net.kaczmarzyk.spring.data.jpa.web.SpecificationArgumentResolver;
 import org.springframework.context.annotation.Configuration;

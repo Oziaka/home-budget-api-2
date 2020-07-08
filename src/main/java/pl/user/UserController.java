@@ -38,7 +38,6 @@ public class UserController {
     userRoleService.findDefaultRoles().forEach(user::addRole);
   }
 
-
   private void encodePassword (User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
   }

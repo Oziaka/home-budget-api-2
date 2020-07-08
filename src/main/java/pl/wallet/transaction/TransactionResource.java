@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
 import net.kaczmarzyk.spring.data.jpa.domain.GreaterThanOrEqual;
 import net.kaczmarzyk.spring.data.jpa.domain.LessThanOrEqual;
+import net.kaczmarzyk.spring.data.jpa.domain.NotEqual;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.And;
 import net.kaczmarzyk.spring.data.jpa.web.annotation.Spec;
 import org.springframework.data.domain.Pageable;
@@ -64,8 +65,7 @@ public class TransactionResource {
                                                                        @Spec(path = "price", params = "minPrice", spec = GreaterThanOrEqual.class),
                                                                        @Spec(path = "price", params = "maxPrice", spec = LessThanOrEqual.class),
                                                                        @Spec(path = "dateOfPurchase", params = "start", spec = GreaterThanOrEqual.class),
-                                                                       @Spec(path = "dateOfPurchase", params = "end", spec = LessThanOrEqual.class)
-                                                                     })
+                                                                       @Spec(path = "dateOfPurchase", params = "end", spec = LessThanOrEqual.class)})
                                                                        Specification<Transaction> transactionSpecification) {
     return ResponseEntity.ok(transactionController.getWalletTransactions(principal, pageable, transactionSpecification));
   }
