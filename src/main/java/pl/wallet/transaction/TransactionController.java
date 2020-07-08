@@ -92,12 +92,14 @@ public class TransactionController {
     walletService.saveWallet(wallet);
   }
 
-  List<TransactionDto> getWalletTransactions (Principal principal, Pageable pageable, Specification<Transaction> transactionSpecification) {
+  List<TransactionDto> getWalletTransactions (Principal principal, Pageable pageable, Specification<Transaction> transactionSpecification, Boolean groupingTransactionBack) {
     User user = userService.getUser(principal);
     transactionSpecification.and(new UserWallet(user));
-    transactionSpecification.and(new NotTransactionBack("TransactionBack"));
-    return transactionService.getTransactionsByWalletId(pageable, transactionSpecification).stream().map(TransactionMapper::toDto).collect(Collectors.toList());
+    List<? extends Transaction> transactions = transactionService.getTransactionsByWalletId(pageable, transactionSpecification);
+    return transactions.stream().filter(transaction -> groupingTransactionBack ? !(transaction instanceof TransactionBack) : true).map(groupingTransactionBack ? TransactionMapper::toDto : TransactionMapper::toDtoAndTransactionLoanOrBorrowWithoutTransactionsBack).collect(Collectors.toList());
+
   }
+
 
   TransactionDto getTransaction (Principal principal, Long walletId, Long transactionId) {
     User user = userService.getUser(principal);

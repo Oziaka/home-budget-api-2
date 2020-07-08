@@ -50,6 +50,18 @@ class TransactionMapper {
       .build();
   }
 
+  static TransactionDto toDtoAndTransactionLoanOrBorrowWithoutTransactionsBack (Transaction transaction) {
+    if(transaction instanceof TransactionLoanOrBorrow) {
+      return buildTransaction(transaction).build();
+    }
+    if(transaction instanceof TransactionBack) {
+      return buildTransactionBack((TransactionBack) transaction)
+        .build();
+    }
+    return buildTransaction(transaction)
+      .build();
+  }
+
   private static TransactionDto.TransactionDtoBuilder buildTransactionLoanOrBorrow (TransactionLoanOrBorrow transactionLoanOrBorrow) {
     List<TransactionDto> collect = new ArrayList<>();
     if(transactionLoanOrBorrow.getTransactionsBack() != null)

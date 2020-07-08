@@ -8,7 +8,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
   public PasswordEncoder passwordEncoder () {
@@ -21,7 +21,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
       .httpBasic()
       .and()
       .authorizeRequests()
-      .antMatchers("/index.html", "/register**", "/login", "/", "/user").permitAll()
+      .antMatchers("/index.html", "/h2-console/**", "/register**", "/login", "/", "/user").permitAll()
       .anyRequest().authenticated()
       .and()
       .formLogin().usernameParameter("email")
