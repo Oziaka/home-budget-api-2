@@ -42,6 +42,5 @@ public class Wallet {
 
   public void removeTransaction (Transaction transaction) {
     this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
-
   }
 }

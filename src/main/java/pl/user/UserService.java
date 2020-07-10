@@ -12,7 +12,7 @@ public class UserService {
 
   private UserRepository userRepository;
 
-  public User getUserByEmail (String email) {
+  User getUserByEmail (String email) {
     return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException(email, email.getClass()));
   }
 
@@ -24,12 +24,12 @@ public class UserService {
     return userRepository.findByEmail(email).isPresent();
   }
 
-  public User saveUser (User user) {
+  public User save (User user) {
     return userRepository.save(user);
   }
 
   User setFavoriteWallet (User user, Long walletId) {
     user.setFavoriteWalletId(walletId);
-    return saveUser(user);
+    return save(user);
   }
 }

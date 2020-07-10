@@ -16,7 +16,6 @@ public class UserRoleDto {
 
   private Long id;
 
-  @NotNull(message = "User role should habe name")
   private String name;
 
   private String description;

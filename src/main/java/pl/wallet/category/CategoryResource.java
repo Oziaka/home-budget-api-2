@@ -36,9 +36,24 @@ public class CategoryResource {
     return ResponseEntity.ok(categoryController.getCategories(principal));
   }
 
-  @PostMapping(path = "/restoreDefaultCategories", consumes = MediaType.ALL_VALUE)
+  @PostMapping(path = "/restore_default_categories", consumes = MediaType.ALL_VALUE)
   public ResponseEntity<Set<CategoryDto>> restoreDefaultCategories (Principal principal) {
     return ResponseEntity.ok(categoryController.restoreDefaultCategories(principal));
+  }
+
+  @PostMapping(path = "/edit/{categoryId}")
+  public ResponseEntity<CategoryDto> editCategory (Principal principal, @PathVariable Long categoryId, @RequestBody CategoryDto categoryDto) {
+    return ResponseEntity.ok(categoryController.editCategory(principal, categoryId, categoryDto));
+  }
+
+  @GetMapping(path = "/admin/default_categories")
+  public ResponseEntity<Set<CategoryDto>> getDefaultCategories () {
+    return ResponseEntity.ok(categoryController.getDefaultCategories());
+  }
+
+  @PostMapping(path = "/admin/edit/{categoryId}")
+  public ResponseEntity<CategoryDto> editDefaultCategory (@PathVariable Long categoryId, @RequestBody CategoryDto categoryDto) {
+    return ResponseEntity.ok(categoryController.editDefaultCategory(categoryId, categoryDto));
   }
 
 

@@ -77,4 +77,8 @@ public class User {
   public void removeCategory (Long categoryId) {
     this.setCategories(this.categories.stream().filter(c -> !c.getId().equals(categoryId)).collect(Collectors.toSet()));
   }
+
+  public void removeRole (UserRole userRole) {
+    this.roles.remove(userRole);
+  }
 }

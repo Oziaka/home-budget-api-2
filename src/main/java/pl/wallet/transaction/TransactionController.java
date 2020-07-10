@@ -27,7 +27,7 @@ public class TransactionController {
 
 
   TransactionDto addTransaction (Principal principal, Long walletId, TransactionDto transactionDto) {
-    User user = userService.getUserByEmail(principal.getName());
+    User user = userService.getUser(principal);
     Wallet wallet = getWallet(user, walletId);
     Category category = getCategory(user, transactionDto.getCategoryId());
     Transaction transaction = TransactionMapper.toEntity(transactionDto, category);
@@ -84,7 +84,7 @@ public class TransactionController {
   }
 
   void removeTransaction (Principal principal, Long walletId, Long transactionId) {
-    User user = userService.getUserByEmail(principal.getName());
+    User user = userService.getUser(principal);
     Wallet wallet = getWallet(user, walletId);
     Transaction transaction = transactionService.getTransaction(walletId, transactionId);
     wallet.removeTransaction(transaction);

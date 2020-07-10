@@ -24,7 +24,7 @@ public class UserController {
     User user = UserMapper.toEntity(userDto);
     encodePassword(user);
     addDefaultRoles(user);
-    User savedUser = userService.saveUser(user);
+    User savedUser = userService.save(user);
     addDefaultCategories(user);
     Wallet wallet = walletService.saveDefaultWallet(user);
     return UserMapper.toDto(userService.setFavoriteWallet(savedUser, wallet.getId()));

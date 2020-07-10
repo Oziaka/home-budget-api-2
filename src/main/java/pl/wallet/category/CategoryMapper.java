@@ -18,6 +18,7 @@ public class CategoryMapper {
       .name(category.getName())
       .transactionType(category.getTransactionType())
       .description(category.getDescription())
+      .isDefault(category.getIsDefault())
       .build();
   }
 }

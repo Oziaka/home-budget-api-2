@@ -29,7 +29,7 @@ public class CustomUserDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername (String username) {
     User user;
     try {
-      user = userService.getUserByEmail(username);
+      user = userService.getUser(() -> username);
     } catch (EntityNotFoundException e) {
       throw new UsernameNotFoundException("User not found");
     }
@@ -40,6 +40,6 @@ public class CustomUserDetailsService implements UserDetailsService {
   }
 
   private Set<GrantedAuthority> convertAuthorities (Collection<UserRole> userRoles) {
-    return userRoles.stream().map(k -> new SimpleGrantedAuthority(k.getRoleName())).collect(Collectors.toSet());
+    return userRoles.stream().map(userRole -> new SimpleGrantedAuthority(userRole.getRoleName())).collect(Collectors.toSet());
   }
 }

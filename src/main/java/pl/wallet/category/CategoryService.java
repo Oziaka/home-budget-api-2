@@ -27,7 +27,7 @@ public class CategoryService {
 //    return categoryRepository.getById(categoryId).orElseThrow(() -> new EntityNotFoundException(categoryId, categoryId.getClass()));
 //  }
 
-  Category saveCategory (Category category) {
+  Category save (Category category) {
     return categoryRepository.save(category);
   }
 
