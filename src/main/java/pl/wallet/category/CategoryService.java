@@ -20,7 +20,7 @@ public class CategoryService {
 
   public Category getCategory (Long categoryId) {
     return categoryRepository.findById(categoryId).orElseThrow(() ->
-     new EntityNotFoundException(categoryId, categoryId.getClass()));
+      new EntityNotFoundException(categoryId, categoryId.getClass()));
   }
 
 //  public Category getCategory (Long categoryId) {

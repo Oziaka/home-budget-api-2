@@ -28,13 +28,14 @@ public class UserResource {
     return principal;
   }
 
-  @GetMapping(value = "/profile", consumes = MediaType.ALL_VALUE)
+  @GetMapping(value = "user/profile", consumes = MediaType.ALL_VALUE)
   public UserDto getUser (Principal principal) {
     return userController.getUserByPrincipal(principal);
   }
 
-  @PostMapping(value = "user/setFavoriteWallet")
-  public UserDto setFavoriteWallet (Principal principal, @RequestBody(required = false) Long walletId) {
-    return userController.setFavoriteWallet(principal, walletId);
+  @PostMapping(value = "user/edit")
+  public UserDto editUser (Principal principal, @RequestBody UserDto userDto) {
+    return userController.editUser(principal, userDto);
   }
+
 }

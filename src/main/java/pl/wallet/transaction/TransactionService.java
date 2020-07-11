@@ -5,8 +5,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import pl.exception.ThereIsNoYourPropertyException;
-import pl.user.User;
-import pl.wallet.Wallet;
 
 import java.util.List;
 
@@ -20,8 +18,8 @@ public class TransactionService {
     return transactionRepository.save(transaction);
   }
 
-  Transaction getTransaction (Long walletId,Long transactionId) {
-    return transactionRepository.findByIdAndWallet_Id(transactionId,walletId).orElseThrow(ThereIsNoYourPropertyException::new);
+  Transaction getTransaction (Long walletId, Long transactionId) {
+    return transactionRepository.findByIdAndWallet_Id(transactionId, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
   }
 
   List<? extends Transaction> getTransactionsByWalletId (Pageable pageable, Specification<Transaction> transactionSpecification) {

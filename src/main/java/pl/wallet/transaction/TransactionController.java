@@ -38,6 +38,29 @@ public class TransactionController {
       return addLoanOrBorrowOrSimpleTransaction(wallet, category, transaction);
   }
 
+  List<TransactionDto> getWalletTransactions (Principal principal, Pageable pageable, Specification<Transaction> transactionSpecification, Boolean groupingTransactionBack) {
+    User user = userService.getUser(principal);
+    transactionSpecification.and(new UserWallet(user));
+    List<? extends Transaction> transactions = transactionService.getTransactionsByWalletId(pageable, transactionSpecification);
+    return transactions.stream().filter(transaction -> groupingTransactionBack ? !(transaction instanceof TransactionBack) : true).map(groupingTransactionBack ? TransactionMapper::toDto : TransactionMapper::toDtoAndTransactionLoanOrBorrowWithoutTransactionsBack).collect(Collectors.toList());
+
+  }
+
+  TransactionDto getTransaction (Principal principal, Long walletId, Long transactionId) {
+    User user = userService.getUser(principal);
+    walletService.isUserWallet(user, walletId);
+    return TransactionMapper.toDto(transactionService.getTransaction(walletId, transactionId));
+  }
+
+  TransactionDto editTransaction (Principal principal, Long walletId, Long transactionId, TransactionDto transactionDto) {
+    User user = userService.getUser(principal);
+    walletService.isUserWallet(user, walletId);
+    Transaction transaction = transactionService.getTransaction(walletId, transactionId);
+    updateTransactionFromNotNullFieldsInTransactionDto(transactionDto, transaction);
+    transactionService.save(transaction);
+    return TransactionMapper.toDto(transaction);
+  }
+
   private TransactionDto addLoanOrBorrowOrSimpleTransaction (Wallet wallet, Category category, Transaction transaction) {
     transaction.setWallet(wallet);
     transaction.setCategory(category);
@@ -92,31 +115,7 @@ public class TransactionController {
     walletService.saveWallet(wallet);
   }
 
-  List<TransactionDto> getWalletTransactions (Principal principal, Pageable pageable, Specification<Transaction> transactionSpecification, Boolean groupingTransactionBack) {
-    User user = userService.getUser(principal);
-    transactionSpecification.and(new UserWallet(user));
-    List<? extends Transaction> transactions = transactionService.getTransactionsByWalletId(pageable, transactionSpecification);
-    return transactions.stream().filter(transaction -> groupingTransactionBack ? !(transaction instanceof TransactionBack) : true).map(groupingTransactionBack ? TransactionMapper::toDto : TransactionMapper::toDtoAndTransactionLoanOrBorrowWithoutTransactionsBack).collect(Collectors.toList());
-
-  }
-
-
-  TransactionDto getTransaction (Principal principal, Long walletId, Long transactionId) {
-    User user = userService.getUser(principal);
-    walletService.isUserWallet(user, walletId);
-    return TransactionMapper.toDto(transactionService.getTransaction(walletId, transactionId));
-  }
-
-  TransactionDto editTransaction (Principal principal, Long walletId, Long transactionId, TransactionDto transactionDto) {
-    User user = userService.getUser(principal);
-    walletService.isUserWallet(user, walletId);
-    Transaction transaction = transactionService.getTransaction(walletId, transactionId);
-    updateNotNullTransactionDtoValuesInTransaction(transactionDto, transaction);
-    transactionService.save(transaction);
-    return TransactionMapper.toDto(transaction);
-  }
-
-  private void updateNotNullTransactionDtoValuesInTransaction (TransactionDto transactionDto, Transaction transaction) {
+  private void updateTransactionFromNotNullFieldsInTransactionDto (TransactionDto transactionDto, Transaction transaction) {
     if(transactionDto.getDescription() != null) transaction.setDescription(transactionDto.getDescription());
     if(transactionDto.getPrice() != null) transaction.setPrice(transactionDto.getPrice());
     if(transactionDto.getDateOfPurchase() != null) transaction.setDateOfPurchase(transactionDto.getDateOfPurchase());

@@ -6,12 +6,11 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Length;
-import pl.security.user_role.UserRoleDto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import java.util.Set;
+import java.util.Map;
 
 @Getter
 @ToString
@@ -26,20 +25,17 @@ public class UserDto {
   @NotNull(message = "User must have email")
   private String email;
 
-  private Set<UserRoleDto> roles;
-
   @Length(min = 5, message = "Password length must be longer than 5")
   @NotNull(message = "User must have password")
   private String password;
 
-  private Long favoriteWalletId;
+  private Map<String, String> items;
 
   @Builder
-  public UserDto (@Null(message = "New user can not have id") Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, Set<UserRoleDto> roles, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Long favoriteWalletId) {
+  public UserDto (@Null(message = "New user can not have id") Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Map<String, String> items) {
     this.id = id;
     this.email = email;
-    this.roles = roles;
     this.password = password;
-    this.favoriteWalletId = favoriteWalletId;
+    this.items = items;
   }
 }

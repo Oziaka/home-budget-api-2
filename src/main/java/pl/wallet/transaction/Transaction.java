@@ -8,7 +8,6 @@ import pl.wallet.category.Category;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @EqualsAndHashCode
 @NoArgsConstructor

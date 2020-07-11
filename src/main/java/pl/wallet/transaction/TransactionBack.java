@@ -4,7 +4,8 @@ import lombok.*;
 import pl.wallet.Wallet;
 import pl.wallet.category.Category;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 

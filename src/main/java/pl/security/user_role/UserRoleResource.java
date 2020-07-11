@@ -27,12 +27,12 @@ public class UserRoleResource {
 
   @PostMapping("/admin/{userRoleId}/grant_permission/{userEmail}")
   public ResponseEntity<UserDto> grantPermission (Principal principal, @PathVariable Long userRoleId, @PathVariable String userEmail) {
-    return ResponseEntity.ok(userRoleController.grantPermission(userRoleId,userEmail));
+    return ResponseEntity.ok(userRoleController.grantPermission(userRoleId, userEmail));
   }
 
   @PostMapping("/admin/{userRoleId}/revoke_permission/{userEmail}")
   public ResponseEntity<UserDto> revokePermission (Principal principal, @PathVariable Long userRoleId, @PathVariable String userEmail) {
-    return ResponseEntity.ok(userRoleController.revokePermission(userRoleId,userEmail));
+    return ResponseEntity.ok(userRoleController.revokePermission(userRoleId, userEmail));
   }
 
 }

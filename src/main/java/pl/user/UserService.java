@@ -28,8 +28,4 @@ public class UserService {
     return userRepository.save(user);
   }
 
-  User setFavoriteWallet (User user, Long walletId) {
-    user.setFavoriteWalletId(walletId);
-    return save(user);
-  }
 }
