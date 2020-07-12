@@ -35,6 +35,8 @@ public class User {
   @Column(nullable = false)
   private String password;
 
+  private String userName;
+
   @Column(nullable = false)
   @ManyToMany(fetch = FetchType.EAGER)
   private Set<UserRole> roles;
@@ -52,14 +54,16 @@ public class User {
   @Column(name = "value")
   private Map<String, String> items;
 
+
   @Builder
-  public User (@Email String email, String password, Set<UserRole> roles, List<Wallet> wallets, Set<Category> categories, List<UserNotification> userNotifications, Map<String, String> items) {
+  public User (List<UserNotification> userNotifications, @Email String email, String password, String userName, Set<UserRole> roles, List<Wallet> wallets, Set<Category> categories, Map<String, String> items) {
+    this.userNotifications = userNotifications;
     this.email = email;
     this.password = password;
+    this.userName = userName;
     this.roles = roles;
     this.wallets = wallets;
     this.categories = categories;
-    this.userNotifications = userNotifications;
     this.items = items;
   }
 
