@@ -10,22 +10,22 @@ import java.util.List;
 @AllArgsConstructor
 public class UserRoleService {
 
-  private UserRoleRepository userRoleRepository;
+    private UserRoleRepository userRoleRepository;
 
-  public List<UserRole> findDefaultRoles () {
-    return userRoleRepository.getDefaultRoles();
-  }
+    public List<UserRole> findDefaultRoles() {
+        return userRoleRepository.getDefaultRoles();
+    }
 
 
-  List<UserRole> findAll () {
-    return userRoleRepository.findAll();
-  }
+    List<UserRole> findAll() {
+        return userRoleRepository.findAll();
+    }
 
-  UserRole getRole (Long userRoleId) {
-    return userRoleRepository.findById(userRoleId).orElseThrow(UserRoleOfSuchIdDoNotExistException::new);
-  }
+    UserRole getRole(Long userRoleId) {
+        return userRoleRepository.findById(userRoleId).orElseThrow(UserRoleOfSuchIdDoNotExistException::new);
+    }
 
-  UserRole save (UserRole userRole) {
-    return userRoleRepository.save(userRole);
-  }
+    UserRole save(UserRole userRole) {
+        return userRoleRepository.save(userRole);
+    }
 }

@@ -1,4 +1,4 @@
-package pl.user.user_notification.notification;
+package pl.user.user_notification.notification.notification;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

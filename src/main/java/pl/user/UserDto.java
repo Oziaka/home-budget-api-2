@@ -17,25 +17,25 @@ import java.util.Map;
 @EqualsAndHashCode
 public class UserDto {
 
-  @Null(message = "New user can not have id")
-  private Long id;
+    @Null(message = "New user can not have id")
+    private Long id;
 
-  @UniqueUserEmail(message = "Email is used by another account")
-  @Email(message = "Must be a well-formed email address")
-  @NotNull(message = "User must have email")
-  private String email;
+    @UniqueUserEmail(message = "Email is used by another account")
+    @Email(message = "Must be a well-formed email address")
+    @NotNull(message = "User must have email")
+    private String email;
 
-  @Length(min = 5, message = "Password length must be longer than 5")
-  @NotNull(message = "User must have password")
-  private String password;
+    @Length(min = 5, message = "Password length must be longer than 5")
+    @NotNull(message = "User must have password")
+    private String password;
 
-  private Map<String, String> items;
+    private Map<String, String> items;
 
-  @Builder
-  public UserDto (@Null(message = "New user can not have id") Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Map<String, String> items) {
-    this.id = id;
-    this.email = email;
-    this.password = password;
-    this.items = items;
-  }
+    @Builder
+    public UserDto(@Null(message = "New user can not have id") Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Map<String, String> items) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.items = items;
+    }
 }

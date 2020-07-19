@@ -15,51 +15,51 @@ import java.util.Optional;
 @AllArgsConstructor
 public class WalletService {
 
-  private WalletRepository walletRepository;
+    private WalletRepository walletRepository;
 
-  public Wallet saveWallet (Wallet wallet) {
-    return walletRepository.save(wallet);
-  }
+    public Wallet saveWallet(Wallet wallet) {
+        return walletRepository.save(wallet);
+    }
 
-  List<Wallet> getWalletsByUser (User user) {
-    return walletRepository.getByUser(user);
-  }
+    List<Wallet> getWalletsByUser(User user) {
+        return walletRepository.getByUser(user);
+    }
 
-  void removeWallet (Long walletId) {
-    walletRepository.deleteById(walletId);
-  }
+    void removeWallet(Long walletId) {
+        walletRepository.deleteById(walletId);
+    }
 
-  Wallet getUserWallet (Long walletId) {
-    return walletRepository.getById(walletId).orElseThrow(() -> new EntityNotFoundException(walletId, Wallet.class));
-  }
+    Wallet getUserWallet(Long walletId) {
+        return walletRepository.getById(walletId).orElseThrow(() -> new EntityNotFoundException(walletId, Wallet.class));
+    }
 
-  public Wallet isUserWallet (User user, Long walletId) {
-    if(this.getWalletsByUser(user).stream().anyMatch(userWallet -> userWallet.getId().equals(walletId)))
-      return getUserWallet(walletId);
-    throw new ThereIsNoYourPropertyException();
-  }
+    public Wallet isUserWallet(User user, Long walletId) {
+        if (this.getWalletsByUser(user).stream().anyMatch(userWallet -> userWallet.getId().equals(walletId)))
+            return getUserWallet(walletId);
+        throw new ThereIsNoYourPropertyException();
+    }
 
 
-  public Wallet addTransaction (Wallet wallet, Transaction transaction) {
-    wallet.addTransaction(transaction);
-    return saveWallet(wallet);
-  }
+    public Wallet addTransaction(Wallet wallet, Transaction transaction) {
+        wallet.addTransaction(transaction);
+        return saveWallet(wallet);
+    }
 
-  public Wallet saveDefaultWallet (User user) {
-    Wallet defaultWallet = createDefaultWallet();
-    defaultWallet.setUser(user);
-    return saveWallet(defaultWallet);
-  }
+    public Wallet saveDefaultWallet(User user) {
+        Wallet defaultWallet = createDefaultWallet();
+        defaultWallet.setUser(user);
+        return saveWallet(defaultWallet);
+    }
 
-  private Wallet createDefaultWallet () {
-    Wallet wallet = new Wallet();
-    wallet.setName("Wallet");
-    wallet.setBalance(BigDecimal.ZERO);
-    return wallet;
-  }
+    private Wallet createDefaultWallet() {
+        Wallet wallet = new Wallet();
+        wallet.setName("Wallet");
+        wallet.setBalance(BigDecimal.ZERO);
+        return wallet;
+    }
 
-  public Optional<Wallet> getUserWallet (User user, Long walletId) {
-    return walletRepository.getByIdAndUser(walletId, user);
-  }
+    public Optional<Wallet> getUserWallet(User user, Long walletId) {
+        return walletRepository.getByIdAndUser(walletId, user);
+    }
 
 }

@@ -19,28 +19,28 @@ import java.util.List;
 @Table(name = "wallet")
 public class Wallet {
 
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "wallet_id")
-  @Id
-  private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "wallet_id")
+    @Id
+    private Long id;
 
-  @Column(nullable = false)
-  private String name;
+    @Column(nullable = false)
+    private String name;
 
-  @Column(nullable = false)
-  private BigDecimal balance;
+    @Column(nullable = false)
+    private BigDecimal balance;
 
-  @OneToMany(mappedBy = "wallet")
-  private List<Transaction> transactions;
+    @OneToMany(mappedBy = "wallet")
+    private List<Transaction> transactions;
 
-  @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-  private User user;
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    private User user;
 
-  public void addTransaction (Transaction transaction) {
-    this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
-  }
+    public void addTransaction(Transaction transaction) {
+        this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
+    }
 
-  public void removeTransaction (Transaction transaction) {
-    this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
-  }
+    public void removeTransaction(Transaction transaction) {
+        this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
+    }
 }

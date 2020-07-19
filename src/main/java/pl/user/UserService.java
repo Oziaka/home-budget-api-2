@@ -10,22 +10,22 @@ import java.security.Principal;
 @AllArgsConstructor
 public class UserService {
 
-  private UserRepository userRepository;
+    private UserRepository userRepository;
 
-  User getUserByEmail (String email) {
-    return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException(email, email.getClass()));
-  }
+    User getUserByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException(email, email.getClass()));
+    }
 
-  public User getUser (Principal principal) {
-    return getUserByEmail(principal.getName());
-  }
+    public User getUser(Principal principal) {
+        return getUserByEmail(principal.getName());
+    }
 
-  boolean emailIsExist (String email) {
-    return userRepository.findByEmail(email).isPresent();
-  }
+    boolean emailIsExist(String email) {
+        return userRepository.findByEmail(email).isPresent();
+    }
 
-  public User save (User user) {
-    return userRepository.save(user);
-  }
+    public User save(User user) {
+        return userRepository.save(user);
+    }
 
 }

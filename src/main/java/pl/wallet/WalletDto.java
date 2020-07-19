@@ -17,24 +17,24 @@ import java.util.List;
 @EqualsAndHashCode
 public class WalletDto {
 
-  private Long id;
+    private Long id;
 
-  @NotEmpty(message = "Wallet must have name")
-  private String name;
+    @NotEmpty(message = "Wallet must have name")
+    private String name;
 
-  @NotNull(message = "Wallet must have balance")
-  private BigDecimal balance;
+    @NotNull(message = "Wallet must have balance")
+    private BigDecimal balance;
 
-  private List<TransactionDto> transactions;
+    private List<TransactionDto> transactions;
 
-  private UserDto user;
+    private UserDto user;
 
-  @Builder
-  public WalletDto (Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, UserDto user) {
-    this.id = id;
-    this.name = name;
-    this.balance = balance;
-    this.transactions = transactions;
-    this.user = user;
-  }
+    @Builder
+    public WalletDto(Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, UserDto user) {
+        this.id = id;
+        this.name = name;
+        this.balance = balance;
+        this.transactions = transactions;
+        this.user = user;
+    }
 }

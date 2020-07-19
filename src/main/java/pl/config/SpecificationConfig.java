@@ -9,8 +9,8 @@ import java.util.List;
 
 @Configuration
 public class SpecificationConfig implements WebMvcConfigurer {
-  @Override
-  public void addArgumentResolvers (List<HandlerMethodArgumentResolver> argumentResolvers) {
-    argumentResolvers.add(new SpecificationArgumentResolver());
-  }
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
+        argumentResolvers.add(new SpecificationArgumentResolver());
+    }
 }

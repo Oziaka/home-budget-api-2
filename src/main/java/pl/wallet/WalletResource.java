@@ -18,32 +18,32 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
 public class WalletResource {
-  private WalletController walletController;
+    private WalletController walletController;
 
-  @PutMapping("/add")
-  public ResponseEntity<WalletDto> addWallet (Principal principal, @Valid @RequestBody WalletDto walletDto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
-  }
+    @PutMapping("/add")
+    public ResponseEntity<WalletDto> addWallet(Principal principal, @Valid @RequestBody WalletDto walletDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
+    }
 
-  @GetMapping()
-  public ResponseEntity<List<WalletDto>> getWallets (Principal principal) {
-    return ResponseEntity.ok(walletController.getWallets(principal));
-  }
+    @GetMapping()
+    public ResponseEntity<List<WalletDto>> getWallets(Principal principal) {
+        return ResponseEntity.ok(walletController.getWallets(principal));
+    }
 
-  @PostMapping("/edit")
-  public ResponseEntity<WalletDto> editWallet (Principal principal, @Valid @RequestBody WalletDto walletDto) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(walletController.editWallet(principal, walletDto));
-  }
+    @PostMapping("/edit")
+    public ResponseEntity<WalletDto> editWallet(Principal principal, @Valid @RequestBody WalletDto walletDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(walletController.editWallet(principal, walletDto));
+    }
 
-  @DeleteMapping("/remove/{walletId}")
-  public ResponseEntity removeWallet (Principal principal, @PathVariable Long walletId) {
-    walletController.removeWallet(principal, walletId);
-    return ResponseEntity.noContent().build();
-  }
+    @DeleteMapping("/remove/{walletId}")
+    public ResponseEntity removeWallet(Principal principal, @PathVariable Long walletId) {
+        walletController.removeWallet(principal, walletId);
+        return ResponseEntity.noContent().build();
+    }
 
-  @GetMapping("/{walletId}")
-  public ResponseEntity<WalletDto> getWallet (Principal principal, @PathVariable Long walletId) {
-    return ResponseEntity.ok(walletController.getWallet(principal, walletId));
-  }
+    @GetMapping("/{walletId}")
+    public ResponseEntity<WalletDto> getWallet(Principal principal, @PathVariable Long walletId) {
+        return ResponseEntity.ok(walletController.getWallet(principal, walletId));
+    }
 
 }

@@ -12,15 +12,15 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 public class UserItemKey {
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_item_key_id")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_item_key_id")
+    private Long id;
 
-  private String name;
+    private String name;
 
-  @Builder
-  public UserItemKey (String name) {
-    this.name = name;
-  }
+    @Builder
+    public UserItemKey(String name) {
+        this.name = name;
+    }
 }

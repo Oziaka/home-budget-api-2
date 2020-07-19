@@ -10,26 +10,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-  @Bean
-  public PasswordEncoder passwordEncoder () {
-    return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-  }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
-  @Override
-  protected void configure (HttpSecurity http) throws Exception {
-    http
-      .httpBasic()
-      .and()
-      .authorizeRequests()
-      .antMatchers("/index.html", "/h2-console/**", "/register**", "/login", "/", "/user").permitAll()
-      .antMatchers("/admin/**").hasRole("ADMIN")
-      .anyRequest().permitAll()
-      .and()
-      .formLogin().usernameParameter("email")
-      .and()
-      .cors()
-      .and()
-      .csrf().disable()
-      .headers().frameOptions().disable();
-  }
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+                .httpBasic()
+                .and()
+                .authorizeRequests()
+                .antMatchers("/index.html", "/h2-console/**", "/register**", "/login", "/", "/user").permitAll()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .anyRequest().permitAll()
+                .and()
+                .formLogin().usernameParameter("email")
+                .and()
+                .cors()
+                .and()
+                .csrf().disable()
+                .headers().frameOptions().disable();
+    }
 }

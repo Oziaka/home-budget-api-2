@@ -12,25 +12,25 @@ import java.util.List;
 @AllArgsConstructor
 public class TransactionService {
 
-  private TransactionRepository transactionRepository;
+    private TransactionRepository transactionRepository;
 
-  Transaction save (Transaction transaction) {
-    return transactionRepository.save(transaction);
-  }
+    Transaction save(Transaction transaction) {
+        return transactionRepository.save(transaction);
+    }
 
-  Transaction getTransaction (Long walletId, Long transactionId) {
-    return transactionRepository.findByIdAndWallet_Id(transactionId, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
-  }
+    Transaction getTransaction(Long walletId, Long transactionId) {
+        return transactionRepository.findByIdAndWallet_Id(transactionId, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
+    }
 
-  List<? extends Transaction> getTransactionsByWalletId (Pageable pageable, Specification<Transaction> transactionSpecification) {
-    return transactionRepository.findAll(transactionSpecification, pageable);
-  }
+    List<? extends Transaction> getTransactionsByWalletId(Pageable pageable, Specification<Transaction> transactionSpecification) {
+        return transactionRepository.findAll(transactionSpecification, pageable);
+    }
 
-  void removeTransaction (Long transactionId) {
-    transactionRepository.deleteById(transactionId);
-  }
+    void removeTransaction(Long transactionId) {
+        transactionRepository.deleteById(transactionId);
+    }
 
-  public void removeWalletTransactions (Long walletId) {
-    transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.removeTransaction(transaction.getId()));
-  }
+    public void removeWalletTransactions(Long walletId) {
+        transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.removeTransaction(transaction.getId()));
+    }
 }
