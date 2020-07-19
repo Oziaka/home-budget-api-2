@@ -50,7 +50,7 @@ public class TransactionResource {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping(value = "", consumes = MediaType.ALL_VALUE)
+    @GetMapping(consumes = MediaType.ALL_VALUE)
     public ResponseEntity<List<TransactionDto>> getWalletTransactions(Principal principal,
                                                                       @PageableDefault(page = 0, size = 40)
                                                                       @SortDefault.SortDefaults({

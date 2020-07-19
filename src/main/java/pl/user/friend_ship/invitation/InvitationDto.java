@@ -1,8 +1,10 @@
 package pl.user.friend_ship.invitation;
 
 import lombok.Builder;
+import lombok.Getter;
 import pl.user.User;
 
+@Getter
 public class InvitationDto {
 
     @Builder

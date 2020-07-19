@@ -2,10 +2,9 @@ package pl.user.friend_ship.invitation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.exception.InvalidInvitationKeyException;
 import pl.exception.InviteNotFoundException;
 import pl.user.User;
-
-import javax.persistence.EntityExistsException;
 
 @Service
 @AllArgsConstructor
@@ -28,5 +27,13 @@ public class InvitationService {
 
     public void remove(User inviter, User invited) {
         invitationRepository.removeByInviterAndInvited(inviter, invited);
+    }
+
+    public void remove(Invitation invitation){
+        invitationRepository.delete(invitation);
+    }
+
+    public Invitation get(String key) {
+        return invitationRepository.findByKey(key).orElseThrow(InvalidInvitationKeyException::new);
     }
 }

@@ -21,6 +21,12 @@ public class UserMapper {
         return user;
     }
 
+    public static UserDto toDtoForOtherUsers(User user){
+        return UserDto.builder()
+                .email(user.getEmail())
+                .build();
+    }
+
     public static UserDto toDtoWithRoles(User user) {
         return UserDto.builder()
                 .email(user.getEmail())
