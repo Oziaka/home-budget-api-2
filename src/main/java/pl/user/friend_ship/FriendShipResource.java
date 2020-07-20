@@ -22,12 +22,17 @@ public class FriendShipResource {
 
     @PostMapping("/add")
     public ResponseEntity<FriendShipDto> addFriend(Principal principal, @RequestParam String key) {
-        return ResponseEntity.ok(friendShipController.add(principal,key));
+        return ResponseEntity.ok(friendShipController.add(principal, key));
     }
 
     @GetMapping
-    public ResponseEntity<List<FriendDto>> getFriend(Principal principal){
+    public ResponseEntity<List<FriendDto>> getFriend(Principal principal) {
         return ResponseEntity.ok(friendShipController.getFriends(principal));
     }
 
+    @DeleteMapping("/remove/{friendShipId}")
+    public ResponseEntity removeFriend(Principal principal, @PathVariable Long friendShipId) {
+        friendShipController.remove(principal, friendShipId);
+        return ResponseEntity.noContent().build();
+    }
 }

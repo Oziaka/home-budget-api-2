@@ -41,8 +41,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "id_user_role"))
     private Set<UserRole> roles;
 
-    @OneToMany(cascade = CascadeType.MERGE, mappedBy = "user")
-    private List<Wallet> wallets;
+    @ManyToMany
+    private Set<Wallet> wallets;
 
     @ManyToMany
     private Set<Category> categories;
@@ -58,7 +58,7 @@ public class User {
     private List<UserNotification> userNotifications;
 
     @Builder
-    public User(List<UserNotification> userNotifications, @Email String email, String password, String userName, Set<UserRole> roles, List<Wallet> wallets, Set<Category> categories, Map<String, String> items) {
+    public User(List<UserNotification> userNotifications, @Email String email, String password, String userName, Set<UserRole> roles, Set<Wallet> wallets, Set<Category> categories, Map<String, String> items) {
         this.userNotifications = userNotifications;
         this.email = email;
         this.password = password;
@@ -89,7 +89,7 @@ public class User {
 
     public void addWallet(Wallet wallet) {
         if (wallets == null)
-            wallets = new ArrayList<>();
+            wallets = new HashSet<>();
         wallets.add(wallet);
     }
 

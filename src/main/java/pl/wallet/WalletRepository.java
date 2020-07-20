@@ -6,13 +6,14 @@ import pl.user.User;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
-    List<Wallet> getByUser(User user);
+    Set<Wallet> getByUsersIn(Set<User> users);
 
     Optional<Wallet> getById(Long id);
 
-    Optional<Wallet> getByIdAndUser(Long walletId, User user);
+    Optional<Wallet> getByIdAndUsersIn(Long walletId, Set<User> users);
 }

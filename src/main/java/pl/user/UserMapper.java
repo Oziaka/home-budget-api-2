@@ -21,7 +21,7 @@ public class UserMapper {
         return user;
     }
 
-    public static UserDto toDtoForOtherUsers(User user){
+    public static UserDto toDtoForOtherUsers(User user) {
         return UserDto.builder()
                 .email(user.getEmail())
                 .build();

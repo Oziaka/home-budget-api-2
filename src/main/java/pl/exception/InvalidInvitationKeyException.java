@@ -2,7 +2,7 @@ package pl.exception;
 
 public class InvalidInvitationKeyException extends RuntimeException {
 
-    public InvalidInvitationKeyException(){
+    public InvalidInvitationKeyException() {
         super("Invalid invitation key");
     }
 

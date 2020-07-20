@@ -40,6 +40,6 @@ public class UserNotificationResource {
 
     @PostMapping("/change_status/{userNotificationId}")
     public ResponseEntity<UserNotificationDto> setUserNotificationStatus(Principal principal, @PathVariable Long userNotificationId, @RequestBody Status newStatus) {
-        return ResponseEntity.ok(userNotificationController.updateStatus(principal, userNotificationId,newStatus));
+        return ResponseEntity.ok(userNotificationController.updateStatus(principal, userNotificationId, newStatus));
     }
 }

@@ -10,6 +10,7 @@ import pl.wallet.transaction.Transaction;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -33,8 +34,8 @@ public class Wallet {
     @OneToMany(mappedBy = "wallet")
     private List<Transaction> transactions;
 
-    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
-    private User user;
+    @ManyToMany(mappedBy = "wallets")
+    private Set<User> users;
 
     public void addTransaction(Transaction transaction) {
         this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);

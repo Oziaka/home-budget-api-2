@@ -90,4 +90,12 @@ public class FriendShipController {
         List<FriendShip> friendShips = friendShipService.getFriendShips(user);
         return friendShips.stream().map(FriendMapper::toDto).collect(Collectors.toList());
     }
+
+    void remove(Principal principal, Long friendShipId) {
+        User user = userService.getUser(principal);
+        FriendShip friendShip = friendShipService.getFriendShip(user, friendShipId);
+        FriendShip friendShip2 = friendShipService.getFriendShip(friendShip.getUser2(), user);
+        friendShipService.remove(friendShip);
+        friendShipService.remove(friendShip2);
+    }
 }

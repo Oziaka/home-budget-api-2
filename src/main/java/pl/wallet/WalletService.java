@@ -8,12 +8,16 @@ import pl.user.User;
 import pl.wallet.transaction.Transaction;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @AllArgsConstructor
 public class WalletService {
+
+    public static final String DEAFULT_WALLET_NAME = "Wallet";
 
     private WalletRepository walletRepository;
 
@@ -21,8 +25,8 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
-    List<Wallet> getWalletsByUser(User user) {
-        return walletRepository.getByUser(user);
+    Set<Wallet> getWalletsByUser(User user) {
+        return walletRepository.getByUsersIn(Collections.singleton(user));
     }
 
     void removeWallet(Long walletId) {
@@ -47,19 +51,19 @@ public class WalletService {
 
     public Wallet saveDefaultWallet(User user) {
         Wallet defaultWallet = createDefaultWallet();
-        defaultWallet.setUser(user);
+        defaultWallet.setUsers(Collections.singleton(user));
         return saveWallet(defaultWallet);
     }
 
     private Wallet createDefaultWallet() {
         Wallet wallet = new Wallet();
-        wallet.setName("Wallet");
+        wallet.setName(DEAFULT_WALLET_NAME);
         wallet.setBalance(BigDecimal.ZERO);
         return wallet;
     }
 
     public Optional<Wallet> getUserWallet(User user, Long walletId) {
-        return walletRepository.getByIdAndUser(walletId, user);
+        return walletRepository.getByIdAndUsersIn(walletId, Collections.singleton(user));
     }
 
 }

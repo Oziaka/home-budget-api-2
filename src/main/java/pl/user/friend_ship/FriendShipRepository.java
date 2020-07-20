@@ -13,4 +13,7 @@ public interface FriendShipRepository extends JpaRepository<FriendShip, Long> {
     Optional<FriendShip> findAllByUserAndUser2(User user, User user2);
 
     List<FriendShip> findAllByUser(User user);
+
+    Optional<FriendShip> findByUserAndId(User user, Long friendShipId);
+
 }

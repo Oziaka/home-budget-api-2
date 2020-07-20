@@ -9,6 +9,7 @@ import pl.user.UserService;
 import pl.wallet.transaction.TransactionService;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,7 @@ public class WalletController {
         if (walletDto.getId() != null) throw new SavedEntityCanNotHaveIdException();
         User user = userService.getUser(principal);
         Wallet wallet = WalletMapper.toEntity(walletDto);
-        wallet.setUser(user);
+        wallet.setUsers(Collections.singleton(user));
         wallet = walletService.saveWallet(wallet);
         return WalletMapper.toDto(wallet);
     }

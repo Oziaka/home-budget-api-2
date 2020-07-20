@@ -29,7 +29,7 @@ public class InvitationService {
         invitationRepository.removeByInviterAndInvited(inviter, invited);
     }
 
-    public void remove(Invitation invitation){
+    public void remove(Invitation invitation) {
         invitationRepository.delete(invitation);
     }
 
