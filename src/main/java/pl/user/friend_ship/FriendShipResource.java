@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.user.friend_ship.friend.FriendDto;
+import pl.user.friend_ship.invitation.InvitationDto;
 
 import java.security.Principal;
 import java.util.List;
@@ -20,9 +21,9 @@ public class FriendShipResource {
         return ResponseEntity.ok(friendShipController.invite(principal, invitedUserEmail));
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<FriendShipDto> addFriend(Principal principal, @RequestParam String key) {
-        return ResponseEntity.ok(friendShipController.add(principal, key));
+    @PostMapping("/add/{invitationId}")
+    public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
+        return ResponseEntity.ok(friendShipController.add(principal,invitationId));
     }
 
     @GetMapping
@@ -34,5 +35,25 @@ public class FriendShipResource {
     public ResponseEntity removeFriend(Principal principal, @PathVariable Long friendShipId) {
         friendShipController.remove(principal, friendShipId);
         return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/invitation/cancel/{invitationId}")
+    public void cancelInvitation(Principal principal, @PathVariable Long invitationId) {
+        friendShipController.cancelInvitation(principal, invitationId);
+    }
+
+    @DeleteMapping("/invitation/remove{invitationId}")
+    public void removeInvitation(Principal principal, @PathVariable Long invitationId) {
+        friendShipController.removeInvitation(principal, invitationId);
+    }
+
+    @GetMapping("invitation/from_user")
+    public ResponseEntity<List<InvitationDto>> getInvitationsFromUser(Principal principal) {
+        return ResponseEntity.ok(friendShipController.getInvitationsFromUser(principal));
+    }
+
+    @GetMapping("invitation/to_user")
+    public ResponseEntity<List<InvitationDto>> getInvitationsToUser(Principal principal) {
+        return ResponseEntity.ok(friendShipController.getInvitationsToUser(principal));
     }
 }

@@ -22,13 +22,9 @@ public class Invitation {
     @OneToOne
     private User invited;
 
-    @Column(name = "\"key\"")
-    private String key;
-
     @Builder
-    public Invitation(User inviter, User invited, @NotNull String key) {
+    public Invitation(User inviter, User invited) {
         this.inviter = inviter;
         this.invited = invited;
-        this.key = key;
     }
 }

@@ -8,11 +8,10 @@ import pl.user.User;
 public class InvitationDto {
 
     @Builder
-    public InvitationDto(Long id, User inviter, User invited, String key) {
+    public InvitationDto(Long id, User inviter, User invited){
         this.id = id;
         this.inviter = inviter;
         this.invited = invited;
-        this.key = key;
     }
 
     private Long id;
@@ -20,6 +19,4 @@ public class InvitationDto {
     private User inviter;
 
     private User invited;
-
-    private String key;
 }

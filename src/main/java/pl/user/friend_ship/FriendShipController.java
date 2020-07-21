@@ -1,7 +1,6 @@
 package pl.user.friend_ship;
 
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Controller;
 import pl.exception.CanNotAddYourselfToFriendException;
 import pl.exception.CanNotInviteAlreadyFriend;
@@ -12,6 +11,7 @@ import pl.user.UserService;
 import pl.user.friend_ship.friend.FriendDto;
 import pl.user.friend_ship.friend.FriendMapper;
 import pl.user.friend_ship.invitation.Invitation;
+import pl.user.friend_ship.invitation.InvitationDto;
 import pl.user.friend_ship.invitation.InvitationMapper;
 import pl.user.friend_ship.invitation.InvitationService;
 
@@ -27,16 +27,15 @@ public class FriendShipController {
     private InvitationService invitationService;
     private UserService userService;
     private FriendShipService friendShipService;
-    private static int INVITATION_KEY_LENGTH = 30;
-
 
     Object invite(Principal principal, String invitedUserEmail) {
         User inviter = userService.getUser(principal);
         User invited = userService.getUser(invitedUserEmail::toString);
         checkCouldUserDoNotAddYourself(inviter, invited);
-        Invitation invitation = Invitation.builder().inviter(inviter).invited(invited).key(generateKey()).build();
+        Invitation invitation = Invitation.builder().inviter(inviter).invited(invited).build();
         checkCouldUserAlreadyInvite(inviter, invited);
         checkCouldUserDoNotInviteAlreadyFriend(inviter, invited);
+//        TODO Notification to invited user
         if (checkCouldInvitedSendInviteEarly(invited, inviter)) {
             invitationService.remove(invited, inviter);
             FriendShip friendShip = friendShipService.save(FriendShip.builder().user(inviter).user2(invited).dateOfAdding(LocalDateTime.now()).build());
@@ -52,10 +51,6 @@ public class FriendShipController {
         return invitationService.isExist(invited, inviter);
     }
 
-    private String generateKey() {
-        return RandomStringUtils.randomAlphabetic(INVITATION_KEY_LENGTH);
-    }
-
 
     private void checkCouldUserAlreadyInvite(User inviter, User invited) {
         if (invitationService.isExist(inviter, invited)) throw new CanOnlySndOneInviteException();
@@ -69,20 +64,15 @@ public class FriendShipController {
         if (invited.equals(inviter)) throw new CanNotAddYourselfToFriendException();
     }
 
-    FriendShipDto add(Principal principal, String key) {
+    FriendShipDto add(Principal principal, Long invitationId) {
         User user = userService.getUser(principal);
-        Invitation invitation = invitationService.get(key);
-        checkCouldUserIsInvited(user, invitation);
+        Invitation invitation = invitationService.getByInvited(user, invitationId);
         invitationService.remove(invitation);
         FriendShip friendShip = FriendShip.builder().user(invitation.getInvited()).user2(invitation.getInviter()).dateOfAdding(LocalDateTime.now()).build();
         FriendShip friendShip2 = FriendShip.builder().user(invitation.getInviter()).user2(invitation.getInvited()).dateOfAdding(LocalDateTime.now()).build();
         FriendShip savedFriendShip = friendShipService.save(friendShip);
         friendShipService.save(friendShip2);
         return FriendShipMapper.toDto(savedFriendShip);
-    }
-
-    private void checkCouldUserIsInvited(User user, Invitation invitation) {
-        if (!user.equals(invitation.getInvited())) throw new YourAreNotInvitedException();
     }
 
     List<FriendDto> getFriends(Principal principal) {
@@ -97,5 +87,31 @@ public class FriendShipController {
         FriendShip friendShip2 = friendShipService.getFriendShip(friendShip.getUser2(), user);
         friendShipService.remove(friendShip);
         friendShipService.remove(friendShip2);
+//        TODO notification to second user
+    }
+
+    void removeInvitation(Principal principal, Long invitationId) {
+        User inviter = userService.getUser(principal);
+        Invitation invitation = invitationService.getByInviter(inviter, invitationId);
+        invitationService.remove(invitation);
+    }
+
+    void cancelInvitation(Principal principal, Long invitationId) {
+        User invited = userService.getUser(principal);
+        Invitation invitation = invitationService.getByInvited(invited, invitationId);
+        invitationService.remove(invitation);
+//        TODO notification to inviter
+    }
+
+    public List<InvitationDto> getInvitationsFromUser(Principal principal) {
+        User user = userService.getUser(principal);
+        List<Invitation> allByInviter = invitationService.getAllByInviter(user);
+        return allByInviter.stream().map(InvitationMapper::toDto).collect(Collectors.toList());
+    }
+
+    public List<InvitationDto> getInvitationsToUser(Principal principal) {
+        User user = userService.getUser(principal);
+        List<Invitation> allByInviter = invitationService.getAllByInviter(user);
+        return allByInviter.stream().map(InvitationMapper::toDto).collect(Collectors.toList());
     }
 }

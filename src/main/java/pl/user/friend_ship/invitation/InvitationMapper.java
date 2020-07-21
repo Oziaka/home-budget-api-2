@@ -6,7 +6,6 @@ public class InvitationMapper {
                 .id(invitation.getId())
                 .inviter(invitation.getInviter())
                 .invited(invitation.getInvited())
-                .key(invitation.getKey())
                 .build();
     }
 }
