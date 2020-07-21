@@ -103,13 +103,13 @@ public class FriendShipController {
 //        TODO notification to inviter
     }
 
-    public List<InvitationDto> getInvitationsFromUser(Principal principal) {
+    List<InvitationDto> getInvitationsFromUser(Principal principal) {
         User user = userService.getUser(principal);
         List<Invitation> allByInviter = invitationService.getAllByInviter(user);
         return allByInviter.stream().map(InvitationMapper::toDto).collect(Collectors.toList());
     }
 
-    public List<InvitationDto> getInvitationsToUser(Principal principal) {
+    List<InvitationDto> getInvitationsToUser(Principal principal) {
         User user = userService.getUser(principal);
         List<Invitation> allByInviter = invitationService.getAllByInviter(user);
         return allByInviter.stream().map(InvitationMapper::toDto).collect(Collectors.toList());
