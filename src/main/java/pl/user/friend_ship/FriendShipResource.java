@@ -16,14 +16,9 @@ public class FriendShipResource {
 
     private FriendShipController friendShipController;
 
-    @PostMapping("/invite")
-    public ResponseEntity<Object> inviteUser(Principal principal, @RequestBody String invitedUserEmail) {
-        return ResponseEntity.ok(friendShipController.invite(principal, invitedUserEmail));
-    }
-
     @PostMapping("/add/{invitationId}")
     public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
-        return ResponseEntity.ok(friendShipController.add(principal,invitationId));
+        return ResponseEntity.ok(friendShipController.add(principal, invitationId));
     }
 
     @GetMapping
@@ -37,23 +32,5 @@ public class FriendShipResource {
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/invitation/cancel/{invitationId}")
-    public void cancelInvitation(Principal principal, @PathVariable Long invitationId) {
-        friendShipController.cancelInvitation(principal, invitationId);
-    }
 
-    @DeleteMapping("/invitation/remove{invitationId}")
-    public void removeInvitation(Principal principal, @PathVariable Long invitationId) {
-        friendShipController.removeInvitation(principal, invitationId);
-    }
-
-    @GetMapping("invitation/from_user")
-    public ResponseEntity<List<InvitationDto>> getInvitationsFromUser(Principal principal) {
-        return ResponseEntity.ok(friendShipController.getInvitationsFromUser(principal));
-    }
-
-    @GetMapping("invitation/to_user")
-    public ResponseEntity<List<InvitationDto>> getInvitationsToUser(Principal principal) {
-        return ResponseEntity.ok(friendShipController.getInvitationsToUser(principal));
-    }
 }

@@ -18,7 +18,7 @@ public class FriendShipService {
         return friendShipRepository.save(friendShip);
     }
 
-    boolean couldThisFriendshipExist(User inviter, User invited) {
+    public boolean couldThisFriendshipExist(User inviter, User invited) {
         return friendShipRepository.findAllByUserAndUser2(inviter, invited).isPresent();
     }
 
