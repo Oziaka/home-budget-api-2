@@ -21,7 +21,7 @@ public class FriendShipResource {
         return ResponseEntity.ok(friendShipController.add(principal, invitationId));
     }
 
-    @GetMapping
+    @GetMapping("s")
     public ResponseEntity<List<FriendDto>> getFriend(Principal principal) {
         return ResponseEntity.ok(friendShipController.getFriends(principal));
     }

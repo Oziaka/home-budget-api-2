@@ -9,8 +9,6 @@ import pl.wallet.transaction.Transaction;
 
 import java.math.BigDecimal;
 import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -21,7 +19,7 @@ public class WalletService {
 
     private WalletRepository walletRepository;
 
-    public Wallet saveWallet(Wallet wallet) {
+    public Wallet save(Wallet wallet) {
         return walletRepository.save(wallet);
     }
 
@@ -33,26 +31,26 @@ public class WalletService {
         walletRepository.deleteById(walletId);
     }
 
-    Wallet getUserWallet(Long walletId) {
+    Wallet getWalletByOwnerAndId(Long walletId) {
         return walletRepository.getById(walletId).orElseThrow(() -> new EntityNotFoundException(walletId, Wallet.class));
     }
 
     public Wallet isUserWallet(User user, Long walletId) {
         if (this.getWalletsByUser(user).stream().anyMatch(userWallet -> userWallet.getId().equals(walletId)))
-            return getUserWallet(walletId);
+            return getWalletByOwnerAndId(walletId);
         throw new ThereIsNoYourPropertyException();
     }
 
 
     public Wallet addTransaction(Wallet wallet, Transaction transaction) {
         wallet.addTransaction(transaction);
-        return saveWallet(wallet);
+        return save(wallet);
     }
 
     public Wallet saveDefaultWallet(User user) {
         Wallet defaultWallet = createDefaultWallet();
         defaultWallet.setUsers(Collections.singleton(user));
-        return saveWallet(defaultWallet);
+        return save(defaultWallet);
     }
 
     private Wallet createDefaultWallet() {
@@ -62,8 +60,11 @@ public class WalletService {
         return wallet;
     }
 
-    public Optional<Wallet> getUserWallet(User user, Long walletId) {
-        return walletRepository.getByIdAndUsersIn(walletId, Collections.singleton(user));
+    Wallet getWalletByOwnerAndId(User owner, Long walletId) {
+        return walletRepository.getByIdAndOwner(walletId, owner).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
+    Wallet getWalletByUserAndId(User user, Long id) {
+        return walletRepository.getByIdAndUsersIn(id, Collections.singleton(user)).orElseThrow(ThereIsNoYourPropertyException::new);
+    }
 }

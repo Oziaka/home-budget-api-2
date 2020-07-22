@@ -11,6 +11,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode
 @NoArgsConstructor
@@ -37,11 +38,22 @@ public class Wallet {
     @ManyToMany(mappedBy = "wallets")
     private Set<User> users;
 
+    @OneToOne
+    private User owner;
+
     public void addTransaction(Transaction transaction) {
         this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
     }
 
     public void removeTransaction(Transaction transaction) {
         this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
+    }
+
+    public void addUser(User user) {
+        this.users.add(user);
+    }
+
+    public void removeUser(User user){
+        this.users = this.users.stream().filter(u->u.equals(user)).collect(Collectors.toSet());
     }
 }

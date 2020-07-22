@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserService;
+import pl.user.user_notification.notification.notification.Notification;
 import pl.user.user_notification.notification.notification.NotificationService;
 
 import java.security.Principal;
@@ -20,13 +21,13 @@ public class UserNotificationController {
 
     private UserNotificationService userNotificationService;
     private UserService userService;
+    private NotificationService notificationService;
 
     List<UserNotificationDto> getNotifications(Principal principal, Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
         User user = userService.getUser(principal);
         userNotificationSpecification.and(new IsUserNotification());
         return userNotificationService.getNotifications(pageable, userNotificationSpecification).stream().map(UserNotificationMapper::toDto).collect(Collectors.toList());
     }
-
 
     UserNotificationDto updateStatus(Principal principal, Long userNotificationId, Status newStatus) {
         User user = userService.getUser(principal);
@@ -35,4 +36,10 @@ public class UserNotificationController {
         UserNotification savedUserNotification = userNotificationService.save(userNotification);
         return UserNotificationMapper.toDto(savedUserNotification);
     }
+
+    public void saveNotifications(List<User> users, Notification notification) {
+        Notification savedNotification = notificationService.save(notification);
+        users.stream().map(user -> UserNotification.builder().user(user).notification(savedNotification).status(Status.UNREAD).build()).forEach(userNotificationService::save);
+    }
+
 }

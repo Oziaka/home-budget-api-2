@@ -2,6 +2,7 @@ package pl.user.friend_ship.invitation;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.user.User;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @Entity(name = "invitation")
+@NoArgsConstructor
 public class Invitation {
 
     @Id

@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
+import pl.user.User;
 import pl.user.UserDto;
 import pl.wallet.transaction.TransactionDto;
 
@@ -27,14 +28,17 @@ public class WalletDto {
 
     private List<TransactionDto> transactions;
 
-    private UserDto user;
+    private List<UserDto> users;
+
+    private UserDto owner;
 
     @Builder
-    public WalletDto(Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, UserDto user) {
+    public WalletDto(Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, List<UserDto> users, UserDto owner) {
         this.id = id;
         this.name = name;
         this.balance = balance;
         this.transactions = transactions;
-        this.user = user;
+        this.users = users;
+        this.owner = owner;
     }
 }

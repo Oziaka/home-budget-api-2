@@ -112,7 +112,7 @@ public class TransactionController {
         Transaction transaction = transactionService.getTransaction(walletId, transactionId);
         wallet.removeTransaction(transaction);
         transactionService.removeTransaction(transactionId);
-        walletService.saveWallet(wallet);
+        walletService.save(wallet);
     }
 
     private void updateTransactionFromNotNullFieldsInTransactionDto(TransactionDto transactionDto, Transaction transaction) {

@@ -2,6 +2,7 @@ package pl.user.friend_ship;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.user.User;
 
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity(name = "friend_ship")
+@NoArgsConstructor
 public class FriendShip {
 
     @Id

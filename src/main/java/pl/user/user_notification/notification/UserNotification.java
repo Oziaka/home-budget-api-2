@@ -1,6 +1,8 @@
 package pl.user.user_notification.notification;
 
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import pl.user.User;
 import pl.user.user_notification.notification.notification.Notification;
 
@@ -8,6 +10,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class UserNotification {
 
     @Id
@@ -23,4 +26,11 @@ public class UserNotification {
 
     @ManyToOne
     private Notification notification;
+
+    @Builder
+    public UserNotification(User user, Status status, Notification notification) {
+        this.user = user;
+        this.status = status;
+        this.notification = notification;
+    }
 }

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.exception.CanNotFindEntityException;
 import pl.exception.ThereIsNoYourPropertyException;
+import pl.exception.YouAreNotFriendsException;
 import pl.user.User;
 
 import java.util.List;
@@ -36,5 +37,10 @@ public class FriendShipService {
 
     void remove(FriendShip friendShip) {
         friendShipRepository.delete(friendShip);
+    }
+
+    public boolean isFriends(User owner, User friend) {
+        friendShipRepository.findAllByUserAndUser2(owner, friend).orElseThrow(YouAreNotFriendsException::new);
+        return true;
     }
 }
