@@ -1,26 +1,29 @@
 package pl.wallet.transaction.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 import pl.wallet.transaction.enums.Frequency;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
+@EqualsAndHashCode
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
-@Data
-@AllArgsConstructor
 @Table(name = "transaction_recurring")
 public class TransactionRecurring {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "transaction_recurring_id")
     private Long id;
 
     @OneToMany
     @JoinColumn(name = "transaction_id")
-    private Set<? extends Transaction> transactions;
+    private Set<Transaction> transactions;
 
     @Enumerated
     private Frequency frequency;
@@ -28,10 +31,18 @@ public class TransactionRecurring {
     @Column(nullable = false)
     private LocalDateTime start;
 
-    private LocalDateTime finish;
+    private LocalDateTime end;
+
+    private LocalDateTime dateOfLastAdding;
+
+    private LocalDateTime dateOfNextAdding;
 
     private Long numberOfRepetition;
 
     private Long currentNumberRepetitions;
 
+    public void addTransaction(Transaction transaction) {
+        if (transactions == null) transactions = new HashSet<>();
+        transactions.add(transaction);
+    }
 }
