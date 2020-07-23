@@ -1,7 +1,8 @@
-package pl.wallet.transaction;
+package pl.wallet.transaction.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 import pl.user.User;
+import pl.wallet.transaction.model.Transaction;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;

@@ -1,11 +1,12 @@
-package pl.wallet.transaction;
+package pl.wallet.transaction.enums;
 
 import pl.wallet.Wallet;
+import pl.wallet.transaction.model.Transaction;
 
 import java.math.BigDecimal;
 import java.util.function.BiFunction;
 
-public enum TransactionType {
+public enum Type {
 
     EXPENSE(BigDecimal::subtract, BigDecimal::add),
     REVENUES(BigDecimal::add, BigDecimal::subtract),
@@ -17,8 +18,8 @@ public enum TransactionType {
     private BiFunction<BigDecimal, BigDecimal, BigDecimal> changeBalanceWhenTransactionIsAdding;
     private BiFunction<BigDecimal, BigDecimal, BigDecimal> changeBalanceWhenTransactionIsRemoving;
 
-    TransactionType(BiFunction<BigDecimal, BigDecimal, BigDecimal> changeBalanceWhenTransactionIsAdding,
-                    BiFunction<BigDecimal, BigDecimal, BigDecimal> changeBalanceWhenTransactionIsRemoving) {
+    Type(BiFunction<BigDecimal, BigDecimal, BigDecimal> changeBalanceWhenTransactionIsAdding,
+         BiFunction<BigDecimal, BigDecimal, BigDecimal> changeBalanceWhenTransactionIsRemoving) {
         this.changeBalanceWhenTransactionIsAdding = changeBalanceWhenTransactionIsAdding;
         this.changeBalanceWhenTransactionIsRemoving = changeBalanceWhenTransactionIsRemoving;
     }

@@ -4,9 +4,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
-import pl.user.User;
 import pl.user.UserDto;
-import pl.wallet.transaction.TransactionDto;
+import pl.wallet.transaction.dto.TransactionDto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

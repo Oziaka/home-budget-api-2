@@ -1,4 +1,4 @@
-package pl.wallet.transaction;
+package pl.wallet.transaction.model;
 
 import lombok.*;
 import pl.wallet.Wallet;

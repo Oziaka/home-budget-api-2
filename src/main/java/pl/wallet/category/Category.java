@@ -3,7 +3,7 @@ package pl.wallet.category;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.user.User;
-import pl.wallet.transaction.TransactionType;
+import pl.wallet.transaction.enums.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class Category {
 
     @Column(nullable = false)
     @Enumerated
-    private TransactionType transactionType;
+    private Type type;
 
     @ManyToMany(mappedBy = "categories")
     private List<User> users;

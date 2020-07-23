@@ -1,16 +1,21 @@
-package pl.wallet.transaction;
+package pl.wallet.transaction.mapper;
 
 import pl.exception.InvalidTransactionException;
 import pl.wallet.category.Category;
 import pl.wallet.category.CategoryMapper;
+import pl.wallet.transaction.dto.TransactionDto;
+import pl.wallet.transaction.model.Transaction;
+import pl.wallet.transaction.model.TransactionBack;
+import pl.wallet.transaction.model.TransactionLoanOrBorrow;
+import pl.wallet.transaction.enums.Type;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-class TransactionMapper {
+public class TransactionMapper {
 
-    static Transaction toEntity(TransactionDto transactionDto, Category category) {
+    public static Transaction toEntity(TransactionDto transactionDto, Category category) {
         if (isTransactionBack(transactionDto, category))
             return TransactionBack.transactionBackBuilder()
                     .name(transactionDto.getName())
@@ -38,7 +43,7 @@ class TransactionMapper {
         else throw new InvalidTransactionException();
     }
 
-    static TransactionDto toDto(Transaction transaction) {
+    public static TransactionDto toDto(Transaction transaction) {
         if (transaction instanceof TransactionLoanOrBorrow) {
             return buildTransactionLoanOrBorrow((TransactionLoanOrBorrow) transaction).build();
         }
@@ -50,7 +55,7 @@ class TransactionMapper {
                 .build();
     }
 
-    static TransactionDto toDtoAndTransactionLoanOrBorrowWithoutTransactionsBack(Transaction transaction) {
+    public static TransactionDto toDtoAndTransactionLoanOrBorrowWithoutTransactionsBack(Transaction transaction) {
         if (transaction instanceof TransactionLoanOrBorrow) {
             return buildTransaction(transaction).build();
         }
@@ -87,14 +92,14 @@ class TransactionMapper {
     }
 
     private static boolean isTransactionBack(TransactionDto transactionDto, Category category) {
-        return transactionDto.getTransactionIdReference() != null && (category.getTransactionType() == TransactionType.LOAN_BACK || category.getTransactionType() == TransactionType.BORROW_BACK);
+        return transactionDto.getTransactionIdReference() != null && (category.getType() == Type.LOAN_BACK || category.getType() == Type.BORROW_BACK);
     }
 
     private static boolean isLoanOrBorrowTransaction(TransactionDto transactionDto, Category category) {
-        return (category.getTransactionType() == TransactionType.LOAN || category.getTransactionType() == TransactionType.BORROW) && transactionDto.getTransactionIdReference() == null;
+        return (category.getType() == Type.LOAN || category.getType() == Type.BORROW) && transactionDto.getTransactionIdReference() == null;
     }
 
     private static boolean isSimpleTransaction(TransactionDto transactionDto, Category category) {
-        return transactionDto.getTransactionIdReference() == null && (category.getTransactionType() == TransactionType.EXPENSE || category.getTransactionType() == TransactionType.REVENUES);
+        return transactionDto.getTransactionIdReference() == null && (category.getType() == Type.EXPENSE || category.getType() == Type.REVENUES);
     }
 }

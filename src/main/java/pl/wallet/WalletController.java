@@ -7,7 +7,7 @@ import pl.exception.SavedEntityCanNotHaveIdException;
 import pl.user.User;
 import pl.user.UserService;
 import pl.user.friend_ship.FriendShipService;
-import pl.wallet.transaction.TransactionService;
+import pl.wallet.transaction.service.TransactionService;
 
 import java.security.Principal;
 import java.util.Collections;

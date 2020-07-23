@@ -1,4 +1,4 @@
-package pl.wallet.transaction;
+package pl.wallet.transaction.dto;
 
 import lombok.Builder;
 import lombok.Getter;

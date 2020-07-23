@@ -8,7 +8,7 @@ public class CategoryMapper {
         Category category = new Category();
         category.setName(categoryDto.getName());
         category.setDescription(categoryDto.getDescription());
-        category.setTransactionType(categoryDto.getTransactionType());
+        category.setType(categoryDto.getType());
         return category;
     }
 
@@ -16,7 +16,7 @@ public class CategoryMapper {
         return CategoryDto.builder()
                 .id(category.getId())
                 .name(category.getName())
-                .transactionType(category.getTransactionType())
+                .type(category.getType())
                 .description(category.getDescription())
                 .isDefault(category.getIsDefault())
                 .build();

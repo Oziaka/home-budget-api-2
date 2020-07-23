@@ -1,4 +1,4 @@
-package pl.wallet.transaction;
+package pl.wallet.transaction.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -12,6 +12,14 @@ import pl.wallet.Wallet;
 import pl.wallet.WalletService;
 import pl.wallet.category.Category;
 import pl.wallet.category.CategoryService;
+import pl.wallet.transaction.mapper.TransactionMapper;
+import pl.wallet.transaction.specification.IsUserWallet;
+import pl.wallet.transaction.dto.TransactionDto;
+import pl.wallet.transaction.service.TransactionService;
+import pl.wallet.transaction.model.Transaction;
+import pl.wallet.transaction.model.TransactionBack;
+import pl.wallet.transaction.model.TransactionLoanOrBorrow;
+import pl.wallet.transaction.enums.Type;
 
 import java.security.Principal;
 import java.util.List;
@@ -26,7 +34,7 @@ public class TransactionController {
     private CategoryService categoryService;
 
 
-    TransactionDto addTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
+    public TransactionDto addTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
         User user = userService.getUser(principal);
         Wallet wallet = getWallet(user, walletId);
         Category category = getCategory(user, transactionDto.getCategoryId());
@@ -38,7 +46,7 @@ public class TransactionController {
             return addLoanOrBorrowOrSimpleTransaction(wallet, category, transaction);
     }
 
-    List<TransactionDto> getWalletTransactions(Principal principal, Pageable pageable, Specification<Transaction> transactionSpecification, Boolean groupingTransactionBack) {
+    public List<TransactionDto> getWalletTransactions(Principal principal, Pageable pageable, Specification<Transaction> transactionSpecification, Boolean groupingTransactionBack) {
         User user = userService.getUser(principal);
         transactionSpecification.and(new IsUserWallet(user));
         List<? extends Transaction> transactions = transactionService.getTransactionsByWalletId(pageable, transactionSpecification);
@@ -46,13 +54,13 @@ public class TransactionController {
 
     }
 
-    TransactionDto getTransaction(Principal principal, Long walletId, Long transactionId) {
+   public  TransactionDto getTransaction(Principal principal, Long walletId, Long transactionId) {
         User user = userService.getUser(principal);
         walletService.isUserWallet(user, walletId);
         return TransactionMapper.toDto(transactionService.getTransaction(walletId, transactionId));
     }
 
-    TransactionDto editTransaction(Principal principal, Long walletId, Long transactionId, TransactionDto transactionDto) {
+    public TransactionDto editTransaction(Principal principal, Long walletId, Long transactionId, TransactionDto transactionDto) {
         User user = userService.getUser(principal);
         walletService.isUserWallet(user, walletId);
         Transaction transaction = transactionService.getTransaction(walletId, transactionId);
@@ -95,7 +103,7 @@ public class TransactionController {
     }
 
     private boolean correctTransactionType(Category category, Category transactionLoanOrBorrowCategory) {
-        return (transactionLoanOrBorrowCategory.getTransactionType() == TransactionType.LOAN && category.getTransactionType() == TransactionType.LOAN_BACK) || (transactionLoanOrBorrowCategory.getTransactionType() == TransactionType.BORROW && category.getTransactionType() == TransactionType.BORROW_BACK);
+        return (transactionLoanOrBorrowCategory.getType() == Type.LOAN && category.getType() == Type.LOAN_BACK) || (transactionLoanOrBorrowCategory.getType() == Type.BORROW && category.getType() == Type.BORROW_BACK);
     }
 
     private Category getCategory(User user, Long categoryId) {
@@ -106,7 +114,7 @@ public class TransactionController {
         return walletService.isUserWallet(user, walletId);
     }
 
-    void removeTransaction(Principal principal, Long walletId, Long transactionId) {
+    public void removeTransaction(Principal principal, Long walletId, Long transactionId) {
         User user = userService.getUser(principal);
         Wallet wallet = getWallet(user, walletId);
         Transaction transaction = transactionService.getTransaction(walletId, transactionId);

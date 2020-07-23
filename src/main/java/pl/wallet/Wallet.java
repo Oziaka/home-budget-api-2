@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.user.User;
-import pl.wallet.transaction.Transaction;
+import pl.wallet.transaction.model.Transaction;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -42,11 +42,11 @@ public class Wallet {
     private User owner;
 
     public void addTransaction(Transaction transaction) {
-        this.balance = transaction.getCategory().getTransactionType().countBalance(this, transaction);
+        this.balance = transaction.getCategory().getType().countBalance(this, transaction);
     }
 
     public void removeTransaction(Transaction transaction) {
-        this.balance = transaction.getCategory().getTransactionType().undoCountBalance(this, transaction);
+        this.balance = transaction.getCategory().getType().undoCountBalance(this, transaction);
     }
 
     public void addUser(User user) {

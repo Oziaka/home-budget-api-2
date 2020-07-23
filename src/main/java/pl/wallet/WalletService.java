@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.exception.EntityNotFoundException;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
-import pl.wallet.transaction.Transaction;
+import pl.wallet.transaction.model.Transaction;
 
 import java.math.BigDecimal;
 import java.util.Collections;

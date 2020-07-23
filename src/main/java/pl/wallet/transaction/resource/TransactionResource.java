@@ -1,4 +1,4 @@
-package pl.wallet.transaction;
+package pl.wallet.transaction.resource;
 
 import lombok.AllArgsConstructor;
 import net.kaczmarzyk.spring.data.jpa.domain.Equal;
@@ -16,6 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import pl.wallet.transaction.controller.TransactionController;
+import pl.wallet.transaction.dto.TransactionDto;
+import pl.wallet.transaction.model.Transaction;
 
 import javax.validation.Valid;
 import java.security.Principal;
