@@ -18,7 +18,7 @@ public class TransactionRecurringDto {
     @Null
     private Long id;
 
-    private Set<TransactionDto> transactions;
+    private TransactionDto transaction;
 
     @NotNull
     private Frequency frequency;
@@ -39,9 +39,9 @@ public class TransactionRecurringDto {
     @Null
     private Long currentNumberRepetitions;
 
-    public TransactionRecurringDto(@Null Long id, Set<TransactionDto> transactions, @NotNull Frequency frequency, @NotNull LocalDateTime start, LocalDateTime end, @Null LocalDateTime dateOfLastAdding, @Null LocalDateTime dateOfNextAdding, Long numberOfRepetition, @Null Long currentNumberRepetitions) {
+    public TransactionRecurringDto(@Null Long id, TransactionDto transaction, @NotNull Frequency frequency, @NotNull LocalDateTime start, LocalDateTime end, @Null LocalDateTime dateOfLastAdding, @Null LocalDateTime dateOfNextAdding, Long numberOfRepetition, @Null Long currentNumberRepetitions) {
         this.id = id;
-        this.transactions = transactions;
+        this.transaction = transaction;
         this.frequency = frequency;
         this.start = start;
         this.end = end;

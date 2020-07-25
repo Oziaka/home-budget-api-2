@@ -8,7 +8,7 @@ import pl.user.User;
 public class InvitationDto {
 
     @Builder
-    public InvitationDto(Long id, User inviter, User invited){
+    public InvitationDto(Long id, User inviter, User invited) {
         this.id = id;
         this.inviter = inviter;
         this.invited = invited;

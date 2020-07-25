@@ -1,6 +1,7 @@
 package pl.wallet.transaction.model;
 
 import lombok.*;
+import pl.wallet.Wallet;
 import pl.wallet.transaction.enums.Frequency;
 
 import javax.persistence.*;
@@ -21,12 +22,14 @@ public class TransactionRecurring {
     @Column(name = "transaction_recurring_id")
     private Long id;
 
-    @OneToMany
-    @JoinColumn(name = "transaction_id")
-    private Set<Transaction> transactions;
+    @OneToOne
+    private Transaction transaction;
 
     @Enumerated
     private Frequency frequency;
+
+    @ManyToOne
+    private Wallet wallet;
 
     @Column(nullable = false)
     private LocalDateTime start;
@@ -41,8 +44,17 @@ public class TransactionRecurring {
 
     private Long currentNumberRepetitions;
 
-    public void addTransaction(Transaction transaction) {
-        if (transactions == null) transactions = new HashSet<>();
-        transactions.add(transaction);
+
+    @Builder
+    public TransactionRecurring(Long id, Transaction transaction, Frequency frequency, LocalDateTime start, LocalDateTime end, LocalDateTime dateOfLastAdding, LocalDateTime dateOfNextAdding, Long numberOfRepetition, Long currentNumberRepetitions) {
+        this.id = id;
+        this.transaction = transaction;
+        this.frequency = frequency;
+        this.start = start;
+        this.end = end;
+        this.dateOfLastAdding = dateOfLastAdding;
+        this.dateOfNextAdding = dateOfNextAdding;
+        this.numberOfRepetition = numberOfRepetition;
+        this.currentNumberRepetitions = currentNumberRepetitions;
     }
 }

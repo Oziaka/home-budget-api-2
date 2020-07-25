@@ -17,7 +17,7 @@ public class CategoryController {
     private UserService userService;
 
     CategoryDto addCategory(Principal principal, CategoryDto categoryDto) {
-        User user = userService.getUser(principal);
+        User user = userService.get(principal);
         Category category = CategoryMapper.toEntity(categoryDto);
         user.addCategory(category);
         category.addUser(user);
@@ -26,30 +26,30 @@ public class CategoryController {
     }
 
     void removeCategory(Principal principal, Long categoryId) {
-        User user = userService.getUser(principal);
+        User user = userService.get(principal);
         user.removeCategory(categoryId);
         userService.save(user);
     }
 
     Set<CategoryDto> getCategories(Principal principal) {
-        User user = userService.getUser(principal);
-        return categoryService.getCategoriesByUser(user).stream().map(CategoryMapper::toDto).collect(Collectors.toSet());
+        User user = userService.get(principal);
+        return categoryService.getAll(user).stream().map(CategoryMapper::toDto).collect(Collectors.toSet());
     }
 
     Set<CategoryDto> restoreDefaultCategories(Principal principal) {
-        User user = userService.getUser(principal);
-        Set<Category> defaultCategories = categoryService.getDefaultCategories();
+        User user = userService.get(principal);
+        Set<Category> defaultCategories = categoryService.getAllDefaults();
         user.setCategories(defaultCategories);
         this.userService.save(user);
         return getCategories(principal);
     }
 
     Set<CategoryDto> getDefaultCategories() {
-        return categoryService.getDefaultCategories().stream().map(CategoryMapper::toDto).collect(Collectors.toSet());
+        return categoryService.getAllDefaults().stream().map(CategoryMapper::toDto).collect(Collectors.toSet());
     }
 
     CategoryDto editDefaultCategory(Long categoryId, CategoryDto categoryDto) {
-        Category category = categoryService.getCategory(categoryId);
+        Category category = categoryService.get(categoryId);
         if (!category.getIsDefault())
             throw new CanNotEditCategoryExcpetion("You can not edit no default or not exist category");
         category = updateNotNullFieldsInCategoryDtoToCategory(category, categoryDto);
@@ -66,8 +66,8 @@ public class CategoryController {
     }
 
     CategoryDto editCategory(Principal principal, Long categoryId, CategoryDto categoryDto) {
-        User user = userService.getUser(principal);
-        Category category = categoryService.getCategory(user, categoryId);
+        User user = userService.get(principal);
+        Category category = categoryService.get(user, categoryId);
         if (category.getIsDefault())
             throw new CanNotEditCategoryExcpetion("You can not edit default or not exist category");
         category = updateNotNullFieldsInCategoryDtoToCategory(category, categoryDto);

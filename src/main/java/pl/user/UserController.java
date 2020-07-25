@@ -7,7 +7,6 @@ import pl.security.user_role.UserRoleService;
 import pl.user.item_key.UserItemKey;
 import pl.user.item_key.UserItemKeyService;
 import pl.user.user_notification.notification.notification.NotificationService;
-import pl.wallet.Wallet;
 import pl.wallet.WalletService;
 import pl.wallet.category.CategoryService;
 
@@ -42,48 +41,53 @@ public class UserController {
         addDefaultRoles(user);
         User savedUser = userService.save(user);
         addDefaultCategories(user);
-        Wallet wallet = walletService.saveDefaultWallet(user);
+        walletService.saveDefaultWallet(user);
         return UserMapper.toDto(savedUser);
     }
 
     private void addDefaultCategories(User user) {
-        categoryService.getDefaultCategories().forEach(user::addCategory);
+        categoryService.getAllDefaults().forEach(user::addCategory);
     }
 
     private void addDefaultRoles(User user) {
-        userRoleService.findDefaultRoles().forEach(user::addRole);
+        userRoleService.getDefaults().forEach(user::addRole);
     }
 
     private void encodePassword(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
-    UserDto getUserByPrincipal(Principal principal) {
-        return UserMapper.toDto(userService.getUser(principal));
+    UserDto getUser(Principal principal) {
+        return UserMapper.toDto(userService.get(principal));
     }
 
     UserDto editUser(Principal principal, UserDto userDto) {
         if (isUserHasUniqueEmail(principal.getName()))
             throw new UserMustHaveUniqueEmailException();
-        User user = userService.getUser(principal);
-        updateUserFromNotNullFieldsInUserDto(user, userDto);
-        User savedUser = userService.save(user);
+        User user = userService.get(principal);
+        User updatedUser = updateUserFromNotNullFieldsInUserDto(user, userDto);
+        User savedUser = userService.save(updatedUser);
         return UserMapper.toDto(savedUser);
     }
 
-    private void updateUserFromNotNullFieldsInUserDto(User user, UserDto userDto) {
+    private User updateUserFromNotNullFieldsInUserDto(User user, UserDto userDto) {
+        User userToUpdate = user;
         if (userDto.getEmail() != null)
-            user.setEmail(userDto.getEmail());
+            userToUpdate.setEmail(userDto.getEmail());
         if (userDto.getPassword() != null)
-            user.setPassword(userDto.getPassword());
+            userToUpdate.setPassword(userDto.getPassword());
         if (userDto.getItems() != null) {
             List<UserItemKey> userItemKeys = userItemKeyService.getAll();
-            userDto.getItems().entrySet().stream().filter(item -> userItemKeys.stream().map(UserItemKey::getName).anyMatch(itemKey -> itemKey.equals(item.getKey()))).forEach(item -> user.addItem(item.getKey(), item.getValue()));
+            userDto.getItems()
+                    .entrySet().stream().filter(item -> userItemKeys.stream()
+                    .map(UserItemKey::getName).anyMatch(itemKey -> itemKey.equals(item.getKey())))
+                    .forEach(item -> userToUpdate.addItem(item.getKey(), item.getValue()));
         }
+        return userToUpdate;
     }
 
     private Boolean isUserHasUniqueEmail(String email) {
-        return !userService.emailIsExist(email);
+        return !userService.emailIsUsed(email);
     }
 
 }

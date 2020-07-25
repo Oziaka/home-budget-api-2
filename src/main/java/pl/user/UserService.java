@@ -12,15 +12,15 @@ public class UserService {
 
     private UserRepository userRepository;
 
-    User getUserByEmail(String email) {
+    User get(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> new EntityNotFoundException(email, email.getClass()));
     }
 
-    public User getUser(Principal principal) {
-        return getUserByEmail(principal.getName());
+    public User get(Principal principal) {
+        return get(principal.getName());
     }
 
-    boolean emailIsExist(String email) {
+    boolean emailIsUsed(String email) {
         return userRepository.findByEmail(email).isPresent();
     }
 

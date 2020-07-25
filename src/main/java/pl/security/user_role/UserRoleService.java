@@ -2,6 +2,7 @@ package pl.security.user_role;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.exception.EntityNotFoundException;
 import pl.exception.UserRoleOfSuchIdDoNotExistException;
 
 import java.util.List;
@@ -12,17 +13,17 @@ public class UserRoleService {
 
     private UserRoleRepository userRoleRepository;
 
-    public List<UserRole> findDefaultRoles() {
+    public List<UserRole> getDefaults() {
         return userRoleRepository.getDefaultRoles();
     }
 
 
-    List<UserRole> findAll() {
+    List<UserRole> getAll() {
         return userRoleRepository.findAll();
     }
 
-    UserRole getRole(Long userRoleId) {
-        return userRoleRepository.findById(userRoleId).orElseThrow(UserRoleOfSuchIdDoNotExistException::new);
+    UserRole getOne(Long userRoleId) {
+        return userRoleRepository.findById(userRoleId).orElseThrow(() -> new EntityNotFoundException(userRoleId, UserRole.class));
     }
 
     UserRole save(UserRole userRole) {

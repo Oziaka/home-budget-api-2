@@ -32,11 +32,11 @@ public class InvitationService {
         invitationRepository.delete(invitation);
     }
 
-    public Invitation getByInviter(User inviter, Long invitationId) {
+    public Invitation getOneByInviter(User inviter, Long invitationId) {
         return invitationRepository.findByInviterAndId(inviter, invitationId).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
-    public Invitation getByInvited(User invited, Long invitationId) {
+    public Invitation getOneByInvited(User invited, Long invitationId) {
         return invitationRepository.findByInviterAndId(invited, invitationId).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
@@ -44,7 +44,7 @@ public class InvitationService {
         return invitationRepository.findAllByInviter(inviter);
     }
 
-    public List<Invitation> getAllBtInvited(User invited) {
+    public List<Invitation> getAllByInvited(User invited) {
         return invitationRepository.findAllByInvited(invited);
     }
 }

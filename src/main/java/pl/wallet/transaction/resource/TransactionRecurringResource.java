@@ -26,8 +26,14 @@ public class TransactionRecurringResource {
         return ResponseEntity.ok(transactionRecurringController.addTransactionRecurring(principal, walletId, transactionRecurringDto));
     }
 
-    @PutMapping("/{transaction_recurring_id}/category/{categoryId}/transaction/add")
-    public ResponseEntity<TransactionRecurringDto> addTransactionToTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId, @Valid @RequestBody TransactionDto transactionDto) {
-        return ResponseEntity.ok(transactionRecurringController.addTransactionToTransactionRecurring(principal,walletId,transactionRecurringId,transactionDto));
+    @PostMapping("/{transactionRecurringId}/edit")
+    public ResponseEntity<TransactionRecurringDto> editTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId, @Valid @RequestBody TransactionRecurringDto transactionRecurringDto) {
+        return ResponseEntity.ok(transactionRecurringController.editTransactionRecurring(principal, walletId, transactionRecurringId, transactionRecurringDto));
+    }
+
+    @PostMapping("/{transactionRecurringId}/remove")
+    public ResponseEntity<TransactionRecurringDto> removeTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId) {
+        transactionRecurringController.removeTransactionRecurring(principal,walletId,transactionRecurringId);
+        return ResponseEntity.noContent().build();
     }
 }

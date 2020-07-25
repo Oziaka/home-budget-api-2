@@ -19,5 +19,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     @Query("SELECT t FROM Transaction t INNER JOIN Wallet w ON t.wallet = w WHERE w.id = :walletId")
     List<? extends Transaction> getTransactionsByWalletId(@Param("walletId") Long walletId);
 
-    Optional<Transaction> findByIdAndWallet_Id(Long id, Long walletId);
+    @Query("SELECT t FROM User u INNER JOIN u.wallets w INNER JOIN w.transactions t WHERE u.email = :email AND w.id = :walletId AND t.id = :transactionId")
+    Optional<? extends Transaction> findByuEmailAndWalletIdAndTransactionId(@Param("email") String email, @Param("walletId") Long walletId, @Param("transactionId") Long transactionIds);
 }

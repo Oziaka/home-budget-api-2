@@ -30,7 +30,7 @@ public class UserResource {
 
     @GetMapping(value = "user/profile", consumes = MediaType.ALL_VALUE)
     public UserDto getUser(Principal principal) {
-        return userController.getUserByPrincipal(principal);
+        return userController.getUser(principal);
     }
 
     @PostMapping(value = "user/edit")

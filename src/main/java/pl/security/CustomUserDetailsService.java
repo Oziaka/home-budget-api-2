@@ -25,17 +25,16 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 
     @Override
-    public UserDetails loadUserByUsername(String username) {
-        User user;
+    public UserDetails loadUserByUsername(String email) {
         try {
-            user = userService.getUser(() -> username);
+            User user = userService.get(() -> email);
+            return new org.springframework.security.core.userdetails.User(
+                    user.getEmail(),
+                    user.getPassword(),
+                    convertAuthorities(user.getRoles()));
         } catch (EntityNotFoundException e) {
             throw new UsernameNotFoundException("User not found");
         }
-        return new org.springframework.security.core.userdetails.User(
-                user.getEmail(),
-                user.getPassword(),
-                convertAuthorities(user.getRoles()));
     }
 
     private Set<GrantedAuthority> convertAuthorities(Collection<UserRole> userRoles) {

@@ -2,6 +2,7 @@ package pl.wallet.transaction.service;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import pl.exception.ThereIsNoYourPropertyException;
 import pl.wallet.transaction.model.TransactionRecurring;
 import pl.wallet.transaction.repository.TransactionRecurringRepository;
 
@@ -15,7 +16,11 @@ public class TransactionRecurringService {
         return transactionRecurringRepository.save(transactionRecurring);
     }
 
-    public TransactionRecurring get(Long walletId, Long transactionRecurringId) {
-        return null;
+    public TransactionRecurring getOne(String email, Long walletId, Long transactionRecurringId) {
+        return transactionRecurringRepository.get(email, walletId, transactionRecurringId).orElseThrow(ThereIsNoYourPropertyException::new);
+    }
+
+    public void remove(TransactionRecurring transactionRecurring) {
+        transactionRecurringRepository.delete(transactionRecurring);
     }
 }

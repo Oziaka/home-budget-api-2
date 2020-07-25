@@ -16,23 +16,23 @@ public class UserRoleResource {
     private UserRoleController userRoleController;
 
     @GetMapping
-    public ResponseEntity<List<UserRoleDto>> getUserRoles(Principal principal) {
+    public ResponseEntity<List<UserRoleDto>> getUserRoles() {
         return ResponseEntity.ok(userRoleController.getAllRoles());
     }
 
     @PostMapping("/admin/{userRoleId}/edit")
-    public ResponseEntity<UserRoleDto> editRole(Principal principal, @RequestBody UserRoleDto userRoleDto, @PathVariable Long userRoleId) {
+    public ResponseEntity<UserRoleDto> editRole(@RequestBody UserRoleDto userRoleDto, @PathVariable Long userRoleId) {
         return ResponseEntity.ok(userRoleController.updateRole(userRoleDto, userRoleId));
     }
 
-    @PostMapping("/admin/{userRoleId}/grant_permission/{userEmail}")
-    public ResponseEntity<UserDto> grantPermission(Principal principal, @PathVariable Long userRoleId, @PathVariable String userEmail) {
-        return ResponseEntity.ok(userRoleController.grantPermission(userRoleId, userEmail));
+    @PostMapping("/admin/{userRoleId}/grant_permission/{email}")
+    public ResponseEntity<UserDto> grantPermission(@PathVariable Long userRoleId, @PathVariable String email) {
+        return ResponseEntity.ok(userRoleController.grantPermission(userRoleId, email));
     }
 
-    @PostMapping("/admin/{userRoleId}/revoke_permission/{userEmail}")
-    public ResponseEntity<UserDto> revokePermission(Principal principal, @PathVariable Long userRoleId, @PathVariable String userEmail) {
-        return ResponseEntity.ok(userRoleController.revokePermission(userRoleId, userEmail));
+    @PostMapping("/admin/{userRoleId}/revoke_permission/{email}")
+    public ResponseEntity<UserDto> revokePermission(@PathVariable Long userRoleId, @PathVariable String email) {
+        return ResponseEntity.ok(userRoleController.revokePermission(userRoleId, email));
     }
 
 }

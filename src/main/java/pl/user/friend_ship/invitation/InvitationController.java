@@ -2,7 +2,6 @@ package pl.user.friend_ship.invitation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RestController;
 import pl.exception.CanNotAddYourselfToFriendException;
 import pl.exception.CanNotInviteAlreadyFriend;
 import pl.exception.CanOnlySndOneInviteException;
@@ -26,8 +25,8 @@ public class InvitationController {
     private FriendShipService friendShipService;
 
     Object invite(Principal principal, String invitedUserEmail) {
-        User inviter = userService.getUser(principal);
-        User invited = userService.getUser(invitedUserEmail::toString);
+        User inviter = userService.get(principal);
+        User invited = userService.get(invitedUserEmail::toString);
         checkCouldUserDoNotAddYourself(inviter, invited);
         Invitation invitation = Invitation.builder().inviter(inviter).invited(invited).build();
         checkCouldUserAlreadyInvite(inviter, invited);
@@ -54,7 +53,7 @@ public class InvitationController {
     }
 
     private void checkCouldUserDoNotInviteAlreadyFriend(User inviter, User invited) {
-        if (friendShipService.couldThisFriendshipExist(inviter, invited)) throw new CanNotInviteAlreadyFriend();
+        if (friendShipService.couldFriendshipExist(inviter, invited)) throw new CanNotInviteAlreadyFriend();
     }
 
     private void checkCouldUserDoNotAddYourself(User inviter, User invited) {
@@ -62,26 +61,26 @@ public class InvitationController {
     }
 
     void removeInvitation(Principal principal, Long invitationId) {
-        User inviter = userService.getUser(principal);
-        Invitation invitation = invitationService.getByInviter(inviter, invitationId);
+        User inviter = userService.get(principal);
+        Invitation invitation = invitationService.getOneByInviter(inviter, invitationId);
         invitationService.remove(invitation);
     }
 
     void cancelInvitation(Principal principal, Long invitationId) {
-        User invited = userService.getUser(principal);
-        Invitation invitation = invitationService.getByInvited(invited, invitationId);
+        User invited = userService.get(principal);
+        Invitation invitation = invitationService.getOneByInvited(invited, invitationId);
         invitationService.remove(invitation);
 //        TODO notification to inviter
     }
 
     List<InvitationDto> getInvitationsFromUser(Principal principal) {
-        User user = userService.getUser(principal);
+        User user = userService.get(principal);
         List<Invitation> allByInviter = invitationService.getAllByInviter(user);
         return allByInviter.stream().map(InvitationMapper::toDto).collect(Collectors.toList());
     }
 
     List<InvitationDto> getInvitationsToUser(Principal principal) {
-        User user = userService.getUser(principal);
+        User user = userService.get(principal);
         List<Invitation> allByInviter = invitationService.getAllByInviter(user);
         return allByInviter.stream().map(InvitationMapper::toDto).collect(Collectors.toList());
     }

@@ -12,6 +12,7 @@ import pl.wallet.transaction.resource.TransactionResource;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,9 +46,8 @@ public class Wallet {
     @OneToOne
     private User owner;
 
-    @OneToMany
-    @JoinColumn(name = "transactions_recurring")
-    private Set<TransactionRecurring> transactionsRecurring;
+    @OneToMany(mappedBy = "wallet")
+    private List<TransactionRecurring> transactionsRecurring;
 
     public void addTransaction(Transaction transaction) {
         this.balance = transaction.getCategory().getType().countBalance(this, transaction);
@@ -67,11 +67,11 @@ public class Wallet {
 
     public void addTransactionRecurring(TransactionRecurring transactionRecurring) {
         if (transactionsRecurring == null)
-            transactionsRecurring = new HashSet<>();
+            transactionsRecurring = new ArrayList<>();
         this.transactionsRecurring.add(transactionRecurring);
     }
 
     public void removeTransactionRecurring(TransactionRecurring transactionRecurring) {
-        this.transactionsRecurring = transactionsRecurring.stream().filter(t -> t.equals(transactionRecurring)).collect(Collectors.toSet());
+        this.transactionsRecurring = transactionsRecurring.stream().filter(t -> t.equals(transactionRecurring)).collect(Collectors.toList());
     }
 }

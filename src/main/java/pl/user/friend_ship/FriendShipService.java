@@ -19,19 +19,19 @@ public class FriendShipService {
         return friendShipRepository.save(friendShip);
     }
 
-    public boolean couldThisFriendshipExist(User inviter, User invited) {
-        return friendShipRepository.findAllByUserAndUser2(inviter, invited).isPresent();
+    public boolean couldFriendshipExist(User user, User user2) {
+        return friendShipRepository.findAllByUserAndUser2(user, user2).isPresent();
     }
 
-    List<FriendShip> getFriendShips(User user) {
-        return friendShipRepository.findAllByUser(user);
+    List<FriendShip> getAll(String email) {
+        return friendShipRepository.findALlByUserEmail(email);
     }
 
-    FriendShip getFriendShip(User user, Long friendShipId) {
+    FriendShip getOne(User user, Long friendShipId) {
         return friendShipRepository.findByUserAndId(user, friendShipId).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
-    FriendShip getFriendShip(User user, User user2) {
+    FriendShip getOne(User user, User user2) {
         return friendShipRepository.findAllByUserAndUser2(user, user2).orElseThrow(() -> new CanNotFindEntityException(FriendShip.class));
     }
 
@@ -39,8 +39,8 @@ public class FriendShipService {
         friendShipRepository.delete(friendShip);
     }
 
-    public boolean isFriends(User owner, User friend) {
-        friendShipRepository.findAllByUserAndUser2(owner, friend).orElseThrow(YouAreNotFriendsException::new);
+    public boolean isFriends(User user, User user2) {
+        friendShipRepository.findAllByUserAndUser2(user, user2).orElseThrow(YouAreNotFriendsException::new);
         return true;
     }
 }

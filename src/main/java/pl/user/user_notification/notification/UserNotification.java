@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.user.User;
 import pl.user.user_notification.notification.notification.Notification;
+import pl.wallet.Wallet;
 
 import javax.persistence.*;
 

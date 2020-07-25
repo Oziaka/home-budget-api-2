@@ -23,22 +23,16 @@ public class WalletService {
         return walletRepository.save(wallet);
     }
 
-    Set<Wallet> getWalletsByUser(User user) {
+    Set<Wallet> getAll(User user) {
         return walletRepository.getByUsersIn(Collections.singleton(user));
     }
 
-    void removeWallet(Long walletId) {
+    void remove(Long walletId) {
         walletRepository.deleteById(walletId);
     }
 
-    Wallet getWalletByOwnerAndId(Long walletId) {
-        return walletRepository.getById(walletId).orElseThrow(() -> new EntityNotFoundException(walletId, Wallet.class));
-    }
-
-    public Wallet isUserWallet(User user, Long walletId) {
-        if (this.getWalletsByUser(user).stream().anyMatch(userWallet -> userWallet.getId().equals(walletId)))
-            return getWalletByOwnerAndId(walletId);
-        throw new ThereIsNoYourPropertyException();
+    public Wallet isUserWallet(String email, Long walletId) {
+        return walletRepository.getByIdAndUserEmail(walletId, email).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
 
@@ -60,11 +54,11 @@ public class WalletService {
         return wallet;
     }
 
-    Wallet getWalletByOwnerAndId(User owner, Long walletId) {
+    Wallet getOneByOwner(User owner, Long walletId) {
         return walletRepository.getByIdAndOwner(walletId, owner).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
-    Wallet getWalletByUserAndId(User user, Long id) {
-        return walletRepository.getByIdAndUsersIn(id, Collections.singleton(user)).orElseThrow(ThereIsNoYourPropertyException::new);
+    Wallet getOne(User user, Long id) {
+        return walletRepository.getByIdAndUserEmail(id, user.getEmail()).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 }

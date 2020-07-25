@@ -20,19 +20,19 @@ public class TransactionService {
         return transactionRepository.save(transaction);
     }
 
-    public Transaction getTransaction(Long walletId, Long transactionId) {
-        return transactionRepository.findByIdAndWallet_Id(transactionId, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
+    public Transaction get(String email, Long walletId, Long transactionId) {
+        return transactionRepository.findByuEmailAndWalletIdAndTransactionId(email,transactionId, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
-    public List<? extends Transaction> getTransactionsByWalletId(Pageable pageable, Specification<Transaction> transactionSpecification) {
+    public List<? extends Transaction> getAll(Pageable pageable, Specification<Transaction> transactionSpecification) {
         return transactionRepository.findAll(transactionSpecification, pageable);
     }
 
-    public void removeTransaction(Long transactionId) {
+    public void remove(Long transactionId) {
         transactionRepository.deleteById(transactionId);
     }
 
     public void removeWalletTransactions(Long walletId) {
-        transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.removeTransaction(transaction.getId()));
+        transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.remove(transaction.getId()));
     }
 }

@@ -14,28 +14,28 @@ public class CategoryService {
 
     private CategoryRepository categoryRepository;
 
-    public Category getCategory(User user, Long categoryId) {
+    public Category get(User user, Long categoryId) {
         return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
-    public Category getCategory(Long categoryId) {
+    Category get(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(() ->
                 new EntityNotFoundException(categoryId, categoryId.getClass()));
     }
-
-//  public Category getCategory (Long categoryId) {
-//    return categoryRepository.getById(categoryId).orElseThrow(() -> new EntityNotFoundException(categoryId, categoryId.getClass()));
-//  }
 
     Category save(Category category) {
         return categoryRepository.save(category);
     }
 
-    Set<Category> getCategoriesByUser(User user) {
+    Set<Category> getAll(User user) {
         return categoryRepository.findByUsers(user);
     }
 
-    public Set<Category> getDefaultCategories() {
+    public Set<Category> getAllDefaults() {
         return categoryRepository.getDefaultCategories();
+    }
+
+    public Category get(String email, Long categoryId) {
+        return categoryRepository.get(email, categoryId).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 }

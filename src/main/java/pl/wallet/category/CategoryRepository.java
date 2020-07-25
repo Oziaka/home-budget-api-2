@@ -21,4 +21,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
     @Query("SELECT c FROM Category c INNER JOIN c.users u WHERE :categoryId = c.id AND u = :user")
     Optional<Category> findByIdAndUsers(@Param("categoryId") Long categoryId, @Param("user") User user);
+
+    @Query("SELECT c FROM User u INNER JOIN u.categories c WHERE u.email = :email AND c.id = :categoryId")
+    Optional<Category> get(@Param("email") String email, @Param("categoryId") Long categoryId);
 }

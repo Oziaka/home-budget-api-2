@@ -1,6 +1,9 @@
 package pl.wallet;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Repository;
 import pl.user.User;
 
@@ -15,7 +18,8 @@ public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
     Optional<Wallet> getById(Long id);
 
-    Optional<Wallet> getByIdAndUsersIn(Long walletId, Set<User> users);
+    @Query("SELECT w FROM Wallet w INNER JOIN w.users u WHERE w.id = :walletId AND u.email = :email")
+    Optional<Wallet> getByIdAndUserEmail(@Param("walletId") Long walletId, @Param("email") String email);
 
     Optional<Wallet> getByIdAndOwner(Long walletId, User owner);
 }
