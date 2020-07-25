@@ -21,7 +21,7 @@ public class TransactionService {
     }
 
     public Transaction get(String email, Long walletId, Long transactionId) {
-        return transactionRepository.findByuEmailAndWalletIdAndTransactionId(email,transactionId, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
+        return transactionRepository.findByuEmailAndWalletIdAndTransactionId(email, transactionId, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
     }
 
     public List<? extends Transaction> getAll(Pageable pageable, Specification<Transaction> transactionSpecification) {

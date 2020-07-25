@@ -33,7 +33,7 @@ public class TransactionRecurringResource {
 
     @PostMapping("/{transactionRecurringId}/remove")
     public ResponseEntity<TransactionRecurringDto> removeTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId) {
-        transactionRecurringController.removeTransactionRecurring(principal,walletId,transactionRecurringId);
+        transactionRecurringController.removeTransactionRecurring(principal, walletId, transactionRecurringId);
         return ResponseEntity.noContent().build();
     }
 }
