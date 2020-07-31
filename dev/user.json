@@ -1,0 +1,24 @@
+{
+  "authorities": [
+    {
+      "authority": "ROLE_USER"
+    }
+  ],
+  "details": null,
+  "authenticated": true,
+  "principal": {
+    "password": "CVfXcabWKt",
+    "username": "RfJniclsmWoxM@Cu",
+    "authorities": [
+      {
+        "authority": "ROLE_USER"
+      }
+    ],
+    "accountNonExpired": true,
+    "accountNonLocked": true,
+    "credentialsNonExpired": true,
+    "enabled": true
+  },
+  "credentials": "CVfXcabWKt",
+  "name": "RfJniclsmWoxM@Cu"
+}

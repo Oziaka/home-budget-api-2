@@ -1,5 +1,6 @@
 package pl.user;
 
+import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import pl.exception.UserMustHaveUniqueEmailException;
@@ -14,7 +15,7 @@ import java.security.Principal;
 import java.util.List;
 
 @Controller
-//@AllArgsConstructor
+@AllArgsConstructor
 public class UserController {
 
     private UserService userService;
@@ -25,15 +26,6 @@ public class UserController {
     private UserItemKeyService userItemKeyService;
     private NotificationService notificationService;
 
-    public UserController(UserService userService, UserRoleService userRoleService, PasswordEncoder passwordEncoder, WalletService walletService, CategoryService categoryService, UserItemKeyService userItemKeyService, NotificationService notificationService) {
-        this.userService = userService;
-        this.userRoleService = userRoleService;
-        this.passwordEncoder = passwordEncoder;
-        this.walletService = walletService;
-        this.categoryService = categoryService;
-        this.userItemKeyService = userItemKeyService;
-        this.notificationService = notificationService;
-    }
 
     UserDto addUserWithDefaultsResources(UserDto userDto) {
         User user = UserMapper.toEntity(userDto);
@@ -57,12 +49,12 @@ public class UserController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
-    UserDto getUser(Principal principal) {
+    UserDto getProfile(Principal principal) {
         return UserMapper.toDto(userService.get(principal));
     }
 
     UserDto editUser(Principal principal, UserDto userDto) {
-        if (isUserHasUniqueEmail(principal.getName()))
+        if (isUserHasUniqueEmail(userDto.getEmail()))
             throw new UserMustHaveUniqueEmailException();
         User user = userService.get(principal);
         User updatedUser = updateUserFromNotNullFieldsInUserDto(user, userDto);
@@ -72,14 +64,15 @@ public class UserController {
 
     private User updateUserFromNotNullFieldsInUserDto(User user, UserDto userDto) {
         User userToUpdate = user;
+        if (userDto.getUserName() != null)
+            userToUpdate.setUserName(userDto.getUserName());
         if (userDto.getEmail() != null)
             userToUpdate.setEmail(userDto.getEmail());
         if (userDto.getPassword() != null)
             userToUpdate.setPassword(userDto.getPassword());
         if (userDto.getItems() != null) {
-            List<UserItemKey> userItemKeys = userItemKeyService.getAll();
             userDto.getItems()
-                    .entrySet().stream().filter(item -> userItemKeys.stream()
+                    .entrySet().stream().filter(item ->  userItemKeyService.getAll().stream()
                     .map(UserItemKey::getName).anyMatch(itemKey -> itemKey.equals(item.getKey())))
                     .forEach(item -> userToUpdate.addItem(item.getKey(), item.getValue()));
         }

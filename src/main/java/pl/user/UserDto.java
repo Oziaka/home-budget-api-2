@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.util.HashMap;
 import java.util.Map;
 
 @Getter
@@ -31,11 +32,14 @@ public class UserDto {
 
     private Map<String, String> items;
 
+    private String userName;
+
     @Builder
-    public UserDto(@Null(message = "New user can not have id") Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Map<String, String> items) {
+    public UserDto(@Null(message = "New user can not have id") Long id, @Email(message = "Must be a well-formed email address") @NotNull(message = "User must have email") String email, @Length(min = 5, message = "Password length must be longer than 5") @NotNull(message = "User must have password") String password, Map<String, String> items, String userName) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.items = items;
+        this.userName = userName;
     }
 }

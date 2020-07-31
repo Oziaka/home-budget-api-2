@@ -22,6 +22,7 @@ public class CustomExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity handleAllExceptions(Exception exception, WebRequest request) {
+        exception.printStackTrace();
         return ResponseEntity.status(BAD_REQUEST)
                 .body(Map.of("Server Error", Collections.singletonList(exception.getLocalizedMessage().replace("addTransaction.<cross-parameter>: ", ""))));
     }

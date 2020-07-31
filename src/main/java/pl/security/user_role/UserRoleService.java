@@ -17,7 +17,6 @@ public class UserRoleService {
         return userRoleRepository.getDefaultRoles();
     }
 
-
     List<UserRole> getAll() {
         return userRoleRepository.findAll();
     }

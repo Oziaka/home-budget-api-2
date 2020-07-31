@@ -23,7 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private UserService userService;
 
-
     @Override
     public UserDetails loadUserByUsername(String email) {
         try {
