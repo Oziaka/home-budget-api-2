@@ -2,6 +2,7 @@ package pl.tool;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 public class Tool {
@@ -11,7 +12,7 @@ public class Tool {
 
     }
 
-    public static String randomString(int length) {
+    static String randomString(int length) {
         return RandomStringUtils.randomAlphabetic(length);
     }
 
@@ -21,4 +22,7 @@ public class Tool {
 
     private static final Random random = new Random();
 
+    static BigDecimal randomBigDecimal() {
+        return BigDecimal.valueOf(random.nextDouble());
+    }
 }

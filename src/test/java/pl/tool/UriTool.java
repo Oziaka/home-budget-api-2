@@ -16,4 +16,12 @@ public class UriTool {
     public static String editUser() {
         return "/user/edit";
     }
+
+    public static String addWallet() {
+        return "/wallet/add";
+    }
+
+    public static String getWallets() {
+        return "wallet";
+    }
 }

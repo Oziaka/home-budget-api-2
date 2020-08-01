@@ -1,9 +1,6 @@
 package pl.wallet;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import pl.user.UserDto;
 import pl.wallet.transaction.dto.TransactionDto;
 
@@ -15,6 +12,7 @@ import java.util.List;
 @ToString
 @Getter
 @EqualsAndHashCode
+@NoArgsConstructor
 public class WalletDto {
 
     private Long id;
