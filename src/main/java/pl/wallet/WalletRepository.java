@@ -14,12 +14,11 @@ import java.util.Set;
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
 
-    Set<Wallet> getByUsersIn(Set<User> users);
+   @Query("SELECT DISTINCT w FROM Wallet w INNER JOIN w.users u WHERE u = :user")
+   Set<Wallet> getByUser(@Param("user") User user);
 
-    Optional<Wallet> getById(Long id);
+   @Query("SELECT w FROM Wallet w INNER JOIN w.users u WHERE w.id = :walletId AND u.email = :email")
+   Optional<Wallet> findByIdAndUserEmail(@Param("walletId") Long walletId, @Param("email") String email);
 
-    @Query("SELECT w FROM Wallet w INNER JOIN w.users u WHERE w.id = :walletId AND u.email = :email")
-    Optional<Wallet> getByIdAndUserEmail(@Param("walletId") Long walletId, @Param("email") String email);
-
-    Optional<Wallet> getByIdAndOwner(Long walletId, User owner);
+   Optional<Wallet> findByIdAndOwner(Long walletId, User owner);
 }

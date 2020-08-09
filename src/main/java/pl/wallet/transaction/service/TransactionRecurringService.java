@@ -10,17 +10,17 @@ import pl.wallet.transaction.repository.TransactionRecurringRepository;
 @AllArgsConstructor
 public class TransactionRecurringService {
 
-    private TransactionRecurringRepository transactionRecurringRepository;
+   private TransactionRecurringRepository transactionRecurringRepository;
 
-    public TransactionRecurring save(TransactionRecurring transactionRecurring) {
-        return transactionRecurringRepository.save(transactionRecurring);
-    }
+   public TransactionRecurring save(TransactionRecurring transactionRecurring) {
+      return transactionRecurringRepository.save(transactionRecurring);
+   }
 
-    public TransactionRecurring getOne(String email, Long walletId, Long transactionRecurringId) {
-        return transactionRecurringRepository.get(email, walletId, transactionRecurringId).orElseThrow(ThereIsNoYourPropertyException::new);
-    }
+   public TransactionRecurring getOne(String email, Long walletId, Long transactionRecurringId) {
+      return transactionRecurringRepository.get(email, walletId, transactionRecurringId).orElseThrow(ThereIsNoYourPropertyException::new);
+   }
 
-    public void remove(TransactionRecurring transactionRecurring) {
-        transactionRecurringRepository.delete(transactionRecurring);
-    }
+   public void remove(TransactionRecurring transactionRecurring) {
+      transactionRecurringRepository.delete(transactionRecurring);
+   }
 }

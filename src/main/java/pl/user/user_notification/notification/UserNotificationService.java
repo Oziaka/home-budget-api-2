@@ -12,17 +12,17 @@ import java.util.Optional;
 @Service
 @AllArgsConstructor
 public class UserNotificationService {
-    private UserNotificationRepository userNotificationRepository;
+   private UserNotificationRepository userNotificationRepository;
 
-    List<UserNotification> getAll(Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
-        return userNotificationRepository.findAll(userNotificationSpecification, pageable);
-    }
+   List<UserNotification> getAll(Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
+      return userNotificationRepository.findAll(userNotificationSpecification, pageable);
+   }
 
-    UserNotification getOne(String email, Long userNotificationId) {
-        return userNotificationRepository.getByUserEmailAndAndId(email, userNotificationId).orElseThrow(ThereIsNoYourPropertyException::new);
-    }
+   UserNotification getOne(String email, Long userNotificationId) {
+      return userNotificationRepository.getByUserEmailAndAndId(email, userNotificationId).orElseThrow(ThereIsNoYourPropertyException::new);
+   }
 
-    public UserNotification save(UserNotification userNotification) {
-        return userNotificationRepository.save(userNotification);
-    }
+   public UserNotification save(UserNotification userNotification) {
+      return userNotificationRepository.save(userNotification);
+   }
 }

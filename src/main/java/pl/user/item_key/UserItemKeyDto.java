@@ -8,13 +8,13 @@ import javax.validation.constraints.NotNull;
 @Getter
 public class UserItemKeyDto {
 
-    private Long id;
-    @NotNull
-    private String name;
+   private Long id;
+   @NotNull
+   private String name;
 
-    @Builder
-    public UserItemKeyDto(Long id, @NotNull String name) {
-        this.id = id;
-        this.name = name;
-    }
+   @Builder
+   public UserItemKeyDto(Long id, @NotNull String name) {
+      this.id = id;
+      this.name = name;
+   }
 }

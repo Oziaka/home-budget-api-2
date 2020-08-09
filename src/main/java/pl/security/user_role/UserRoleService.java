@@ -11,21 +11,21 @@ import java.util.List;
 @AllArgsConstructor
 public class UserRoleService {
 
-    private UserRoleRepository userRoleRepository;
+   private UserRoleRepository userRoleRepository;
 
-    public List<UserRole> getDefaults() {
-        return userRoleRepository.getDefaultRoles();
-    }
+   public List<UserRole> getDefaults() {
+      return userRoleRepository.getDefaultRoles();
+   }
 
-    List<UserRole> getAll() {
-        return userRoleRepository.findAll();
-    }
+   List<UserRole> getAll() {
+      return userRoleRepository.findAll();
+   }
 
-    UserRole getOne(Long userRoleId) {
-        return userRoleRepository.findById(userRoleId).orElseThrow(() -> new EntityNotFoundException(userRoleId, UserRole.class));
-    }
+   UserRole getOne(Long userRoleId) {
+      return userRoleRepository.findById(userRoleId).orElseThrow(() -> new EntityNotFoundException(userRoleId, UserRole.class));
+   }
 
-    UserRole save(UserRole userRole) {
-        return userRoleRepository.save(userRole);
-    }
+   UserRole save(UserRole userRole) {
+      return userRoleRepository.save(userRole);
+   }
 }

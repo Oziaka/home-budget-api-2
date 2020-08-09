@@ -10,15 +10,15 @@ import javax.validation.ConstraintValidatorContext;
 @AllArgsConstructor
 public class UserUniqueValidator implements ConstraintValidator<UniqueUserEmail, String> {
 
-    private UserService userService;
+   private UserService userService;
 
-    @Override
-    public void initialize(UniqueUserEmail uniqueUserEmail) {
+   @Override
+   public void initialize(UniqueUserEmail uniqueUserEmail) {
 
-    }
+   }
 
-    @Override
-    public boolean isValid(String email, ConstraintValidatorContext context) {
-        return !userService.emailIsUsed(email);
-    }
+   @Override
+   public boolean isValid(String email, ConstraintValidatorContext context) {
+      return !userService.emailIsUsed(email);
+   }
 }

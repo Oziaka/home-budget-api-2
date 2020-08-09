@@ -18,46 +18,46 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
 public class WalletResource {
-    private WalletController walletController;
+   private WalletController walletController;
 
-    @PutMapping("/add")
-    public ResponseEntity<WalletDto> addWallet(Principal principal, @Valid @RequestBody WalletDto walletDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
-    }
+   @PutMapping("/add")
+   public ResponseEntity<WalletDto> addWallet(Principal principal, @Valid @RequestBody WalletDto walletDto) {
+      return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
+   }
 
-    @GetMapping()
-    public ResponseEntity<List<WalletDto>> getWallets(Principal principal) {
-        return ResponseEntity.ok(walletController.getWallets(principal));
-    }
+   @GetMapping()
+   public ResponseEntity<List<WalletDto>> getWallets(Principal principal) {
+      return ResponseEntity.ok(walletController.getWallets(principal));
+   }
 
-    @PostMapping("/edit")
-    public ResponseEntity<WalletDto> editWallet(Principal principal, @Valid @RequestBody WalletDto walletDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(walletController.editWallet(principal, walletDto));
-    }
+   @PostMapping("{/walletId}/edit")
+   public ResponseEntity<WalletDto> editWallet(Principal principal, Long walletId, @Valid @RequestBody WalletDto walletDto) {
+      return ResponseEntity.status(HttpStatus.CREATED).body(walletController.editWallet(principal,walletId, walletDto));
+   }
 
-    @DeleteMapping("/remove/{walletId}")
-    public ResponseEntity removeWallet(Principal principal, @PathVariable Long walletId) {
-        walletController.removeWallet(principal, walletId);
-        return ResponseEntity.noContent().build();
-    }
+   @DeleteMapping("/{walletId}/remove")
+   public ResponseEntity removeWallet(Principal principal, @PathVariable Long walletId) {
+      walletController.removeWallet(principal, walletId);
+      return ResponseEntity.noContent().build();
+   }
 
-    @GetMapping("/{walletId}")
-    public ResponseEntity<WalletDto> getWallet(Principal principal, @PathVariable Long walletId) {
-        return ResponseEntity.ok(walletController.getWallet(principal, walletId));
-    }
+   @GetMapping("/{walletId}")
+   public ResponseEntity<WalletDto> getWallet(Principal principal, @PathVariable Long walletId) {
+      return ResponseEntity.ok(walletController.getWallet(principal, walletId));
+   }
 
-    @PostMapping("/{walletId}/add_friend_to_wallet")
-    public ResponseEntity<WalletDto> shareWalletWithFriend(Principal principal, @PathVariable Long walletId, @RequestBody String friendUserEmail) {
-        return ResponseEntity.ok(walletController.shareWalletWithFriend(principal, walletId, friendUserEmail));
-    }
+   @PostMapping("/{walletId}/add_friend_to_wallet")
+   public ResponseEntity<WalletDto> shareWalletWithFriend(Principal principal, @PathVariable Long walletId, @RequestBody String friendUserEmail) {
+      return ResponseEntity.ok(walletController.shareWalletWithFriend(principal, walletId, friendUserEmail));
+   }
 
-    @PostMapping("/{walletId}/change_owner")
-    public ResponseEntity<WalletDto> changeWalletOwner(Principal principal, @PathVariable Long walletId, @RequestBody String newOwnerUserEmail) {
-        return ResponseEntity.ok(walletController.changeWalletOwner(principal, walletId, newOwnerUserEmail));
-    }
+   @PostMapping("/{walletId}/change_owner")
+   public ResponseEntity<WalletDto> changeWalletOwner(Principal principal, @PathVariable Long walletId, @RequestBody String newOwnerUserEmail) {
+      return ResponseEntity.ok(walletController.changeWalletOwner(principal, walletId, newOwnerUserEmail));
+   }
 
-    @PostMapping("/{walletId}/remove_friend_from_wallet")
-    public ResponseEntity<WalletDto> removeFriendFromWallet(Principal principal, @PathVariable Long walletId, @RequestBody String friendToRemoveFromWalletUserEmail) {
-        return ResponseEntity.ok(walletController.removeUserFromWallet(principal, walletId, friendToRemoveFromWalletUserEmail));
-    }
+   @PostMapping("/{walletId}/remove_friend_from_wallet")
+   public ResponseEntity<WalletDto> removeFriendFromWallet(Principal principal, @PathVariable Long walletId, @RequestBody String friendToRemoveFromWalletUserEmail) {
+      return ResponseEntity.ok(walletController.removeUserFromWallet(principal, walletId, friendToRemoveFromWalletUserEmail));
+   }
 }

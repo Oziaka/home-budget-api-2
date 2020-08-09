@@ -12,30 +12,30 @@ import java.util.Set;
 @AllArgsConstructor
 public class CategoryService {
 
-    private CategoryRepository categoryRepository;
+   private CategoryRepository categoryRepository;
 
-    public Category get(User user, Long categoryId) {
-        return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(ThereIsNoYourPropertyException::new);
-    }
+   public Category get(User user, Long categoryId) {
+      return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(ThereIsNoYourPropertyException::new);
+   }
 
-    Category get(Long categoryId) {
-        return categoryRepository.findById(categoryId).orElseThrow(() ->
-                new EntityNotFoundException(categoryId, categoryId.getClass()));
-    }
+   Category get(Long categoryId) {
+      return categoryRepository.findById(categoryId).orElseThrow(() ->
+         new EntityNotFoundException(categoryId, categoryId.getClass()));
+   }
 
-    Category save(Category category) {
-        return categoryRepository.save(category);
-    }
+   Category save(Category category) {
+      return categoryRepository.save(category);
+   }
 
-    Set<Category> getAll(User user) {
-        return categoryRepository.findByUsers(user);
-    }
+   Set<Category> getAll(User user) {
+      return categoryRepository.findByUsers(user);
+   }
 
-    public Set<Category> getAllDefaults() {
-        return categoryRepository.getDefaultCategories();
-    }
+   public Set<Category> getAllDefaults() {
+      return categoryRepository.getDefaultCategories();
+   }
 
-    public Category get(String email, Long categoryId) {
-        return categoryRepository.get(email, categoryId).orElseThrow(ThereIsNoYourPropertyException::new);
-    }
+   public Category get(String email, Long categoryId) {
+      return categoryRepository.get(email, categoryId).orElseThrow(ThereIsNoYourPropertyException::new);
+   }
 }

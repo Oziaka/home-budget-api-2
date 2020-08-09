@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/user_item_key/admin")
 public class UserItemKeyResource {
 
-    private UserItemKeyController userItemKeyController;
+   private UserItemKeyController userItemKeyController;
 
-    @PutMapping("/add")
-    public ResponseEntity<UserItemKeyDto> addUserItemKey(@RequestBody UserItemKeyDto userItemKeyDto) {
-        return ResponseEntity.ok(userItemKeyController.addUserItemKey(userItemKeyDto));
-    }
+   @PutMapping("/add")
+   public ResponseEntity<UserItemKeyDto> addUserItemKey(@RequestBody UserItemKeyDto userItemKeyDto) {
+      return ResponseEntity.ok(userItemKeyController.addUserItemKey(userItemKeyDto));
+   }
 }

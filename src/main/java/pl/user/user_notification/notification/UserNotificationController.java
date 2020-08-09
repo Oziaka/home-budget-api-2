@@ -15,19 +15,19 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserNotificationController {
 
-    private UserNotificationService userNotificationService;
-    private UserService userService;
+   private UserNotificationService userNotificationService;
+   private UserService userService;
 
-    List<UserNotificationDto> getNotifications(Principal principal, Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
-        User user = userService.get(principal);
-        userNotificationSpecification.and(new IsUserNotification(user));
-        return userNotificationService.getAll(pageable, userNotificationSpecification).stream().map(UserNotificationMapper::toDto).collect(Collectors.toList());
-    }
+   List<UserNotificationDto> getNotifications(Principal principal, Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
+      User user = userService.get(principal);
+      userNotificationSpecification.and(new IsUserNotification(user));
+      return userNotificationService.getAll(pageable, userNotificationSpecification).stream().map(UserNotificationMapper::toDto).collect(Collectors.toList());
+   }
 
-    UserNotificationDto updateStatus(Principal principal, Long userNotificationId, Status newStatus) {
-        UserNotification userNotification = userNotificationService.getOne(principal.getName(), userNotificationId);
-        userNotification.setStatus(newStatus);
-        UserNotification savedUserNotification = userNotificationService.save(userNotification);
-        return UserNotificationMapper.toDto(savedUserNotification);
-    }
+   UserNotificationDto updateStatus(Principal principal, Long userNotificationId, Status newStatus) {
+      UserNotification userNotification = userNotificationService.getOne(principal.getName(), userNotificationId);
+      userNotification.setStatus(newStatus);
+      UserNotification savedUserNotification = userNotificationService.save(userNotification);
+      return UserNotificationMapper.toDto(savedUserNotification);
+   }
 }

@@ -14,24 +14,24 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class UserNotification {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_notification_id")
-    private Long id;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "user_notification_id")
+   private Long id;
 
-    @ManyToOne
-    private User user;
+   @ManyToOne
+   private User user;
 
-    @Enumerated
-    private Status status;
+   @Enumerated
+   private Status status;
 
-    @ManyToOne
-    private Notification notification;
+   @ManyToOne
+   private Notification notification;
 
-    @Builder
-    public UserNotification(User user, Status status, Notification notification) {
-        this.user = user;
-        this.status = status;
-        this.notification = notification;
-    }
+   @Builder
+   public UserNotification(User user, Status status, Notification notification) {
+      this.user = user;
+      this.status = status;
+      this.notification = notification;
+   }
 }

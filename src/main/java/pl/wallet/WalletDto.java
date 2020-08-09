@@ -6,6 +6,7 @@ import pl.wallet.transaction.dto.TransactionDto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -15,27 +16,25 @@ import java.util.List;
 @NoArgsConstructor
 public class WalletDto {
 
-    private Long id;
+   @Null(message = "Wallet must not have id")
+   private Long id;
 
-    @NotEmpty(message = "Wallet must have name")
-    private String name;
+   @NotEmpty(message = "Wallet must have name")
+   private String name;
 
-    @NotNull(message = "Wallet must have balance")
-    private BigDecimal balance;
+   @NotNull(message = "Wallet must have balance")
+   private BigDecimal balance;
 
-    private List<TransactionDto> transactions;
+   private List<UserDto> users;
 
-    private List<UserDto> users;
+   private UserDto owner;
 
-    private UserDto owner;
-
-    @Builder
-    public WalletDto(Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<TransactionDto> transactions, List<UserDto> users, UserDto owner) {
-        this.id = id;
-        this.name = name;
-        this.balance = balance;
-        this.transactions = transactions;
-        this.users = users;
-        this.owner = owner;
-    }
+   @Builder
+   public WalletDto(@Null(message = "Wallet must not have id") Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<UserDto> users, UserDto owner) {
+      this.id = id;
+      this.name = name;
+      this.balance = balance;
+      this.users = users;
+      this.owner = owner;
+   }
 }

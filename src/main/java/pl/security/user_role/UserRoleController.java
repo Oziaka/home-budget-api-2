@@ -14,32 +14,32 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserRoleController {
 
-    private UserRoleService userRoleService;
-    private UserService userService;
+   private UserRoleService userRoleService;
+   private UserService userService;
 
-    List<UserRoleDto> getAllRoles() {
-        return userRoleService.getAll().stream().map(UserRoleMapper::toDto).collect(Collectors.toList());
-    }
+   List<UserRoleDto> getAllRoles() {
+      return userRoleService.getAll().stream().map(UserRoleMapper::toDto).collect(Collectors.toList());
+   }
 
-    UserRoleDto updateRole(UserRoleDto userRoleDto, Long userRoleId) {
-        UserRole role = userRoleService.getOne(userRoleId);
-        role.setDescription(userRoleDto.getDescription());
-        return UserRoleMapper.toDto(userRoleService.save(role));
-    }
+   UserRoleDto updateRole(UserRoleDto userRoleDto, Long userRoleId) {
+      UserRole role = userRoleService.getOne(userRoleId);
+      role.setDescription(userRoleDto.getDescription());
+      return UserRoleMapper.toDto(userRoleService.save(role));
+   }
 
-    UserDto grantPermission(Long userRoleId, String email) {
-        User user = userService.get(() -> email);
-        UserRole userRole = userRoleService.getOne(userRoleId);
-        user.addRole(userRole);
-        User save = userService.save(user);
-        return UserMapper.toDtoWithRoles(save);
-    }
+   UserDto grantPermission(Long userRoleId, String email) {
+      User user = userService.get(() -> email);
+      UserRole userRole = userRoleService.getOne(userRoleId);
+      user.addRole(userRole);
+      User save = userService.save(user);
+      return UserMapper.toDtoWithRoles(save);
+   }
 
-    UserDto revokePermission(Long userRoleId, String email) {
-        User user = userService.get(() -> email);
-        UserRole userRole = userRoleService.getOne(userRoleId);
-        user.removeRole(userRole);
-        User save = userService.save(user);
-        return UserMapper.toDtoWithRoles(save);
-    }
+   UserDto revokePermission(Long userRoleId, String email) {
+      User user = userService.get(() -> email);
+      UserRole userRole = userRoleService.getOne(userRoleId);
+      user.removeRole(userRole);
+      User save = userService.save(user);
+      return UserMapper.toDtoWithRoles(save);
+   }
 }

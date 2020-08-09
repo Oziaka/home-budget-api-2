@@ -10,10 +10,10 @@ import java.util.Optional;
 @Repository
 public interface FriendShipRepository extends JpaRepository<FriendShip, Long> {
 
-    Optional<FriendShip> findAllByUserAndUser2(User user, User user2);
+   Optional<FriendShip> findAllByUserAndUser2(User user, User user2);
 
-    List<FriendShip> findALlByUserEmail(String email);
+   List<FriendShip> findALlByUserEmail(String email);
 
-    Optional<FriendShip> findByUserAndId(User user, Long friendShipId);
+   Optional<FriendShip> findByUserAndId(User user, Long friendShipId);
 
 }

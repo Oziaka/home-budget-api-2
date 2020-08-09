@@ -10,16 +10,16 @@ import lombok.Getter;
 @Builder
 public class UserRoleDto {
 
-    private Long id;
+   private Long id;
 
-    private String name;
+   private String name;
 
-    private String description;
+   private String description;
 
-    @Builder
-    public UserRoleDto(Long id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-    }
+   @Builder
+   public UserRoleDto(Long id, String name, String description) {
+      this.id = id;
+      this.name = name;
+      this.description = description;
+   }
 }

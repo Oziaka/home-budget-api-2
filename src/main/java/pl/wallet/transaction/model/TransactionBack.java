@@ -17,12 +17,12 @@ import java.time.LocalDateTime;
 @Entity
 public class TransactionBack extends Transaction {
 
-    @ManyToOne
-    private TransactionLoanOrBorrow transactionLoanOrBorrow;
+   @ManyToOne
+   private TransactionLoanOrBorrow transactionLoanOrBorrow;
 
-    @Builder(builderMethodName = "transactionBackBuilder")
-    public TransactionBack(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, TransactionLoanOrBorrow transactionLoanOrBorrow) {
-        super(name, description, category, price, wallet, dateOfPurchase);
-        this.transactionLoanOrBorrow = transactionLoanOrBorrow;
-    }
+   @Builder(builderMethodName = "transactionBackBuilder")
+   public TransactionBack(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, TransactionLoanOrBorrow transactionLoanOrBorrow) {
+      super(name, description, category, price, wallet, dateOfPurchase);
+      this.transactionLoanOrBorrow = transactionLoanOrBorrow;
+   }
 }

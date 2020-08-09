@@ -8,14 +8,14 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserItemKeyService {
-    private UserItemKeyRepository userItemKeyRepository;
+   private UserItemKeyRepository userItemKeyRepository;
 
 
-    public UserItemKey save(UserItemKey userItemKey) {
-        return userItemKeyRepository.save(userItemKey);
-    }
+   public UserItemKey save(UserItemKey userItemKey) {
+      return userItemKeyRepository.save(userItemKey);
+   }
 
-    public List<UserItemKey> getAll() {
-        return userItemKeyRepository.findAll();
-    }
+   public List<UserItemKey> getAll() {
+      return userItemKeyRepository.findAll();
+   }
 }

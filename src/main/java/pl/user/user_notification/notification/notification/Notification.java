@@ -18,38 +18,38 @@ import java.util.Map;
 @Table(name = "notification")
 public class Notification {
 
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "notification_id")
-    @Id
-    private Long id;
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "notification_id")
+   @Id
+   private Long id;
 
-    private String tittle;
+   private String tittle;
 
-    private String description;
+   private String description;
 
-    private LocalDateTime dateOfAdding;
+   private LocalDateTime dateOfAdding;
 
-    @OneToMany(mappedBy = "notification")
-    private List<UserNotification> userNotification;
+   @OneToMany(mappedBy = "notification")
+   private List<UserNotification> userNotification;
 
-    @ElementCollection
-    @CollectionTable(name = "notification_item",
-            joinColumns = {@JoinColumn(name = "id_notification", referencedColumnName = "notification_id")})
-    @MapKeyColumn(name = "\"key\"")
-    @Column(name = "value")
-    private Map<String, String> items;
+   @ElementCollection
+   @CollectionTable(name = "notification_item",
+      joinColumns = {@JoinColumn(name = "id_notification", referencedColumnName = "notification_id")})
+   @MapKeyColumn(name = "\"key\"")
+   @Column(name = "value")
+   private Map<String, String> items;
 
-    @Builder
-    public Notification(String tittle, String description, LocalDateTime dateOfAdding, Map<String, String> items) {
-        this.tittle = tittle;
-        this.description = description;
-        this.dateOfAdding = dateOfAdding;
-        this.items = items;
-    }
+   @Builder
+   public Notification(String tittle, String description, LocalDateTime dateOfAdding, Map<String, String> items) {
+      this.tittle = tittle;
+      this.description = description;
+      this.dateOfAdding = dateOfAdding;
+      this.items = items;
+   }
 
-    public void addItem(String key, String value) {
-        if (items == null)
-            items = new HashMap<>();
-        items.compute(key, (k, l) -> value);
-    }
+   public void addItem(String key, String value) {
+      if (items == null)
+         items = new HashMap<>();
+      items.compute(key, (k, l) -> value);
+   }
 }

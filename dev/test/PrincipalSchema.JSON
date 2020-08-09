@@ -1,0 +1,24 @@
+{
+  "authorities": [
+    {
+      "authority": "ROLE_USER"
+    }
+  ],
+  "details": null,
+  "authenticated": true,
+  "principal": {
+    "password": "%s",
+    "username": "%s",
+    "authorities": [
+      {
+        "authority": "ROLE_USER"
+      }
+    ],
+    "accountNonExpired": true,
+    "accountNonLocked": true,
+    "credentialsNonExpired": true,
+    "enabled": true
+  },
+  "credentials": "%s",
+  "name": "%s"
+}

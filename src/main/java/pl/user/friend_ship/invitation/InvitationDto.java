@@ -7,16 +7,16 @@ import pl.user.User;
 @Getter
 public class InvitationDto {
 
-    @Builder
-    public InvitationDto(Long id, User inviter, User invited) {
-        this.id = id;
-        this.inviter = inviter;
-        this.invited = invited;
-    }
+   @Builder
+   public InvitationDto(Long id, User inviter, User invited) {
+      this.id = id;
+      this.inviter = inviter;
+      this.invited = invited;
+   }
 
-    private Long id;
+   private Long id;
 
-    private User inviter;
+   private User inviter;
 
-    private User invited;
+   private User invited;
 }

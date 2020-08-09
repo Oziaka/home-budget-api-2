@@ -10,15 +10,15 @@ import java.time.LocalDateTime;
 @Getter
 public class FriendDto {
 
-    private UserDto friend;
+   private UserDto friend;
 
-    @Builder
-    public FriendDto(UserDto friend, LocalDateTime dateOfAdding, Long friendShipId) {
-        this.friend = friend;
-        this.dateOfAdding = dateOfAdding;
-        this.friendShipId = friendShipId;
-    }
+   @Builder
+   public FriendDto(UserDto friend, LocalDateTime dateOfAdding, Long friendShipId) {
+      this.friend = friend;
+      this.dateOfAdding = dateOfAdding;
+      this.friendShipId = friendShipId;
+   }
 
-    private LocalDateTime dateOfAdding;
-    private Long friendShipId;
+   private LocalDateTime dateOfAdding;
+   private Long friendShipId;
 }

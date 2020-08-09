@@ -13,34 +13,34 @@ import java.util.List;
 @AllArgsConstructor
 public class FriendShipService {
 
-    private FriendShipRepository friendShipRepository;
+   private FriendShipRepository friendShipRepository;
 
-    public FriendShip save(FriendShip friendShip) {
-        return friendShipRepository.save(friendShip);
-    }
+   public FriendShip save(FriendShip friendShip) {
+      return friendShipRepository.save(friendShip);
+   }
 
-    public boolean couldFriendshipExist(User user, User user2) {
-        return friendShipRepository.findAllByUserAndUser2(user, user2).isPresent();
-    }
+   public boolean couldFriendshipExist(User user, User user2) {
+      return friendShipRepository.findAllByUserAndUser2(user, user2).isPresent();
+   }
 
-    List<FriendShip> getAll(String email) {
-        return friendShipRepository.findALlByUserEmail(email);
-    }
+   List<FriendShip> getAll(String email) {
+      return friendShipRepository.findALlByUserEmail(email);
+   }
 
-    FriendShip getOne(User user, Long friendShipId) {
-        return friendShipRepository.findByUserAndId(user, friendShipId).orElseThrow(ThereIsNoYourPropertyException::new);
-    }
+   FriendShip getOne(User user, Long friendShipId) {
+      return friendShipRepository.findByUserAndId(user, friendShipId).orElseThrow(ThereIsNoYourPropertyException::new);
+   }
 
-    FriendShip getOne(User user, User user2) {
-        return friendShipRepository.findAllByUserAndUser2(user, user2).orElseThrow(() -> new CanNotFindEntityException(FriendShip.class));
-    }
+   FriendShip getOne(User user, User user2) {
+      return friendShipRepository.findAllByUserAndUser2(user, user2).orElseThrow(() -> new CanNotFindEntityException(FriendShip.class));
+   }
 
-    void remove(FriendShip friendShip) {
-        friendShipRepository.delete(friendShip);
-    }
+   void remove(FriendShip friendShip) {
+      friendShipRepository.delete(friendShip);
+   }
 
-    public boolean isFriends(User user, User user2) {
-        friendShipRepository.findAllByUserAndUser2(user, user2).orElseThrow(YouAreNotFriendsException::new);
-        return true;
-    }
+   public boolean isFriends(User user, User user2) {
+      friendShipRepository.findAllByUserAndUser2(user, user2).orElseThrow(YouAreNotFriendsException::new);
+      return true;
+   }
 }

@@ -4,107 +4,100 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import pl.tool.Tool;
-import pl.tool.UriTool;
+import org.springframework.test.web.servlet.ResultActions;
+import pl.tool.PrincipalInterpolator;
+import pl.tool.RandomUtils;
+import pl.tool.RandomUserTool;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static pl.tool.UserTool.*;
-import static pl.tool.JsonTool.parseJson;
-import static pl.tool.UriTool.*;
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
+import static pl.tool.JsonMapper.parseJson;
+import static pl.tool.UriPath.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 class UserResourceTest {
 
-    @Autowired
-    private MockMvc mockMvc;
+   @Autowired
+   private MockMvc mockMvc;
 
-    @Test
-    void should_register_user() throws Exception {
-        UserDto userDto = randomUserDto();
-        UserDto expectedResponse = UserDto.builder()
-                .email(userDto.getEmail())
-                .build();
-        mockMvc.perform(put(register())
-                .content(parseJson(userDto))
-                .contentType(APPLICATION_JSON_VALUE))
-                .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.content().json(parseJson(expectedResponse)));
-    }
+   @Test
+   void registerReturnUserDtoWhenRegistrationSuccessful() throws Exception {
+      // given
+      UserDto userDto = RandomUserTool.randomUserDto();
+      // when
+      ResultActions result = mockMvc.perform(put(register())
+         .contentType(APPLICATION_JSON_VALUE)
+         .content(parseJson(userDto)));
+      // then
+      UserDto expectedResponse = UserDto.builder()
+         .email(userDto.getEmail())
+         .build();
+      result
+         .andExpect(status().isCreated())
+         .andExpect(content().json(parseJson(expectedResponse)));
+   }
 
-    @Test
-    void should_return_principal() throws Exception {
-        UserDto user = registerRandomUser(mockMvc);
-        mockMvc.perform(get(userPrincipal()).with(user(user.getEmail()).password(user.getPassword())))
-                .andExpect(status().isOk())
-                .andExpect(content().json("{\n" +
-                        "  \"authorities\": [\n" +
-                        "    {\n" +
-                        "      \"authority\": \"ROLE_USER\"\n" +
-                        "    }\n" +
-                        "  ],\n" +
-                        "  \"details\": null,\n" +
-                        "  \"authenticated\": true,\n" +
-                        "  \"principal\": {\n" +
-                        "    \"password\": \"" + user.getPassword() + "\",\n" +
-                        "    \"username\": \"" + user.getEmail() + "\",\n" +
-                        "    \"authorities\": [\n" +
-                        "      {\n" +
-                        "        \"authority\": \"ROLE_USER\"\n" +
-                        "      }\n" +
-                        "    ],\n" +
-                        "    \"accountNonExpired\": true,\n" +
-                        "    \"accountNonLocked\": true,\n" +
-                        "    \"credentialsNonExpired\": true,\n" +
-                        "    \"enabled\": true\n" +
-                        "  },\n" +
-                        "  \"credentials\": \"" + user.getPassword() + "\",\n" +
-                        "  \"name\": \"" + user.getEmail() + "\"\n" +
-                        "}"));
-    }
+   @Test
+   void userReturnPrincipalWHenUserIsAuthenticated() throws Exception {
+      // given
+      UserDto user = RandomUserTool.registerRandomUser(mockMvc);
+      // when
+      ResultActions result = mockMvc.perform(get(userPrincipal()).with(user(user.getEmail()).password(user.getPassword())));
+      // then
+      String expectedResponse = new PrincipalInterpolator().interpolate(user);
+      result
+         .andExpect(status().isOk())
+         .andExpect(content().json(expectedResponse));
+   }
 
-    @Test
-    void should_return_user_property() throws Exception {
-        UserDto user = registerRandomUser(mockMvc);
-        UserDto expectedResponse = UserDto.builder()
-                .email(user.getEmail())
-                .items(new HashMap<>())
-                .build();
-        mockMvc.perform(get(userProperty()).with(user(user.getEmail()).password(user.getPassword())).contentType(APPLICATION_JSON_VALUE))
-                .andExpect(status().isOk())
-                .andExpect(content().json(parseJson(expectedResponse)));
-    }
+   @Test
+   void getUserReturnUserPropertyWhenUserIsAuthenticated() throws Exception {
+      // given
+      UserDto user = RandomUserTool.registerRandomUser(mockMvc);
+      // when
+      ResultActions result = mockMvc.perform(get(userProperty())
+         .with(user(user.getEmail()).password(user.getPassword())));
+      // then
+      UserDto expectedResponse = UserDto.builder()
+         .email(user.getEmail())
+         .items(Collections.emptyMap())
+         .build();
+      result.andExpect(status().isOk())
+         .andExpect(content().json(parseJson(expectedResponse)));
+   }
 
-    @Test
-    void should_update_user_properties() throws Exception {
-        UserDto user = registerRandomUser(mockMvc);
-        UserDto updatedUser = randomUserDtoBuilder().
-                items(Map.of("favoriteWalletId", Tool.randomLong().toString()))
-                .userName(Tool.randomString())
-                .build();
-        UserDto expectedResponse = UserDto.builder()
-                .email(updatedUser.getEmail())
-                .password(updatedUser.getPassword())
-                .userName(updatedUser.getUserName())
-                .items(updatedUser.getItems())
-                .build();
-        mockMvc.perform(post(UriTool.editUser()).with(user(user.getEmail()).password(user.getPassword()))
-                .contentType(APPLICATION_JSON_VALUE)
-                .content(parseJson(updatedUser)))
-                .andExpect(status().isOk())
-                .andExpect(content().json(parseJson(expectedResponse)));
-    }
+   @Test
+   void editUserReturnUserPropertyAfterUpdatedProperty() throws Exception {
+      // given
+      UserDto user = RandomUserTool.registerRandomUser(mockMvc);
+      UserDto updatedUser = RandomUserTool.randomUserDtoBuilder().
+         items(Map.of("favoriteWalletId", RandomUtils.randomLong().toString()))
+         .userName(RandomUtils.randomString())
+         .build();
+      // when
+      ResultActions result = mockMvc.perform(post(editUser()).with(user(user.getEmail()).password(user.getPassword()))
+         .contentType(APPLICATION_JSON_VALUE)
+         .content(parseJson(updatedUser)));
+      // then
+      UserDto expectedResponse = UserDto.builder()
+         .email(updatedUser.getEmail())
+         .userName(updatedUser.getUserName())
+         .items(updatedUser.getItems())
+         .build();
+      result
+         .andExpect(status().isOk())
+         .andExpect(content().json(parseJson(expectedResponse)));
+   }
 
 
 }

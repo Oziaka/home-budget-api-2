@@ -14,23 +14,23 @@ import java.util.List;
 @RequestMapping("/friend")
 public class FriendShipResource {
 
-    private FriendShipController friendShipController;
+   private FriendShipController friendShipController;
 
-    @PostMapping("/add/{invitationId}")
-    public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
-        return ResponseEntity.ok(friendShipController.add(principal, invitationId));
-    }
+   @PostMapping("/add/{invitationId}")
+   public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
+      return ResponseEntity.ok(friendShipController.add(principal, invitationId));
+   }
 
-    @GetMapping("s")
-    public ResponseEntity<List<FriendDto>> getFriend(Principal principal) {
-        return ResponseEntity.ok(friendShipController.getFriends(principal));
-    }
+   @GetMapping("s")
+   public ResponseEntity<List<FriendDto>> getFriend(Principal principal) {
+      return ResponseEntity.ok(friendShipController.getFriends(principal));
+   }
 
-    @DeleteMapping("/remove/{friendShipId}")
-    public ResponseEntity removeFriend(Principal principal, @PathVariable Long friendShipId) {
-        friendShipController.remove(principal, friendShipId);
-        return ResponseEntity.noContent().build();
-    }
+   @DeleteMapping("/remove/{friendShipId}")
+   public ResponseEntity removeFriend(Principal principal, @PathVariable Long friendShipId) {
+      friendShipController.remove(principal, friendShipId);
+      return ResponseEntity.noContent().build();
+   }
 
 
 }
