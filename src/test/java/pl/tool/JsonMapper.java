@@ -1,6 +1,7 @@
 package pl.tool;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import pl.wallet.Wallet;
 
 public class JsonMapper {
 

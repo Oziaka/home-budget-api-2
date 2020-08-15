@@ -6,7 +6,6 @@ import pl.user.UserDto;
 import pl.wallet.WalletDto;
 
 import java.math.BigDecimal;
-import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -17,9 +16,9 @@ import static pl.tool.JsonMapper.parseObject;
 import static pl.tool.UriPath.*;
 
 
-public class WalletTool {
+public class RandomWalletTool {
    public static WalletDto randomWalletDto() {
-      return WalletTool.randomWalletDtoBuilder().build();
+      return RandomWalletTool.randomWalletDtoBuilder().build();
    }
 
    private static WalletDto.WalletDtoBuilder randomWalletDtoBuilder() {
@@ -30,7 +29,7 @@ public class WalletTool {
 
 
    public static WalletDto addRandomWallet(MockMvc mockMvc, UserDto user) throws Exception {
-      return parseObject(mockMvc.perform(put(addWallet()).with(user(user.getEmail()).password(user.getPassword())).contentType(MediaType.APPLICATION_JSON_VALUE).content(parseJson(WalletTool.randomWalletDto()))).andReturn().getResponse().getContentAsString()
+      return parseObject(mockMvc.perform(put(addWallet()).with(user(user.getEmail()).password(user.getPassword())).contentType(MediaType.APPLICATION_JSON_VALUE).content(parseJson(RandomWalletTool.randomWalletDto()))).andReturn().getResponse().getContentAsString()
          , new WalletDto());
    }
 

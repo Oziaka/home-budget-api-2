@@ -1,5 +1,5 @@
 package pl.tool;
 
-public class File {
+public class TestFile {
    public final static String FILE_PATH = "dev\\test";
 }

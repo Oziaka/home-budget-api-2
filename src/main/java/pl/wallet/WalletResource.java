@@ -25,7 +25,7 @@ public class WalletResource {
       return ResponseEntity.status(HttpStatus.CREATED).body(walletController.addWallet(principal, walletDto));
    }
 
-   @GetMapping()
+   @GetMapping("s")
    public ResponseEntity<List<WalletDto>> getWallets(Principal principal) {
       return ResponseEntity.ok(walletController.getWallets(principal));
    }

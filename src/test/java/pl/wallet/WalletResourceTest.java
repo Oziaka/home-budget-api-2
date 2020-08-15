@@ -8,9 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import pl.tool.JsonMapper;
-import pl.tool.UriPath;
 import pl.tool.RandomUserTool;
-import pl.tool.WalletTool;
+import pl.tool.RandomWalletTool;
 import pl.user.UserDto;
 
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static pl.tool.JsonMapper.parseJson;
+import static pl.tool.UriPath.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -35,9 +35,9 @@ class WalletResourceTest {
    void addWalletReturnWalletWhenSenTWalletIsCorrect() throws Exception {
       // given
       UserDto user = RandomUserTool.registerRandomUser(mockMvc);
-      WalletDto wallet = WalletTool.randomWalletDto();
+      WalletDto wallet = RandomWalletTool.randomWalletDto();
       // when
-      ResultActions result = mockMvc.perform(put(UriPath.addWallet())
+      ResultActions result = mockMvc.perform(put(addWallet())
          .with(user(user.getEmail()).password(user.getPassword()))
          .contentType(MediaType.APPLICATION_JSON_VALUE)
          .content(parseJson(wallet)));
@@ -54,13 +54,13 @@ class WalletResourceTest {
    void getWalletsReturnAllUserWallets() throws Exception {
       // given
       UserDto user = RandomUserTool.registerRandomUser(mockMvc);
-      WalletDto wallet = WalletTool.addRandomWallet(mockMvc, user);
+      WalletDto wallet = RandomWalletTool.addRandomWallet(mockMvc, user);
       // when
-      ResultActions result = mockMvc.perform(get(UriPath.getWallets())
+      ResultActions result = mockMvc.perform(get(getWallets())
          .with(user(user.getEmail()).password(user.getPassword())));
       // then
       List<WalletDto> expectedResponse = new ArrayList<>();
-      expectedResponse.add(WalletTool.defaultWallet(user));
+      expectedResponse.add(RandomWalletTool.defaultWallet(user));
       expectedResponse.add(wallet);
       result.andExpect(status().isOk())
          .andDo(print())
@@ -94,7 +94,6 @@ class WalletResourceTest {
          .andExpect(jsonPath("$[1].users[0].id").isEmpty())
          .andExpect(jsonPath("$[1].users[0].email", is(expectedResponse.get(1).getUsers().get(0).getEmail())))
          .andExpect(jsonPath("$[1].users[0].password").isEmpty())
-         .andExpect(jsonPath("$[1].users[0].items").isEmpty())
-      ;
+         .andExpect(jsonPath("$[1].users[0].items").isEmpty());
    }
 }

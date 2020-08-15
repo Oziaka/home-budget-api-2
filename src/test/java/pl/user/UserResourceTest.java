@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import pl.tool.PrincipalInterpolator;
 import pl.tool.RandomUtils;
 import pl.tool.RandomUserTool;
+import pl.tool.UriPath;
 
 import java.util.Collections;
 import java.util.Map;

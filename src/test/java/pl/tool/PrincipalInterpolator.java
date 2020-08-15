@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 public class PrincipalInterpolator {
 
-   private static final String PRINCIPAL_SCHEMA_PATH = File.FILE_PATH + "\\PrincipalSchema.JSON";
+   private static final String PRINCIPAL_SCHEMA_PATH = TestFile.FILE_PATH + "\\PrincipalSchema.JSON";
 
    public String interpolate(UserDto userDto) {
       return new Formatter().format(getPrincipalSchema(), userDto.getPassword(), userDto.getEmail(), userDto.getPassword(), userDto.getEmail()).toString();
