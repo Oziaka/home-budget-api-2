@@ -7,6 +7,8 @@ import java.util.Random;
 
 public class RandomUtils {
 
+   private static final Random random = new Random();
+
    public static String randomString() {
       return RandomStringUtils.randomAlphabetic(10);
 
@@ -19,8 +21,6 @@ public class RandomUtils {
    public static Long randomLong() {
       return random.nextLong();
    }
-
-   private static final Random random = new Random();
 
    static BigDecimal randomBigDecimal() {
       return BigDecimal.valueOf(Double.parseDouble(RandomStringUtils.randomNumeric(2) + "." + RandomStringUtils.randomNumeric(2)));

@@ -6,8 +6,6 @@ import pl.wallet.transaction.enums.Frequency;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @EqualsAndHashCode
 @NoArgsConstructor

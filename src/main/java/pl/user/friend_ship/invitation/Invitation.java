@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import pl.user.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Data
 @Entity(name = "invitation")

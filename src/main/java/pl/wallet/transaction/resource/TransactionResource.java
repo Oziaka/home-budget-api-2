@@ -16,9 +16,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.wallet.transaction.controller.TransactionController;
 import pl.wallet.transaction.dto.TransactionDto;
 import pl.wallet.transaction.model.Transaction;
+import pl.wallet.transaction.service.TransactionService;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -30,26 +30,26 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
 public class TransactionResource {
-   private TransactionController transactionController;
+   private TransactionService transactionService;
 
    @PutMapping(value = "/add")
    public ResponseEntity<TransactionDto> addTransaction(Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
-      return ResponseEntity.status(HttpStatus.CREATED).body(transactionController.addTransaction(principal, walletId, transactionDto));
+      return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.addTransaction(principal, walletId, transactionDto));
    }
 
    @GetMapping(value = "/{transactionId}", consumes = MediaType.ALL_VALUE)
    public ResponseEntity<TransactionDto> getTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
-      return ResponseEntity.ok(transactionController.getTransaction(principal, walletId, transactionId));
+      return ResponseEntity.ok(transactionService.getTransaction(principal, walletId, transactionId));
    }
 
    @PostMapping(value = "/{transactionId}/edit", consumes = MediaType.ALL_VALUE)
    public ResponseEntity<TransactionDto> editTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId, @Valid @RequestBody TransactionDto transactionDto) {
-      return ResponseEntity.status(HttpStatus.ACCEPTED).body(transactionController.editTransaction(principal, walletId, transactionId, transactionDto));
+      return ResponseEntity.status(HttpStatus.ACCEPTED).body(transactionService.editTransaction(principal, walletId, transactionId, transactionDto));
    }
 
    @DeleteMapping(value = "/{transactionId}/remove", consumes = MediaType.ALL_VALUE, produces = MediaType.ALL_VALUE)
    public ResponseEntity removeTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
-      transactionController.removeTransaction(principal, walletId, transactionId);
+      transactionService.removeTransaction(principal, walletId, transactionId);
       return ResponseEntity.noContent().build();
    }
 
@@ -70,6 +70,6 @@ public class TransactionResource {
                                                                         @Spec(path = "dateOfPurchase", params = "end", spec = LessThanOrEqual.class)})
                                                                         Specification<Transaction> transactionSpecification,
                                                                      @RequestParam(defaultValue = "false") Boolean groupingTransactionBack) {
-      return ResponseEntity.ok(transactionController.getWalletTransactions(principal, pageable, transactionSpecification, groupingTransactionBack));
+      return ResponseEntity.ok(transactionService.getWalletTransactions(principal, pageable, transactionSpecification, groupingTransactionBack));
    }
 }

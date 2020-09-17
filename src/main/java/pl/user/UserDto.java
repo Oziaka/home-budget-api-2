@@ -40,4 +40,10 @@ public class UserDto {
       this.items = items;
       this.userName = userName;
    }
+
+   public void addItem(String key, String value) {
+      if (items == null)
+         items = new HashMap<>();
+      items.compute(key, (k, l) -> value);
+   }
 }

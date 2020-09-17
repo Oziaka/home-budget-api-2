@@ -4,16 +4,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import net.kaczmarzyk.spring.data.jpa.web.annotation.Join;
 import pl.user.User;
 import pl.wallet.transaction.model.Transaction;
 import pl.wallet.transaction.model.TransactionRecurring;
-import pl.wallet.transaction.resource.TransactionResource;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

@@ -3,13 +3,10 @@ package pl.wallet.transaction.dto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import pl.wallet.transaction.enums.Frequency;
-import pl.wallet.transaction.model.Transaction;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 @NoArgsConstructor

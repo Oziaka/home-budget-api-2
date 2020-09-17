@@ -2,7 +2,6 @@ package pl.wallet;
 
 import lombok.*;
 import pl.user.UserDto;
-import pl.wallet.transaction.dto.TransactionDto;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;

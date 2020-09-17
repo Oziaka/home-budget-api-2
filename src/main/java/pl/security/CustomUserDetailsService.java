@@ -5,9 +5,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import pl.exception.EntityNotFoundException;
 import pl.security.user_role.UserRole;
 import pl.user.User;
 import pl.user.UserService;
@@ -25,15 +23,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
    @Override
    public UserDetails loadUserByUsername(String email) {
-      try {
-         User user = userService.get(() -> email);
-         return new org.springframework.security.core.userdetails.User(
-            user.getEmail(),
-            user.getPassword(),
-            convertAuthorities(user.getRoles()));
-      } catch (EntityNotFoundException e) {
-         throw new UsernameNotFoundException("User not found");
-      }
+      User user = userService.getUser(() -> email);
+      return new org.springframework.security.core.userdetails.User(
+         user.getEmail(),
+         user.getPassword(),
+         convertAuthorities(user.getRoles()));
    }
 
    private Set<GrantedAuthority> convertAuthorities(Collection<UserRole> userRoles) {

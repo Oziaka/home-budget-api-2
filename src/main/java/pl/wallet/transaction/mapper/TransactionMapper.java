@@ -4,10 +4,10 @@ import pl.exception.InvalidTransactionException;
 import pl.wallet.category.Category;
 import pl.wallet.category.CategoryMapper;
 import pl.wallet.transaction.dto.TransactionDto;
+import pl.wallet.transaction.enums.Type;
 import pl.wallet.transaction.model.Transaction;
 import pl.wallet.transaction.model.TransactionBack;
 import pl.wallet.transaction.model.TransactionLoanOrBorrow;
-import pl.wallet.transaction.enums.Type;
 
 import java.util.ArrayList;
 import java.util.List;

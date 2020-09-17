@@ -19,7 +19,7 @@ import java.util.List;
 @RequestMapping("/notification")
 public class UserNotificationResource {
 
-   private UserNotificationController userNotificationController;
+   private UserNotificationService userNotificationService;
 
    @GetMapping("/notification")
    public ResponseEntity<List<UserNotificationDto>> getNotifications(Principal principal,
@@ -29,11 +29,11 @@ public class UserNotificationResource {
                                                                         Pageable pageable,
                                                                      @Spec(path = "status", params = "status", spec = In.class)
                                                                         Specification<UserNotification> userNotificationSpecification) {
-      return ResponseEntity.ok(userNotificationController.getNotifications(principal, pageable, userNotificationSpecification));
+      return ResponseEntity.ok(userNotificationService.getNotifications(principal, pageable, userNotificationSpecification));
    }
 
    @PostMapping("/change_status/{userNotificationId}")
    public ResponseEntity<UserNotificationDto> setUserNotificationStatus(Principal principal, @PathVariable Long userNotificationId, @RequestBody Status newStatus) {
-      return ResponseEntity.ok(userNotificationController.updateStatus(principal, userNotificationId, newStatus));
+      return ResponseEntity.ok(userNotificationService.updateStatus(principal, userNotificationId, newStatus));
    }
 }

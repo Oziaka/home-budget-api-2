@@ -10,6 +10,11 @@ import java.util.List;
 public class UserItemKeyService {
    private UserItemKeyRepository userItemKeyRepository;
 
+   UserItemKeyDto addUserItemKey(UserItemKeyDto userItemKeyDto) {
+      UserItemKey userItemKey = UserItemKeyMapper.toEntity(userItemKeyDto);
+      UserItemKey savedUserItemKey = this.save(userItemKey);
+      return UserItemKeyMapper.toDto(savedUserItemKey);
+   }
 
    public UserItemKey save(UserItemKey userItemKey) {
       return userItemKeyRepository.save(userItemKey);
