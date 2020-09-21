@@ -6,7 +6,7 @@ import pl.user.UserDto;
 
 import static pl.tool.RandomUtils.randomString;
 
-public class RandomUserTool {
+public class UserRandomTool {
 
    public static UserDto randomUserDto() {
       return randomUserDtoBuilder().build();

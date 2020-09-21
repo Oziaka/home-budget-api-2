@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.security.user_role.UserRole;
 import pl.security.user_role.UserRoleService;
-import pl.tool.RandomUserTool;
+import pl.tool.UserRandomTool;
 import pl.user.item_key.UserItemKey;
 import pl.user.item_key.UserItemKeyService;
 import pl.wallet.WalletProvider;
@@ -48,7 +48,7 @@ class UserResourceTest {
    @Test
    void registerReturnUserDtoWhenRegisteredSuccessful() {
       // given
-      UserDto userToRegistration = RandomUserTool.randomUserDto();
+      UserDto userToRegistration = UserRandomTool.randomUserDto();
       // when
       Mockito.when(passwordEncoder.encode(any())).thenReturn(userToRegistration.getPassword());
       List<UserRole> defaultUserRoles = List.of(new UserRole("ROLE_USER", "Default role"));
@@ -66,9 +66,9 @@ class UserResourceTest {
    @Test
    void editUserReturnEditedUserWhenAllFieldsValid() {
       // given
-      User user = RandomUserTool.randomUser();
+      User user = UserRandomTool.randomUser();
       user.setPassword(null);
-      UserDto userWithUpdatedFields = RandomUserTool.randomUserDto();
+      UserDto userWithUpdatedFields = UserRandomTool.randomUserDto();
       userWithUpdatedFields.addItem("favoriteWalletId", "1");
       // when
       Mockito.when(userRepository.findByEmail(any())).thenReturn(Optional.empty(), Optional.of(user));

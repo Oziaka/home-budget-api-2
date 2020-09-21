@@ -43,6 +43,7 @@ public class WalletService {
       this.isUserWallet(principal.getName(), walletId);
    }
 
+   //TODO only owner should remove wallet
    void removeWallet(Principal principal, Long walletId) {
       isUserWallet(principal, walletId);
       transactionService.removeWalletTransactions(walletId);
@@ -76,17 +77,23 @@ public class WalletService {
    WalletDto changeWalletOwner(Principal principal, Long walletId, String newOwnerUserEmail) {
       User owner = userProvider.get(principal);
       User newOwner = userProvider.get(newOwnerUserEmail::toString);
+      friendShipService.isFriends(owner, newOwner);
       Wallet wallet = this.getOneByOwner(owner, walletId);
+      if (!isNewOwnerAreWalletUser(wallet, newOwner)) throw new RuntimeException("New owner have to be in wallet users");
       wallet.setOwner(newOwner);
       Wallet savedWallet = this.save(wallet);
       return WalletMapper.toDto(savedWallet);
    }
 
+   private boolean isNewOwnerAreWalletUser(Wallet wallet, User newOwner) {
+      return wallet.getUsers().stream().anyMatch(user -> user.equals(newOwner));
+   }
+
    WalletDto removeUserFromWallet(Principal principal, Long walletId, String friendToRemoveFromWalletUserEmail) {
       User owner = userProvider.get(principal);
       User friendToRemoveFromWallet = userProvider.get(friendToRemoveFromWalletUserEmail::toString);
-      if (owner.equals(friendToRemoveFromWallet)) throw new RuntimeException("Can not remove owner from wallet");
       Wallet wallet = this.getOneByOwner(owner, walletId);
+      if (owner.equals(friendToRemoveFromWallet)) throw new RuntimeException("Can not remove owner from wallet");
       wallet.removeUser(friendToRemoveFromWallet);
       Wallet savedWallet = this.save(wallet);
       return WalletMapper.toDto(savedWallet);

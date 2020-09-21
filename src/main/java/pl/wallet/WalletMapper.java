@@ -13,7 +13,7 @@ public class WalletMapper {
          .id(wallet.getId())
          .balance(wallet.getBalance())
          .name(wallet.getName())
-         .users(wallet.getUsers().stream().map(UserMapper::toDto).collect(Collectors.toList()))
+         .users(wallet.getUsers().stream().map(UserMapper::toDto).collect(Collectors.toSet()))
          .owner(UserMapper.toDto(wallet.getOwner()))
          .build();
    }

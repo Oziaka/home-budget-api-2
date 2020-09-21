@@ -8,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Set;
 
 @ToString
 @Getter
@@ -24,12 +25,12 @@ public class WalletDto {
    @NotNull(message = "Wallet must have balance")
    private BigDecimal balance;
 
-   private List<UserDto> users;
+   private Set<UserDto> users;
 
    private UserDto owner;
 
    @Builder
-   public WalletDto(@Null(message = "Wallet must not have id") Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, List<UserDto> users, UserDto owner) {
+   public WalletDto(@Null(message = "Wallet must not have id") Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, Set<UserDto> users, UserDto owner) {
       this.id = id;
       this.name = name;
       this.balance = balance;
