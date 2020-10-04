@@ -1,6 +1,7 @@
 package pl.user.friend_ship.invitation;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +16,23 @@ public class InvitationResource {
 
    @PostMapping("/invite")
    public ResponseEntity<Object> inviteUser(Principal principal, @RequestBody String invitedUserEmail) {
-      return ResponseEntity.ok(invitationService.invite(principal, invitedUserEmail));
+      Object object = invitationService.invite(principal, invitedUserEmail);
+      if (object instanceof InvitationDto)
+         return ResponseEntity.status(HttpStatus.CREATED).body(object);
+      else
+         return ResponseEntity.ok(object);
    }
 
    @DeleteMapping("/invitation/cancel/{invitationId}")
-   public void cancelInvitation(Principal principal, @PathVariable Long invitationId) {
+   public ResponseEntity cancelInvitation(Principal principal, @PathVariable Long invitationId) {
       invitationService.cancelInvitation(principal, invitationId);
+      return ResponseEntity.noContent().build();
    }
 
    @DeleteMapping("/invitation/remove{invitationId}")
-   public void removeInvitation(Principal principal, @PathVariable Long invitationId) {
+   public ResponseEntity removeInvitation(Principal principal, @PathVariable Long invitationId) {
       invitationService.removeInvitation(principal, invitationId);
+      return ResponseEntity.noContent().build();
    }
 
    @GetMapping("invitation/from_user")

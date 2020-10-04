@@ -1,5 +1,6 @@
 package pl.wallet.category;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import pl.user.User;
@@ -34,6 +35,15 @@ public class Category {
 
    @ManyToMany(mappedBy = "categories")
    private List<User> users;
+
+   @Builder
+   public Category(Boolean isDefault, String name, String description, Type type, List<User> users) {
+      this.isDefault = isDefault;
+      this.name = name;
+      this.description = description;
+      this.type = type;
+      this.users = users;
+   }
 
 
    public void addUser(User user) {

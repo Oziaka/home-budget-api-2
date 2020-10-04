@@ -24,7 +24,7 @@ public class TransactionMapper {
             .dateOfPurchase(transactionDto.getDateOfPurchase())
             .category(category)
             .build();
-      else if ((isLoanOrBorrowTransaction(transactionDto, category)))
+      else if (isLoanOrBorrowTransaction(transactionDto, category))
          return TransactionLoanOrBorrow.transactionLoanOrBorrowBuilder()
             .name(transactionDto.getName())
             .description(transactionDto.getDescription())
@@ -44,27 +44,20 @@ public class TransactionMapper {
    }
 
    public static TransactionDto toDto(Transaction transaction) {
-      if (transaction instanceof TransactionLoanOrBorrow) {
+      if (transaction instanceof TransactionLoanOrBorrow)
          return buildTransactionLoanOrBorrow((TransactionLoanOrBorrow) transaction).build();
-      }
-      if (transaction instanceof TransactionBack) {
-         return buildTransactionBack((TransactionBack) transaction)
-            .build();
-      }
+      if (transaction instanceof TransactionBack)
+         return buildTransactionBack((TransactionBack) transaction).build();
       return buildTransaction(transaction)
          .build();
    }
 
    public static TransactionDto toDtoAndTransactionLoanOrBorrowWithoutTransactionsBack(Transaction transaction) {
-      if (transaction instanceof TransactionLoanOrBorrow) {
+      if (transaction instanceof TransactionLoanOrBorrow)
          return buildTransaction(transaction).build();
-      }
-      if (transaction instanceof TransactionBack) {
-         return buildTransactionBack((TransactionBack) transaction)
-            .build();
-      }
-      return buildTransaction(transaction)
-         .build();
+      if (transaction instanceof TransactionBack)
+         return buildTransactionBack((TransactionBack) transaction).build();
+      return buildTransaction(transaction).build();
    }
 
    private static TransactionDto.TransactionDtoBuilder buildTransactionLoanOrBorrow(TransactionLoanOrBorrow transactionLoanOrBorrow) {

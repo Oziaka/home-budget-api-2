@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.wallet.transaction.model.Transaction;
 
+import java.util.Optional;
+
 @Service
 @AllArgsConstructor
 public class WalletProvider {
@@ -15,8 +17,8 @@ public class WalletProvider {
       return walletRepository.save(wallet);
    }
 
-   public Wallet isUserWallet(String email, Long walletId) {
-      return walletRepository.findByIdAndUserEmail(walletId, email).orElseThrow(ThereIsNoYourPropertyException::new);
+   public Optional<Wallet> get(String email, Long walletId) {
+      return walletRepository.findByIdAndUserEmail(walletId, email);
    }
 
    public Wallet addTransaction(Wallet wallet, Transaction transaction) {

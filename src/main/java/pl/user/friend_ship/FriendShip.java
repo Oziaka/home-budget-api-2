@@ -2,6 +2,7 @@ package pl.user.friend_ship;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import pl.user.User;
 

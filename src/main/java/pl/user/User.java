@@ -11,7 +11,7 @@ import javax.validation.constraints.Email;
 import java.util.*;
 import java.util.stream.Collectors;
 
-//@EqualsAndHashCode
+@EqualsAndHashCode
 @NoArgsConstructor
 @Getter
 @Setter

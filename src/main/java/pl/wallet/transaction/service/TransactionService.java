@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import pl.exception.InvalidTransactionException;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
-import pl.user.UserService;
+import pl.user.UserProvider;
 import pl.wallet.Wallet;
 import pl.wallet.WalletProvider;
 import pl.wallet.category.Category;
@@ -30,13 +30,13 @@ import java.util.stream.Collectors;
 public class TransactionService {
 
    private TransactionRepository transactionRepository;
-   private UserService userService;
+   private UserProvider userProvider;
    private WalletProvider walletProvider;
    private CategoryService categoryService;
 
    public TransactionDto addTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
       Wallet wallet = getWallet(principal.getName(), walletId);
-      Category category = getCategory(principal.getName(), transactionDto.getCategoryId());
+      Category category = categoryService.getCategory(principal.getName(), transactionDto.getCategoryId()).orElseThrow(ThereIsNoYourPropertyException::new);
       Transaction transaction = TransactionMapper.toEntity(transactionDto, category);
       transaction.setWallet(wallet);
       if (transaction instanceof TransactionBack)
@@ -46,7 +46,7 @@ public class TransactionService {
    }
 
    public List<TransactionDto> getWalletTransactions(Principal principal, Pageable pageable, Specification<Transaction> transactionSpecification, Boolean groupingTransactionBack) {
-      User user = userService.getUser(principal);
+      User user = userProvider.get(principal);
       transactionSpecification.and(new IsUserWallet(user));
       List<? extends Transaction> transactions = this.getAll(pageable, transactionSpecification);
       return transactions.stream().filter(transaction -> groupingTransactionBack ? !(transaction instanceof TransactionBack) : true).map(groupingTransactionBack ? TransactionMapper::toDto : TransactionMapper::toDtoAndTransactionLoanOrBorrowWithoutTransactionsBack).collect(Collectors.toList());
@@ -58,7 +58,7 @@ public class TransactionService {
    }
 
    public TransactionDto editTransaction(Principal principal, Long walletId, Long transactionId, TransactionDto transactionDto) {
-      walletProvider.isUserWallet(principal.getName(), walletId);
+      walletProvider.get(principal.getName(), walletId);
       Transaction transaction = this.get(principal.getName(), walletId, transactionId);
       updateTransactionFromNotNullFieldsInTransactionDto(transactionDto, transaction);
       this.save(transaction);
@@ -101,12 +101,9 @@ public class TransactionService {
       return (transactionLoanOrBorrowCategory.getType() == Type.LOAN && category.getType() == Type.LOAN_BACK) || (transactionLoanOrBorrowCategory.getType() == Type.BORROW && category.getType() == Type.BORROW_BACK);
    }
 
-   private Category getCategory(String user, Long categoryId) {
-      return categoryService.get(user, categoryId);
-   }
 
    private Wallet getWallet(String email, Long walletId) {
-      return walletProvider.isUserWallet(email, walletId);
+      return walletProvider.get(email, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
    }
 
    public void removeTransaction(Principal principal, Long walletId, Long transactionId) {

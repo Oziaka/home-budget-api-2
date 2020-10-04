@@ -21,7 +21,7 @@ public class FriendShipResource {
    }
 
    @GetMapping("s")
-   public ResponseEntity<List<FriendDto>> getFriend(Principal principal) {
+   public ResponseEntity<List<FriendDto>> getFriends(Principal principal) {
       return ResponseEntity.ok(friendShipService.getFriends(principal));
    }
 

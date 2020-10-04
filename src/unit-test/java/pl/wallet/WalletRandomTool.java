@@ -1,14 +1,11 @@
-package pl.tool;
+package pl.wallet;
 
+import pl.tool.RandomUtils;
 import pl.user.User;
 import pl.user.UserDto;
 import pl.user.UserMapper;
-import pl.wallet.Wallet;
-import pl.wallet.WalletDto;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -51,7 +48,8 @@ public class WalletRandomTool {
       return randomWallet(user);
    }
 
-   private static Wallet randomWallet(User user) {
+
+   public static Wallet randomWallet(User user) {
       return randomWalletBuilder().owner(user).users(new HashSet<>(Set.of(user))).build();
    }
 

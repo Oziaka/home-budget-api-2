@@ -8,6 +8,7 @@ import pl.user.User;
 import pl.user.UserProvider;
 
 import java.security.Principal;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -41,9 +42,9 @@ public class CategoryService {
    Set<CategoryDto> restoreDefaultCategories(Principal principal) {
       User user = userProvider.get(principal);
       Set<Category> defaultCategories = this.getAllDefaults();
-      user.setCategories(defaultCategories);
-      this.userProvider.save(user);
-      return getCategories(principal);
+      defaultCategories.forEach(user::addCategory);
+      userProvider.save(user);
+      return user.getCategories().stream().map(CategoryMapper::toDto).collect(Collectors.toSet());
    }
 
    Set<CategoryDto> getDefaultCategories() {
@@ -51,7 +52,7 @@ public class CategoryService {
    }
 
    CategoryDto editDefaultCategory(Long categoryId, CategoryDto categoryDto) {
-      Category category = this.get(categoryId);
+      Category category = this.getCategory(categoryId);
       if (!category.getIsDefault())
          throw new RuntimeException("You can not edit no default or not exist category");
       updateNotNullFieldsInCategoryDtoToCategory(category, categoryDto);
@@ -68,7 +69,7 @@ public class CategoryService {
 
    CategoryDto editCategory(Principal principal, Long categoryId, CategoryDto categoryDto) {
       User user = userProvider.get(principal);
-      Category category = this.get(user, categoryId);
+      Category category = this.getCategory(user, categoryId);
       if (category.getIsDefault())
          throw new RuntimeException("You can not edit default or not exist category");
       category = updateNotNullFieldsInCategoryDtoToCategory(category, categoryDto);
@@ -76,11 +77,11 @@ public class CategoryService {
       return CategoryMapper.toDto(savedCategory);
    }
 
-   public Category get(User user, Long categoryId) {
+   public Category getCategory(User user, Long categoryId) {
       return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(ThereIsNoYourPropertyException::new);
    }
 
-   private Category get(Long categoryId) {
+   private Category getCategory(Long categoryId) {
       return categoryRepository.findById(categoryId).orElseThrow(() ->
          new DataNotFoundExeption("Category not found"));
    }
@@ -97,7 +98,7 @@ public class CategoryService {
       return categoryRepository.getDefaultCategories();
    }
 
-   public Category get(String email, Long categoryId) {
-      return categoryRepository.get(email, categoryId).orElseThrow(ThereIsNoYourPropertyException::new);
+   public Optional<Category> getCategory(String email, Long categoryId) {
+      return categoryRepository.find(email, categoryId);
    }
 }

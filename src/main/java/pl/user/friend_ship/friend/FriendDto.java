@@ -1,12 +1,14 @@
 package pl.user.friend_ship.friend;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import pl.user.UserDto;
 
 import java.time.LocalDateTime;
 
 @Getter
+@EqualsAndHashCode
 public class FriendDto {
 
    private UserDto friend;

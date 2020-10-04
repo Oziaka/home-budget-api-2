@@ -21,13 +21,13 @@ public class UserNotificationService {
    List<UserNotificationDto> getNotifications(Principal principal, Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
       User user = userProvider.get(principal);
       userNotificationSpecification.and(new IsUserNotification(user));
-      return this.getAll(pageable, userNotificationSpecification).stream().map(UserNotificationMapper::toDto).collect(Collectors.toList());
+      return getAll(pageable, userNotificationSpecification).stream().map(UserNotificationMapper::toDto).collect(Collectors.toList());
    }
 
    UserNotificationDto updateStatus(Principal principal, Long userNotificationId, Status newStatus) {
-      UserNotification userNotification = this.getOne(principal.getName(), userNotificationId);
+      UserNotification userNotification = getOne(principal.getName(), userNotificationId);
       userNotification.setStatus(newStatus);
-      UserNotification savedUserNotification = this.save(userNotification);
+      UserNotification savedUserNotification = save(userNotification);
       return UserNotificationMapper.toDto(savedUserNotification);
    }
 

@@ -28,7 +28,7 @@ public class TransactionRecurringService {
    public TransactionRecurringDto addTransactionRecurring(Principal principal, Long walletId, TransactionRecurringDto transactionRecurringDto) {
       User user = userService.getUser(principal);
       Wallet wallet = walletService.isUserWallet(principal.getName(), walletId);
-      Category category = categoryService.get(user, transactionRecurringDto.getTransaction().getCategoryId());
+      Category category = categoryService.getCategory(user, transactionRecurringDto.getTransaction().getCategoryId());
       TransactionRecurring transactionRecurring = TransactionRecurringMapper.toEntity(transactionRecurringDto, category);
       TransactionRecurring savedTransactionRecurring = this.save(transactionRecurring);
       wallet.addTransactionRecurring(transactionRecurring);
@@ -38,7 +38,7 @@ public class TransactionRecurringService {
 
    public TransactionRecurringDto editTransactionRecurring(Principal principal, Long walletId, Long transactionRecurringId, TransactionRecurringDto transactionRecurringDto) {
       TransactionRecurring transactionRecurring = this.getOne(principal.getName(), walletId, transactionRecurringId);
-      Category category = categoryService.get(principal.getName(), transactionRecurringDto.getTransaction().getCategoryId());
+      Category category = categoryService.getCategory(principal.getName(), transactionRecurringDto.getTransaction().getCategoryId()).orElseThrow(ThereIsNoYourPropertyException::new);
       TransactionRecurring transactionRecurringWithNewValues = TransactionRecurringMapper.toEntity(transactionRecurringDto, category);
       TransactionRecurring editedTransactionRecurring = updateNotNullFields(transactionRecurringDto, transactionRecurringWithNewValues);
       return null;

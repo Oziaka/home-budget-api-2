@@ -1,12 +1,14 @@
 package pl.user.user_notification.notification;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.Map;
 
 @Getter
+@EqualsAndHashCode
 public class UserNotificationDto {
 
    private Long id;

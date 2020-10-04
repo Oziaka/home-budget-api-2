@@ -14,7 +14,7 @@ public class RandomUtils {
 
    }
 
-   static String randomString(int length) {
+   public static String randomString(int length) {
       return RandomStringUtils.randomAlphabetic(length);
    }
 
@@ -22,7 +22,7 @@ public class RandomUtils {
       return random.nextLong();
    }
 
-   static BigDecimal randomBigDecimal() {
+   public static BigDecimal randomBigDecimal() {
       return BigDecimal.valueOf(Double.parseDouble(RandomStringUtils.randomNumeric(2) + "." + RandomStringUtils.randomNumeric(2)));
    }
 }

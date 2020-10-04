@@ -1,6 +1,7 @@
-package pl.tool;
+package pl.user;
 
 import org.h2.engine.UserBuilder;
+import pl.tool.RandomUtils;
 import pl.user.User;
 import pl.user.UserDto;
 
@@ -27,6 +28,6 @@ public class UserRandomTool {
    }
 
    private static String randomEmaiL() {
-      return randomString() + randomString(3) + '@' + randomString(2) + "." + randomString(2);
+      return randomString() + RandomUtils.randomString(3) + '@' + RandomUtils.randomString(2) + "." + RandomUtils.randomString(2);
    }
 }
