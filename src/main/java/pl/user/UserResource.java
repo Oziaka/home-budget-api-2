@@ -21,7 +21,7 @@ public class UserResource {
 
    private UserService userService;
 
-   @PutMapping(path = "/register", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+   @PutMapping(path = "/register", produces = APPLICATION_JSON_VALUE)
    public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto userDto) {
       return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUserWithDefaultsResources(userDto));
    }
