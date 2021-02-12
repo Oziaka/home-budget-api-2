@@ -1,24 +1,23 @@
 pipeline {
-    agent any
-
-    tools{
-        maven "M3"
-    }
-    stages {
+   agent any
+   tools {
+      maven "M3"
+   }
+   stages {
         stage('Build') {
-            steps {
-                sh "mvn clean compile"
-            }
+         steps {
+            sh "mvn clean compile"
+         }
         }
         stage('Test') {
-            steps {
-                sh "mvn test"
-            }
+           steps {
+              sh "mvn test"
+           }
         }
         stage('Deploy') {
-            steps {
-                sh "mvn clean heroku:deploy"
-            }
+           steps {
+              sh "mvn clean heroku:deploy"
+           }
         }
-    }
+   }
 }
