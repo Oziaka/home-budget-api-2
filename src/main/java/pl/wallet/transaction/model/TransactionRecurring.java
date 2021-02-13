@@ -40,19 +40,19 @@ public class TransactionRecurring {
 
    private Long numberOfRepetition;
 
-   private Long currentNumberRepetitions;
-
+   private Long day;
 
    @Builder
-   public TransactionRecurring(Long id, Transaction transaction, Frequency frequency, LocalDateTime start, LocalDateTime end, LocalDateTime dateOfLastAdding, LocalDateTime dateOfNextAdding, Long numberOfRepetition, Long currentNumberRepetitions) {
+   public TransactionRecurring(Long id, Transaction transaction, Frequency frequency, Wallet wallet, LocalDateTime start, LocalDateTime end, LocalDateTime dateOfLastAdding, LocalDateTime dateOfNextAdding, Long numberOfRepetition, Long day) {
       this.id = id;
       this.transaction = transaction;
       this.frequency = frequency;
+      this.wallet = wallet;
       this.start = start;
       this.end = end;
       this.dateOfLastAdding = dateOfLastAdding;
       this.dateOfNextAdding = dateOfNextAdding;
       this.numberOfRepetition = numberOfRepetition;
-      this.currentNumberRepetitions = currentNumberRepetitions;
+      this.day = day;
    }
 }

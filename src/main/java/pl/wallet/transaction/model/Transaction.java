@@ -17,8 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "transaction")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dType")
-public class
-Transaction {
+public class Transaction {
 
    @Column(name = "transaction_id")
    @Id

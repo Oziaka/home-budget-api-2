@@ -1,6 +1,8 @@
 package pl.wallet.transaction.service;
 
 import lombok.AllArgsConstructor;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
@@ -15,15 +17,65 @@ import pl.wallet.transaction.model.TransactionRecurring;
 import pl.wallet.transaction.repository.TransactionRecurringRepository;
 
 import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
+@EnableScheduling
 public class TransactionRecurringService {
 
    private TransactionRecurringRepository transactionRecurringRepository;
    private UserService userService;
    private WalletService walletService;
    private CategoryService categoryService;
+   private TransactionService transactionService;
+
+   @Scheduled(fixedDelay = 60 * 1000)
+   private void addTransactionAndCalculateTheNextAddition() {
+      List<TransactionRecurring> transactionRecurringList = transactionRecurringRepository.getAll();
+      transactionRecurringList.stream()
+         .filter(transactionRecurring -> transactionRecurring.getDateOfNextAdding().isAfter(LocalDateTime.now()))
+         .peek(transactionRecurring -> transactionService.save(transactionRecurring.getTransaction()))
+         .peek(transactionRecurring -> transactionRecurring.setDateOfLastAdding(LocalDateTime.now()))
+         .peek(transactionRecurring -> countNextAddition(transactionRecurring))
+         .filter(transactionRecurring -> transactionRecurring != null)
+         .forEach(transactionRecurringRepository::save);
+   }
+
+   private TransactionRecurring countNextAddition(TransactionRecurring transactionRecurring) {
+      switch (transactionRecurring.getFrequency()) {
+         case DAILY: {
+            transactionRecurring.setDateOfNextAdding(LocalDateTime.now().plusDays(1));
+            break;
+         }
+         case WEEKLY: {
+            transactionRecurring.setDateOfNextAdding(LocalDateTime.now().plusDays(7));
+            break;
+         }
+         case EVERY_YEAR: {
+            transactionRecurring.setDateOfNextAdding(LocalDateTime.now().plusYears(1));
+            break;
+         }
+         case MONTHLY: {
+            transactionRecurring.setDateOfNextAdding(LocalDateTime.now().plusMonths(1));
+            break;
+         }
+         case CUSTOM_REPETITION: {
+            transactionRecurring.setDateOfNextAdding(LocalDateTime.now().plusDays(transactionRecurring.getDay()));
+            break;
+         }
+      }
+      if (transactionRecurring.getEnd().compareTo(transactionRecurring.getDateOfNextAdding()) < 0) {
+         remove(transactionRecurring);
+         return null;
+      }
+      if (transactionRecurring.getNumberOfRepetition() == 1) {
+         remove(transactionRecurring);
+         return null;
+      }
+      return transactionRecurring;
+   }
 
    public TransactionRecurringDto addTransactionRecurring(Principal principal, Long walletId, TransactionRecurringDto transactionRecurringDto) {
       User user = userService.getUser(principal);
@@ -66,4 +118,6 @@ public class TransactionRecurringService {
    public void remove(TransactionRecurring transactionRecurring) {
       transactionRecurringRepository.delete(transactionRecurring);
    }
+
+
 }
