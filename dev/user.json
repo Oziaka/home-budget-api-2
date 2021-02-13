@@ -7,8 +7,8 @@
   "details": null,
   "authenticated": true,
   "principal": {
-    "password": "CVfXcabWKt",
-    "username": "RfJniclsmWoxM@Cu",
+    "password": "{}",
+    "username": "{}",
     "authorities": [
       {
         "authority": "ROLE_USER"
@@ -19,6 +19,6 @@
     "credentialsNonExpired": true,
     "enabled": true
   },
-  "credentials": "CVfXcabWKt",
-  "name": "RfJniclsmWoxM@Cu"
+  "credentials": "{}",
+  "name": "{}"
 }
