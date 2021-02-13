@@ -6,7 +6,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import pl.user.UserResouerceWebMvcTest;
 
-@SpringBootTest(classes = {BudgetHomeApplicationMvcTest.class, UserResouerceWebMvcTest.class})
+@SpringBootTest(classes = BudgetHomeApplicationMvcTest.class)
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
