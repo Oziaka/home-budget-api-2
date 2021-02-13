@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class TransactionTypeResourceTest {
+class TransactionTypeResourceUnitTest {
    private TransactionTypeResource transactionTypeResource = new TransactionTypeResource();
 
    @Test

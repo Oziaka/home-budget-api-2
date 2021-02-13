@@ -22,7 +22,7 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.http.HttpStatus.CREATED;
 
-class UserResourceTest {
+class UserResourceUnitTest {
    private UserRepository userRepository;
    private UserRoleService userRoleService;
    private PasswordEncoder passwordEncoder;
