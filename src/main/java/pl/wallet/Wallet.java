@@ -1,5 +1,7 @@
 package pl.wallet;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import pl.user.User;
 import pl.wallet.transaction.model.Transaction;
@@ -7,19 +9,17 @@ import pl.wallet.transaction.model.TransactionRecurring;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"owner","users"})
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
 @Table(name = "wallet")
 public class Wallet {
+
 
    @GeneratedValue(strategy = GenerationType.IDENTITY)
    @Column(name = "wallet_id")
@@ -36,6 +36,7 @@ public class Wallet {
    private List<Transaction> transactions;
 
    @ManyToMany(mappedBy = "wallets")
+   @JsonIgnoreProperties
    private Set<User> users;
 
    @OneToOne

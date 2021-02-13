@@ -6,7 +6,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import pl.wallet.WalletService;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -21,7 +20,7 @@ public class UserResource {
 
    private UserService userService;
 
-   @PutMapping(path = "/register", consumes =  APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
+   @PutMapping(path = "/register", consumes = APPLICATION_JSON_VALUE,produces = APPLICATION_JSON_VALUE)
    public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto userDto) {
       return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUserWithDefaultsResources(userDto));
    }

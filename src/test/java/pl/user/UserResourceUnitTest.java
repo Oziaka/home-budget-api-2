@@ -57,9 +57,9 @@ class UserResourceUnitTest {
       Mockito.when(userRepository.save(any())).thenReturn(userReturnendByUserRepository);
       ResponseEntity<UserDto> registeredUserResponseEntity = userResource.register(userToRegistration);
       // then
-      UserDto excpectedUserDto = UserDto.builder().email(userToRegistration.getEmail()).userName(userToRegistration.getUserName()).build();
+      UserDto expectedUserDto = UserDto.builder().email(userToRegistration.getEmail()).userName(userToRegistration.getUserName()).build();
       Assertions.assertEquals(registeredUserResponseEntity.getStatusCode(), CREATED);
-      Assertions.assertEquals(registeredUserResponseEntity.getBody(), excpectedUserDto);
+      Assertions.assertEquals(registeredUserResponseEntity.getBody(), expectedUserDto);
    }
 
    @Test
