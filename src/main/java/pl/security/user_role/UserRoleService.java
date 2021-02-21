@@ -2,7 +2,7 @@ package pl.security.user_role;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.DataNotFoundExeption;
+import pl.exception.DataNotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +32,7 @@ public class UserRoleService {
    }
 
    public UserRole getOne(Long userRoleId) {
-      return userRoleRepository.findById(userRoleId).orElseThrow(() -> new DataNotFoundExeption("User role not found"));
+      return userRoleRepository.findById(userRoleId).orElseThrow(() -> new DataNotFoundException("User role not found"));
    }
 
    private UserRole save(UserRole userRole) {

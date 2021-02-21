@@ -2,7 +2,7 @@ package pl.wallet.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.DataNotFoundExeption;
+import pl.exception.DataNotFoundException;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserProvider;
@@ -83,7 +83,7 @@ public class CategoryService {
 
    private Category getCategory(Long categoryId) {
       return categoryRepository.findById(categoryId).orElseThrow(() ->
-         new DataNotFoundExeption("Category not found"));
+         new DataNotFoundException("Category not found"));
    }
 
    private Category save(Category category) {

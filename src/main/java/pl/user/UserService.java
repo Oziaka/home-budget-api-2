@@ -3,7 +3,7 @@ package pl.user;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.exception.DataNotFoundExeption;
+import pl.exception.DataNotFoundException;
 import pl.security.user_role.UserRole;
 import pl.security.user_role.UserRoleService;
 import pl.user.item_key.UserItemKey;
@@ -102,7 +102,7 @@ public class UserService {
    }
 
    private User getUser(String email) {
-      return userRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundExeption("User not found"));
+      return userRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundException("User not found"));
    }
 
    public User getUser(Principal principal) {

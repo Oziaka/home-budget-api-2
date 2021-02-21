@@ -2,7 +2,7 @@ package pl.user;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.DataNotFoundExeption;
+import pl.exception.DataNotFoundException;
 
 import java.security.Principal;
 
@@ -17,7 +17,7 @@ public class UserProvider {
    }
 
    User get(String email) {
-      return userRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundExeption("User not found"));
+      return userRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundException("User not found"));
    }
 
    public User save(User user) {
