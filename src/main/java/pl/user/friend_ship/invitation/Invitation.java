@@ -12,20 +12,20 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Invitation {
 
-   @Id
-   @Column(name = "invitation_id")
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
+  @Id
+  @Column(name = "invitation_id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
 
-   @OneToOne
-   private User inviter;
+  @OneToOne
+  private User inviter;
 
-   @OneToOne
-   private User invited;
+  @OneToOne
+  private User invited;
 
-   @Builder
-   public Invitation(User inviter, User invited) {
-      this.inviter = inviter;
-      this.invited = invited;
-   }
+  @Builder
+  public Invitation(User inviter, User invited) {
+    this.inviter = inviter;
+    this.invited = invited;
+  }
 }

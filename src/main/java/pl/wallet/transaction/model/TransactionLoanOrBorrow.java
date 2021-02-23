@@ -17,20 +17,20 @@ import java.util.List;
 @NoArgsConstructor
 @Entity
 public class TransactionLoanOrBorrow extends Transaction {
-   @OneToMany(mappedBy = "transactionLoanOrBorrow")
-   private List<TransactionBack> transactionsBack;
-   private Boolean isFinished;
+  @OneToMany(mappedBy = "transactionLoanOrBorrow")
+  private List<TransactionBack> transactionsBack;
+  private Boolean isFinished;
 
-   @Builder(builderMethodName = "transactionLoanOrBorrowBuilder")
-   public TransactionLoanOrBorrow(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, List<TransactionBack> transactionsBack, Boolean isFinished) {
-      super(name, description, category, price, wallet, dateOfPurchase);
-      this.transactionsBack = transactionsBack;
-      this.isFinished = isFinished;
-   }
+  @Builder(builderMethodName = "transactionLoanOrBorrowBuilder")
+  public TransactionLoanOrBorrow(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase, List<TransactionBack> transactionsBack, Boolean isFinished) {
+    super(name, description, category, price, wallet, dateOfPurchase);
+    this.transactionsBack = transactionsBack;
+    this.isFinished = isFinished;
+  }
 
-   public void addTransactionsBack(TransactionBack transactionBack) {
-      if (transactionBack == null)
-         this.transactionsBack = new ArrayList<>();
-      transactionsBack.add(transactionBack);
-   }
+  public void addTransactionsBack(TransactionBack transactionBack) {
+    if (transactionBack == null)
+      this.transactionsBack = new ArrayList<>();
+    transactionsBack.add(transactionBack);
+  }
 }

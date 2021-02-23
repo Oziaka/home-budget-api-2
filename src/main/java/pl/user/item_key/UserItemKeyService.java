@@ -8,19 +8,19 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserItemKeyService {
-   private UserItemKeyRepository userItemKeyRepository;
+  private UserItemKeyRepository userItemKeyRepository;
 
-   UserItemKeyDto addUserItemKey(UserItemKeyDto userItemKeyDto) {
-      UserItemKey userItemKey = UserItemKeyMapper.toEntity(userItemKeyDto);
-      UserItemKey savedUserItemKey = this.save(userItemKey);
-      return UserItemKeyMapper.toDto(savedUserItemKey);
-   }
+  UserItemKeyDto addUserItemKey(UserItemKeyDto userItemKeyDto) {
+    UserItemKey userItemKey = UserItemKeyMapper.toEntity(userItemKeyDto);
+    UserItemKey savedUserItemKey = this.save(userItemKey);
+    return UserItemKeyMapper.toDto(savedUserItemKey);
+  }
 
-   public UserItemKey save(UserItemKey userItemKey) {
-      return userItemKeyRepository.save(userItemKey);
-   }
+  public UserItemKey save(UserItemKey userItemKey) {
+    return userItemKeyRepository.save(userItemKey);
+  }
 
-   public List<UserItemKey> getAll() {
-      return userItemKeyRepository.findAll();
-   }
+  public List<UserItemKey> getAll() {
+    return userItemKeyRepository.findAll();
+  }
 }

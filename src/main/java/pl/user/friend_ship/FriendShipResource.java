@@ -13,23 +13,23 @@ import java.util.List;
 @RequestMapping("/friend")
 public class FriendShipResource {
 
-   private FriendShipService friendShipService;
+  private FriendShipService friendShipService;
 
-   @PostMapping("/add/{invitationId}")
-   public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
-      return ResponseEntity.ok(friendShipService.add(principal, invitationId));
-   }
+  @PostMapping("/add/{invitationId}")
+  public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
+    return ResponseEntity.ok(friendShipService.add(principal, invitationId));
+  }
 
-   @GetMapping("s")
-   public ResponseEntity<List<FriendDto>> getFriends(Principal principal) {
-      return ResponseEntity.ok(friendShipService.getFriends(principal));
-   }
+  @GetMapping("s")
+  public ResponseEntity<List<FriendDto>> getFriends(Principal principal) {
+    return ResponseEntity.ok(friendShipService.getFriends(principal));
+  }
 
-   @DeleteMapping("/remove/{friendShipId}")
-   public ResponseEntity removeFriend(Principal principal, @PathVariable Long friendShipId) {
-      friendShipService.remove(principal, friendShipId);
-      return ResponseEntity.noContent().build();
-   }
+  @DeleteMapping("/remove/{friendShipId}")
+  public ResponseEntity removeFriend(Principal principal, @PathVariable Long friendShipId) {
+    friendShipService.remove(principal, friendShipId);
+    return ResponseEntity.noContent().build();
+  }
 
 
 }

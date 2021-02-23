@@ -10,17 +10,17 @@ import java.security.Principal;
 @AllArgsConstructor
 public class UserProvider {
 
-   private UserRepository userRepository;
+  private UserRepository userRepository;
 
-   public User get(Principal principal) {
-      return get(principal.getName());
-   }
+  public User get(Principal principal) {
+    return get(principal.getName());
+  }
 
-   User get(String email) {
-      return userRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundException("User not found"));
-   }
+  User get(String email) {
+    return userRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundException("User not found"));
+  }
 
-   public User save(User user) {
-      return userRepository.save(user);
-   }
+  public User save(User user) {
+    return userRepository.save(user);
+  }
 }

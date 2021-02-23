@@ -19,21 +19,21 @@ import java.util.List;
 @RequestMapping("/notification")
 public class UserNotificationResource {
 
-   private UserNotificationService userNotificationService;
+  private UserNotificationService userNotificationService;
 
-   @GetMapping("/notification")
-   public ResponseEntity<List<UserNotificationDto>> getNotifications(Principal principal,
-                                                                     @PageableDefault(page = 0, size = 40)
-                                                                     @SortDefault.SortDefaults(
-                                                                        @SortDefault(sort = "notification.dateOfAdding", direction = Sort.Direction.DESC))
-                                                                        Pageable pageable,
-                                                                     @Spec(path = "status", params = "status", spec = In.class)
-                                                                        Specification<UserNotification> userNotificationSpecification) {
-      return ResponseEntity.ok(userNotificationService.getNotifications(principal, pageable, userNotificationSpecification));
-   }
+  @GetMapping("/notification")
+  public ResponseEntity<List<UserNotificationDto>> getNotifications(Principal principal,
+                                                                    @PageableDefault(page = 0, size = 40)
+                                                                    @SortDefault.SortDefaults(
+                                                                      @SortDefault(sort = "notification.dateOfAdding", direction = Sort.Direction.DESC))
+                                                                      Pageable pageable,
+                                                                    @Spec(path = "status", params = "status", spec = In.class)
+                                                                      Specification<UserNotification> userNotificationSpecification) {
+    return ResponseEntity.ok(userNotificationService.getNotifications(principal, pageable, userNotificationSpecification));
+  }
 
-   @PostMapping("/change_status/{userNotificationId}")
-   public ResponseEntity<UserNotificationDto> setUserNotificationStatus(Principal principal, @PathVariable Long userNotificationId, @RequestBody Status newStatus) {
-      return ResponseEntity.ok(userNotificationService.updateStatus(principal, userNotificationId, newStatus));
-   }
+  @PostMapping("/change_status/{userNotificationId}")
+  public ResponseEntity<UserNotificationDto> setUserNotificationStatus(Principal principal, @PathVariable Long userNotificationId, @RequestBody Status newStatus) {
+    return ResponseEntity.ok(userNotificationService.updateStatus(principal, userNotificationId, newStatus));
+  }
 }

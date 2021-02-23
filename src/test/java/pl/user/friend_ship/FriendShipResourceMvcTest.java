@@ -1,18 +1,19 @@
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+package pl.user.friend_ship;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import pl.user.UserResouerceWebMvcTest;
+import org.springframework.test.web.servlet.MockMvc;
 
-@SpringBootTest(classes = BudgetHomeApplicationMvcTest.class)
+@SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
-public class BudgetHomeApplicationMvcTest {
-  @Test
-  void whether_the_application_starts_correctly() {
-    Assertions.assertTrue(true);
-  }
+public class FriendShipResourceMvcTest {
+  @Autowired
+  private MockMvc mockMvc;
+
+
 }

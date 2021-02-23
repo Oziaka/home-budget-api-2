@@ -16,25 +16,25 @@ import java.util.Set;
 @NoArgsConstructor
 public class WalletDto {
 
-   @Null(message = "Wallet must not have id")
-   private Long id;
+  @Null(message = "Wallet must not have id")
+  private Long id;
 
-   @NotEmpty(message = "Wallet must have name")
-   private String name;
+  @NotEmpty(message = "Wallet must have name")
+  private String name;
 
-   @NotNull(message = "Wallet must have balance")
-   private BigDecimal balance;
+  @NotNull(message = "Wallet must have balance")
+  private BigDecimal balance;
 
-   private Set<UserDto> users;
+  private Set<UserDto> users;
 
-   private UserDto owner;
+  private UserDto owner;
 
-   @Builder
-   public WalletDto(@Null(message = "Wallet must not have id") Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, Set<UserDto> users, UserDto owner) {
-      this.id = id;
-      this.name = name;
-      this.balance = balance;
-      this.users = users;
-      this.owner = owner;
-   }
+  @Builder
+  public WalletDto(@Null(message = "Wallet must not have id") Long id, @NotEmpty(message = "Wallet must have name") String name, @NotNull(message = "Wallet must have balance") BigDecimal balance, Set<UserDto> users, UserDto owner) {
+    this.id = id;
+    this.name = name;
+    this.balance = balance;
+    this.users = users;
+    this.owner = owner;
+  }
 }

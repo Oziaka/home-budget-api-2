@@ -17,21 +17,21 @@ import java.security.Principal;
 @CrossOrigin("${cors.allowed-origins}")
 public class TransactionRecurringResource {
 
-   private TransactionRecurringService transactionRecurringService;
+  private TransactionRecurringService transactionRecurringService;
 
-   @PutMapping("/add")
-   public ResponseEntity<TransactionRecurringDto> addTransactionRecurring(Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionRecurringDto transactionRecurringDto) {
-      return ResponseEntity.ok(transactionRecurringService.addTransactionRecurring(principal, walletId, transactionRecurringDto));
-   }
+  @PutMapping("/add")
+  public ResponseEntity<TransactionRecurringDto> addTransactionRecurring(Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionRecurringDto transactionRecurringDto) {
+    return ResponseEntity.ok(transactionRecurringService.addTransactionRecurring(principal, walletId, transactionRecurringDto));
+  }
 
-   @PostMapping("/{transactionRecurringId}/edit")
-   public ResponseEntity<TransactionRecurringDto> editTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId, @Valid @RequestBody TransactionRecurringDto transactionRecurringDto) {
-      return ResponseEntity.ok(transactionRecurringService.editTransactionRecurring(principal, walletId, transactionRecurringId, transactionRecurringDto));
-   }
+  @PostMapping("/{transactionRecurringId}/edit")
+  public ResponseEntity<TransactionRecurringDto> editTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId, @Valid @RequestBody TransactionRecurringDto transactionRecurringDto) {
+    return ResponseEntity.ok(transactionRecurringService.editTransactionRecurring(principal, walletId, transactionRecurringId, transactionRecurringDto));
+  }
 
-   @PostMapping("/{transactionRecurringId}/remove")
-   public ResponseEntity<TransactionRecurringDto> removeTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId) {
-      transactionRecurringService.removeTransactionRecurring(principal, walletId, transactionRecurringId);
-      return ResponseEntity.noContent().build();
-   }
+  @PostMapping("/{transactionRecurringId}/remove")
+  public ResponseEntity<TransactionRecurringDto> removeTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId) {
+    transactionRecurringService.removeTransactionRecurring(principal, walletId, transactionRecurringId);
+    return ResponseEntity.noContent().build();
+  }
 }

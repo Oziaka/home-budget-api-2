@@ -13,17 +13,17 @@ import java.util.stream.Collectors;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class TransactionTypeResourceUnitTest {
-   private TransactionTypeResource transactionTypeResource = new TransactionTypeResource();
+  private TransactionTypeResource transactionTypeResource = new TransactionTypeResource();
 
-   @Test
-   void getTransactionsTypeReturnAllTransactionTypes() {
-      // given
+  @Test
+  void getTransactionsTypeReturnAllTransactionTypes() {
+    // given
 
-      // when
-      ResponseEntity<List<Type>> transactionsTypeResponseEntity = transactionTypeResource.getTransactionsType();
-      // then
-      List<Type> expectedTransactionTypes = Arrays.stream(Type.values()).collect(Collectors.toList());
-      Assertions.assertEquals(HttpStatus.OK, transactionsTypeResponseEntity.getStatusCode());
-      assertEquals(expectedTransactionTypes, transactionsTypeResponseEntity.getBody());
-   }
+    // when
+    ResponseEntity<List<Type>> transactionsTypeResponseEntity = transactionTypeResource.getTransactionsType();
+    // then
+    List<Type> expectedTransactionTypes = Arrays.stream(Type.values()).collect(Collectors.toList());
+    Assertions.assertEquals(HttpStatus.OK, transactionsTypeResponseEntity.getStatusCode());
+    assertEquals(expectedTransactionTypes, transactionsTypeResponseEntity.getBody());
+  }
 }

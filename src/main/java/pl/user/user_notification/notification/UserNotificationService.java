@@ -15,31 +15,31 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class UserNotificationService {
-   private UserNotificationRepository userNotificationRepository;
-   private UserProvider userProvider;
+  private UserNotificationRepository userNotificationRepository;
+  private UserProvider userProvider;
 
-   List<UserNotificationDto> getNotifications(Principal principal, Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
-      User user = userProvider.get(principal);
-      userNotificationSpecification.and(new IsUserNotification(user));
-      return getAll(pageable, userNotificationSpecification).stream().map(UserNotificationMapper::toDto).collect(Collectors.toList());
-   }
+  List<UserNotificationDto> getNotifications(Principal principal, Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
+    User user = userProvider.get(principal);
+    userNotificationSpecification.and(new IsUserNotification(user));
+    return getAll(pageable, userNotificationSpecification).stream().map(UserNotificationMapper::toDto).collect(Collectors.toList());
+  }
 
-   UserNotificationDto updateStatus(Principal principal, Long userNotificationId, Status newStatus) {
-      UserNotification userNotification = getOne(principal.getName(), userNotificationId);
-      userNotification.setStatus(newStatus);
-      UserNotification savedUserNotification = save(userNotification);
-      return UserNotificationMapper.toDto(savedUserNotification);
-   }
+  UserNotificationDto updateStatus(Principal principal, Long userNotificationId, Status newStatus) {
+    UserNotification userNotification = getOne(principal.getName(), userNotificationId);
+    userNotification.setStatus(newStatus);
+    UserNotification savedUserNotification = save(userNotification);
+    return UserNotificationMapper.toDto(savedUserNotification);
+  }
 
-   private List<UserNotification> getAll(Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
-      return userNotificationRepository.findAll(userNotificationSpecification, pageable);
-   }
+  private List<UserNotification> getAll(Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
+    return userNotificationRepository.findAll(userNotificationSpecification, pageable);
+  }
 
-   private UserNotification getOne(String email, Long userNotificationId) {
-      return userNotificationRepository.getByUserEmailAndAndId(email, userNotificationId).orElseThrow(ThereIsNoYourPropertyException::new);
-   }
+  private UserNotification getOne(String email, Long userNotificationId) {
+    return userNotificationRepository.getByUserEmailAndAndId(email, userNotificationId).orElseThrow(ThereIsNoYourPropertyException::new);
+  }
 
-   public UserNotification save(UserNotification userNotification) {
-      return userNotificationRepository.save(userNotification);
-   }
+  public UserNotification save(UserNotification userNotification) {
+    return userNotificationRepository.save(userNotification);
+  }
 }

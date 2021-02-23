@@ -10,18 +10,19 @@ import java.util.Optional;
 @Repository
 public interface InvitationRepository extends JpaRepository<Invitation, Long> {
 
-   Optional<Invitation> findAllByInviterAndInvited(User inviter, User invited);
 
-   void removeByInviterAndInvited(User inviter, User Invited);
+  Optional<Invitation> findAllByInviterAndInvited(User inviter, User invited);
 
-   void delete(Invitation invitation);
+  void removeByInviterAndInvited(User inviter, User Invited);
 
-   Optional<Invitation> findByInviterAndId(User inviter, Long invitationId);
+  void delete(Invitation invitation);
 
-   Optional<Invitation> findByInvitedAndId(User invited, Long invitationId);
+  Optional<Invitation> findByInviterAndId(User inviter, Long invitationId);
 
-   List<Invitation> findAllByInviter(User inviter);
+  Optional<Invitation> findByInvitedAndId(User invited, Long invitationId);
 
-   List<Invitation> findAllByInvited(User invited);
+  List<Invitation> findAllByInviter(User inviter);
+
+  List<Invitation> findAllByInvited(User invited);
 }
 
