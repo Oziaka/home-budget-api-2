@@ -31,12 +31,12 @@ public class WalletResource {
     return ResponseEntity.ok(walletService.getWallets(principal));
   }
 
-  @PostMapping("/{walletId}/edit")
+  @PostMapping("/edit/{walletId}")
   public ResponseEntity<WalletDto> editWallet(Principal principal, @PathVariable Long walletId, @Valid @RequestBody WalletDto walletDto) {
     return ResponseEntity.ok(walletService.editWallet(principal, walletId, walletDto));
   }
 
-  @DeleteMapping("/{walletId}/remove")
+  @DeleteMapping("/remove/{walletId}")
   public ResponseEntity removeWallet(Principal principal, @PathVariable Long walletId) {
     walletService.removeWallet(principal, walletId);
     return ResponseEntity.noContent().build();

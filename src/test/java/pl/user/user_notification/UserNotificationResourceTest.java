@@ -10,6 +10,7 @@ import pl.user.UserProvider;
 import pl.user.UserRandomTool;
 import pl.user.user_notification.UserNotificationRandomTool;
 import pl.user.user_notification.notification.*;
+import pl.user.user_notification.notification.notification.NotificationProvider;
 
 import java.util.List;
 import java.util.Optional;
@@ -27,13 +28,15 @@ class UserNotificationResourceTest {
   private UserNotificationRepository userNotificationRepository;
   private UserProvider userProvider;
   private UserNotificationService userNotificationService;
+  private NotificationProvider notificationProvider;
   private UserNotificationResource userNotificationResource;
 
   @BeforeEach
   void initResource() {
     userNotificationRepository = mock(UserNotificationRepository.class);
     userProvider = mock(UserProvider.class);
-    userNotificationService = new UserNotificationService(userNotificationRepository, userProvider);
+    notificationProvider = mock(NotificationProvider.class);
+    userNotificationService = new UserNotificationService(userNotificationRepository, userProvider,notificationProvider);
     userNotificationResource = new UserNotificationResource(userNotificationService);
   }
 

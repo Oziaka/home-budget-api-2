@@ -116,7 +116,7 @@ public class WalletResourceMvcTest {
       .build();
     // when
     // then
-    mockMvc.perform(post("/wallet/1/edit")
+    mockMvc.perform(post("/wallet/edit/1")
       .contentType(APPLICATION_JSON_VALUE)
       .content(asJsonString(walletDtoWithUpdatedName))
       .with(user(userDto.getEmail()).password(userDto.getPassword())))
@@ -125,18 +125,16 @@ public class WalletResourceMvcTest {
       .andExpect(content().json(asJsonString(expectedWalletDto)));
   }
 
-//    @Test
-//    void removeWalletReturnedNoContentWhenRemovedSuccess() throws Exception {
-//        // given
-//        UserDto userDto = UserRandomTool.randomUserDto();
-//        this.mockMvc.perform(delete("/register")
-//                .content(asJsonString(userDto))
-//                .contentType(APPLICATION_JSON_VALUE));
-//        // when
-//        // then
-//        mockMvc.perform(put("/wallet/1/remove").with(user(userDto.getEmail()).password(userDto.getPassword())))
-//                .andExpect(status().isNoContent());
-//    }
+    @Test
+    void removeWalletReturnedNoContentWhenRemovedSuccess() throws Exception {
+        // given
+        UserDto userDto = UserRandomTool.randomUserDto();
+        this.mockMvc.perform(delete("/register"));
+        // when
+        // then
+        mockMvc.perform(put("/wallet/remove/1").with(user(userDto.getEmail()).password(userDto.getPassword())))
+                .andExpect(status().isNoContent());
+    }
 
   @Test
   void getWalletReturnedWalletDtoWhenIsUserWallet() throws Exception {
