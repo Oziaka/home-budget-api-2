@@ -8,7 +8,7 @@ import pl.user.UserProvider;
 import pl.user.friend_ship.friend.FriendDto;
 import pl.user.friend_ship.friend.FriendMapper;
 import pl.user.friend_ship.invitation.Invitation;
-import pl.user.friend_ship.invitation.InvitationService;
+import pl.user.friend_ship.invitation.InvitationProvider;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
@@ -19,14 +19,14 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class FriendShipService {
 
-  private InvitationService invitationService;
+  private InvitationProvider invitationProvider;
   private UserProvider userProvider;
   private FriendShipRepository friendShipRepository;
 
   FriendShipDto add(Principal principal, Long invitationId) {
     User user = userProvider.get(principal);
-    Invitation invitation = invitationService.getOneByInvited(user, invitationId);
-    invitationService.remove(invitation);
+    Invitation invitation = invitationProvider.getOneByInvited(user, invitationId);
+    invitationProvider.remove(invitation);
     FriendShip friendShip = FriendShip.builder().user(invitation.getInvited()).user2(invitation.getInviter()).dateOfAdding(LocalDateTime.now()).build();
     FriendShip friendShip2 = FriendShip.builder().user(invitation.getInviter()).user2(invitation.getInvited()).dateOfAdding(friendShip.getDateOfAdding()).build();
     FriendShip savedFriendShip = this.save(friendShip);
@@ -36,7 +36,8 @@ public class FriendShipService {
   }
 
   List<FriendDto> getFriends(Principal principal) {
-    return this.getAll(principal.getName()).stream().map(FriendMapper::toDto).collect(Collectors.toList());
+    User user = userProvider.get(principal);
+    return this.getAll(user).stream().map(FriendMapper::toDto).collect(Collectors.toList());
   }
 
   void remove(Principal principal, Long friendShipId) {
@@ -52,8 +53,8 @@ public class FriendShipService {
     return friendShipRepository.save(friendShip);
   }
 
-  private List<FriendShip> getAll(String email) {
-    return friendShipRepository.findALlByUserEmail(email);
+  private List<FriendShip> getAll(User user) {
+    return friendShipRepository.findALlByUser(user);
   }
 
   private FriendShip getOne(User user, Long friendShipId) {

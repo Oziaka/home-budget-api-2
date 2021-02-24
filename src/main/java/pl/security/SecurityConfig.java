@@ -11,7 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Bean
-  public PasswordEncoder passwordEncoder() {
+  public PasswordEncoder passwordEncoder () {
     return PasswordEncoderFactories.createDelegatingPasswordEncoder();
   }
 
@@ -29,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
       .antMatchers("/admin/**").hasRole("ADMIN")
       .anyRequest().hasRole("USER")
       .and()
-      .formLogin().usernameParameter("email")
+      .formLogin().usernameParameter("email").passwordParameter("password")
       .and()
       .cors()
       .and()

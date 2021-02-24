@@ -13,11 +13,7 @@ public class UserProvider {
   private UserRepository userRepository;
 
   public User get(Principal principal) {
-    return get(principal.getName());
-  }
-
-  User get(String email) {
-    return userRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundException("User not found"));
+    return userRepository.findByEmail(principal.getName()).orElseThrow(() -> new DataNotFoundException("User not found"));
   }
 
   public User save(User user) {

@@ -12,6 +12,7 @@ import pl.user.UserProvider;
 import pl.user.friend_ship.friend.FriendDto;
 import pl.user.friend_ship.friend.FriendMapper;
 import pl.user.friend_ship.invitation.Invitation;
+import pl.user.friend_ship.invitation.InvitationProvider;
 import pl.user.friend_ship.invitation.InvitationRandomTool;
 import pl.user.friend_ship.invitation.InvitationService;
 
@@ -31,7 +32,7 @@ import static org.mockito.Mockito.when;
 class FriendShipResourceUnitTest {
 
   private FriendShipRepository friendShipRepository;
-  private InvitationService invitationService;
+  private InvitationProvider invitationProvider;
   private UserProvider userProvider;
   private FriendShipService friendShipService;
   private FriendShipResource friendShipResource;
@@ -39,9 +40,9 @@ class FriendShipResourceUnitTest {
   @BeforeEach
   void init() {
     friendShipRepository = Mockito.mock(FriendShipRepository.class);
-    invitationService = Mockito.mock(InvitationService.class);
+    invitationProvider = Mockito.mock(InvitationProvider.class);
     userProvider = Mockito.mock(UserProvider.class);
-    friendShipService = new FriendShipService(invitationService, userProvider, friendShipRepository);
+    friendShipService = new FriendShipService(invitationProvider, userProvider, friendShipRepository);
     friendShipResource = new FriendShipResource(friendShipService);
   }
 
@@ -53,7 +54,7 @@ class FriendShipResourceUnitTest {
     Invitation invitation = InvitationRandomTool.randomInvitation(userDto, friendDto);
     // when
     when(userProvider.get(any())).thenAnswer(invocation -> User.builder().email(invocation.getArgument(0, Principal.class).getName()).build());
-    when(invitationService.getOneByInvited(any(), any())).thenReturn(invitation);
+    when(invitationProvider.getOneByInvited(any(), any())).thenReturn(invitation);
     when(friendShipRepository.save(any())).thenAnswer(invocation -> {
       FriendShip friendShip = invocation.getArgument(0, FriendShip.class);
       friendShip.setId(1L);
@@ -79,7 +80,7 @@ class FriendShipResourceUnitTest {
     }).collect(Collectors.toList());
     // when
     when(userProvider.get(any())).thenAnswer(invocation -> User.builder().email(invocation.getArgument(0, Principal.class).getName()).build());
-    when(friendShipRepository.findALlByUserEmail(any())).thenReturn(friends);
+    when(friendShipRepository.findALlByUser(any())).thenReturn(friends);
     ResponseEntity<List<FriendDto>> userFriends = friendShipResource.getFriends(userDto::getEmail);
     // then
     List<FriendDto> expectedFriendDto = friends.stream().map(FriendMapper::toDto).collect(Collectors.toList());

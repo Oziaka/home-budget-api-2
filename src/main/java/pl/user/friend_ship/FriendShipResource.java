@@ -1,6 +1,8 @@
 package pl.user.friend_ship;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.user.friend_ship.friend.FriendDto;
@@ -15,12 +17,12 @@ public class FriendShipResource {
 
   private FriendShipService friendShipService;
 
-  @PostMapping("/add/{invitationId}")
+  @PutMapping("/add/{invitationId}")
   public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
-    return ResponseEntity.ok(friendShipService.add(principal, invitationId));
+    return ResponseEntity.status(HttpStatus.CREATED).body(friendShipService.add(principal, invitationId));
   }
 
-  @GetMapping("s")
+  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<List<FriendDto>> getFriends(Principal principal) {
     return ResponseEntity.ok(friendShipService.getFriends(principal));
   }

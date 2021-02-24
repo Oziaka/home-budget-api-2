@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class FriendShip {
 
-  @Id
   @Column(name = "friend_ship_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Id
   private Long id;
 
   @OneToOne

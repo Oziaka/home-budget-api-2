@@ -1,6 +1,7 @@
 package pl.user.friend_ship;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pl.user.User;
 
@@ -12,7 +13,7 @@ public interface FriendShipRepository extends JpaRepository<FriendShip, Long> {
 
   Optional<FriendShip> findAllByUserAndUser2(User user, User user2);
 
-  List<FriendShip> findALlByUserEmail(String email);
+  List<FriendShip> findALlByUser(User user);
 
   Optional<FriendShip> findByUserAndId(User user, Long friendShipId);
 
