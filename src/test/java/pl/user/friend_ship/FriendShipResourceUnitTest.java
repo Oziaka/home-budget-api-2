@@ -64,7 +64,7 @@ class FriendShipResourceUnitTest {
     ResponseEntity friendShipDtoResponseEntity = friendShipResource.addFriend(userDto::getEmail, invitation.getId());
     // then
     FriendShipDto expectedFriendShipDto = FriendShipDto.builder().id(1L).user(UserDto.builder().email(friendDto.getEmail()).build()).user2(UserDto.builder().email(userDto.getEmail()).build()).build();
-    assertEquals(HttpStatus.OK, friendShipDtoResponseEntity.getStatusCode());
+    assertEquals(HttpStatus.CREATED, friendShipDtoResponseEntity.getStatusCode());
     assertThat(friendShipDtoResponseEntity.getBody()).isEqualToIgnoringNullFields(expectedFriendShipDto);
     assertThat(((FriendShipDto) friendShipDtoResponseEntity.getBody()).getDateOfAdding()).isStrictlyBetween(timeBeforeGetResponse, LocalDateTime.now());
   }

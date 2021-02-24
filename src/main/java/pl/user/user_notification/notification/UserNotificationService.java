@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserProvider;
+import pl.user.user_notification.notification.notification.Notification;
+import pl.user.user_notification.notification.notification.NotificationProvider;
 
 import java.security.Principal;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class UserNotificationService {
   private UserNotificationRepository userNotificationRepository;
   private UserProvider userProvider;
+  private NotificationProvider notificationProvider;
 
   List<UserNotificationDto> getNotifications(Principal principal, Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
     User user = userProvider.get(principal);
@@ -41,5 +44,20 @@ public class UserNotificationService {
 
   public UserNotification save(UserNotification userNotification) {
     return userNotificationRepository.save(userNotification);
+  }
+
+  public Notification sendNotificationToAllUser(Notification notification) {
+    Notification savedNotification = notificationProvider.save(notification);
+    for (User user : userProvider.getAll()) {
+      userNotificationRepository.save(createUserNotification(notification, user));
+    }
+    return savedNotification;
+  }
+
+  private UserNotification createUserNotification(Notification notification, User user) {
+    return UserNotification.builder()
+      .notification(notification)
+      .user(user)
+      .build();
   }
 }

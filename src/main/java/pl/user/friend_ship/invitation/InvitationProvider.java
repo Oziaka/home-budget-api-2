@@ -13,6 +13,7 @@ public class InvitationProvider {
   public Invitation getOneByInvited(User invited, Long invitationId) {
     return invitationRepository.findByInvitedAndId(invited, invitationId).orElseThrow(ThereIsNoYourPropertyException::new);
   }
+
   public void remove(Invitation invitation) {
     invitationRepository.delete(invitation);
   }

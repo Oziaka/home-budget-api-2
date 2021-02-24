@@ -101,4 +101,11 @@ public class User {
   public void removeRole(UserRole userRole) {
     this.roles.remove(userRole);
   }
+
+  public void addUserNotification(UserNotification userNotification) {
+    if (userNotification == null)
+      userNotifications = new ArrayList<>(Collections.singleton(userNotification));
+    else
+      userNotifications.add(userNotification);
+  }
 }

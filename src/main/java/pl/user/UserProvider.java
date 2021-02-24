@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.exception.DataNotFoundException;
 
 import java.security.Principal;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -18,5 +19,9 @@ public class UserProvider {
 
   public User save(User user) {
     return userRepository.save(user);
+  }
+
+  public List<User> getAll() {
+    return userRepository.findAll();
   }
 }
