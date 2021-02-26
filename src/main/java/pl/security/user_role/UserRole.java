@@ -13,22 +13,22 @@ import javax.persistence.*;
 @Table(name = "user_role")
 public class UserRole {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "user_role_id")
-  private Long id;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   @Column(name = "user_role_id")
+   private Long id;
 
-  @Column(unique = true)
-  private String roleName;
+   @Column(unique = true)
+   private String roleName;
 
-  private String description;
+   private String description;
 
-  private Boolean isDefault;
+   private Boolean isDefault;
 
-  public UserRole(String roleName, String description) {
-    this.roleName = roleName;
-    this.description = description;
-  }
+   public UserRole(String roleName, String description) {
+      this.roleName = roleName;
+      this.description = description;
+   }
 
 }
 

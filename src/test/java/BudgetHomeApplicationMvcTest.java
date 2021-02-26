@@ -11,8 +11,8 @@ import pl.user.UserResouerceWebMvcTest;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles("test")
 public class BudgetHomeApplicationMvcTest {
-  @Test
-  void whether_the_application_starts_correctly() {
-    Assertions.assertTrue(true);
-  }
+   @Test
+   void whether_the_application_starts_correctly() {
+      Assertions.assertTrue(true);
+   }
 }

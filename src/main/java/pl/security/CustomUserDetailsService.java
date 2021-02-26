@@ -20,18 +20,18 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-  private UserProvider userProvider;
+   private UserProvider userProvider;
 
-  @Override
-  public UserDetails loadUserByUsername(String email) {
-    User user = userProvider.get(email::toString);
-    return new org.springframework.security.core.userdetails.User(
-      user.getEmail(),
-      user.getPassword(),
-      convertAuthorities(user.getRoles()));
-  }
+   @Override
+   public UserDetails loadUserByUsername(String email) {
+      User user = userProvider.get(email::toString);
+      return new org.springframework.security.core.userdetails.User(
+         user.getEmail(),
+         user.getPassword(),
+         convertAuthorities(user.getRoles()));
+   }
 
-  private Set<GrantedAuthority> convertAuthorities(Collection<UserRole> userRoles) {
-    return userRoles.stream().map(userRole -> new SimpleGrantedAuthority(userRole.getRoleName())).collect(Collectors.toSet());
-  }
+   private Set<GrantedAuthority> convertAuthorities(Collection<UserRole> userRoles) {
+      return userRoles.stream().map(userRole -> new SimpleGrantedAuthority(userRole.getRoleName())).collect(Collectors.toSet());
+   }
 }

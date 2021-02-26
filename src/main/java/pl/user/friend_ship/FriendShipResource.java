@@ -15,23 +15,23 @@ import java.util.List;
 @RequestMapping("/friend")
 public class FriendShipResource {
 
-  private FriendShipService friendShipService;
+   private FriendShipService friendShipService;
 
-  @PutMapping("/add/{invitationId}")
-  public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
-    return ResponseEntity.status(HttpStatus.CREATED).body(friendShipService.add(principal, invitationId));
-  }
+   @PutMapping("/add/{invitationId}")
+   public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
+      return ResponseEntity.status(HttpStatus.CREATED).body(friendShipService.add(principal, invitationId));
+   }
 
-  @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<List<FriendDto>> getFriends(Principal principal) {
-    return ResponseEntity.ok(friendShipService.getFriends(principal));
-  }
+   @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+   public ResponseEntity<List<FriendDto>> getFriends(Principal principal) {
+      return ResponseEntity.ok(friendShipService.getFriends(principal));
+   }
 
-  @DeleteMapping("/remove/{friendShipId}")
-  public ResponseEntity removeFriend(Principal principal, @PathVariable Long friendShipId) {
-    friendShipService.remove(principal, friendShipId);
-    return ResponseEntity.noContent().build();
-  }
+   @DeleteMapping("/remove/{friendShipId}")
+   public ResponseEntity removeFriend(Principal principal, @PathVariable Long friendShipId) {
+      friendShipService.remove(principal, friendShipId);
+      return ResponseEntity.noContent().build();
+   }
 
 
 }

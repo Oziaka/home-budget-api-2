@@ -8,13 +8,13 @@ import pl.wallet.transaction.repository.TransactionRepository;
 @AllArgsConstructor
 public class TransactionProvider {
 
-  private TransactionRepository transactionRepository;
+   private TransactionRepository transactionRepository;
 
-  public void removeWalletTransactions(Long walletId) {
-    transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.remove(transaction.getId()));
-  }
+   public void removeWalletTransactions(Long walletId) {
+      transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.remove(transaction.getId()));
+   }
 
-  public void remove(Long transactionId) {
-    transactionRepository.deleteById(transactionId);
-  }
+   public void remove(Long transactionId) {
+      transactionRepository.deleteById(transactionId);
+   }
 }
