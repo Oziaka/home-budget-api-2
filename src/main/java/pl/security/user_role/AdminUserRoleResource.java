@@ -9,9 +9,9 @@ import pl.user.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user_role")
+@RequestMapping("/admin/user_role")
 @AllArgsConstructor
-public class UserRoleResource {
+public class AdminUserRoleResource {
 
    private UserRoleService userRoleService;
    private UserService userService;
@@ -21,17 +21,17 @@ public class UserRoleResource {
       return ResponseEntity.ok(userRoleService.getAllRoles());
    }
 
-   @PostMapping("/admin/{userRoleId}/edit")
+   @PostMapping("/{userRoleId}/edit")
    public ResponseEntity<UserRoleDto> editRole(@RequestBody UserRoleDto userRoleDto, @PathVariable Long userRoleId) {
       return ResponseEntity.ok(userRoleService.updateRole(userRoleDto, userRoleId));
    }
 
-   @PostMapping("/admin/{userRoleId}/grant_permission/{email}")
+   @PostMapping("/{userRoleId}/grant_permission/{email}")
    public ResponseEntity<UserDto> grantPermission(@PathVariable Long userRoleId, @PathVariable String email) {
       return ResponseEntity.ok(userService.grantPermission(userRoleId, email));
    }
 
-   @PostMapping("/admin/{userRoleId}/revoke_permission/{email}")
+   @PostMapping("/{userRoleId}/revoke_permission/{email}")
    public ResponseEntity<UserDto> revokePermission(@PathVariable Long userRoleId, @PathVariable String email) {
       return ResponseEntity.ok(userService.revokePermission(userRoleId, email));
    }

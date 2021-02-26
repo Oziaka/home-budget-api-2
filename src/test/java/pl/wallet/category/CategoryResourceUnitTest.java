@@ -118,32 +118,5 @@ class CategoryResourceUnitTest {
       assertEquals(expectedUpdatedCategoryDto, updatedCategoryDtoResponseEntity.getBody());
    }
 
-   @Test
-   void getDefaultCategoriesReturnDefaultCategories() {
-      // given
-      Set<Category> defaultCategories = Stream.iterate(0, i -> i + 1).limit(10L).map(i -> CategoryRandomTool.randomCategory()).collect(Collectors.toSet());
-      // when
-      when(categoryRepository.getDefaultCategories()).thenReturn(defaultCategories);
-      ResponseEntity<Set<CategoryDto>> defautlCategoriesResponseEntity = categoryResource.getDefaultCategories();
-      // then
-      Set<CategoryDto> expectedDefaultCateogiresDto = defaultCategories.stream().map(CategoryMapper::toDto).collect(Collectors.toSet());
-      assertEquals(expectedDefaultCateogiresDto, defautlCategoriesResponseEntity.getBody());
-   }
 
-   @Test
-   void editDefaultCategoryReturnDefaultCategoryWhenEditedFinishSuccess() {
-      // given
-      Category category = CategoryRandomTool.randomCategory();
-      category.setIsDefault(true);
-      category.setId(1L);
-      CategoryDto updatedCategoryDto = CategoryMapper.toDto(CategoryRandomTool.randomCategory());
-      // when
-      when(categoryRepository.findById(any())).thenReturn(Optional.of(category));
-      when(categoryRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0, Category.class));
-      ResponseEntity<CategoryDto> updatedCategoryDtoResponseEntity = categoryResource.editDefaultCategory(category.getId(), updatedCategoryDto);
-      // then
-      CategoryDto expectedUpdatedCategoryDto = CategoryDto.builder().name(updatedCategoryDto.getName()).isDefault(false).description(updatedCategoryDto.getDescription()).type(category.getType()).id(category.getId()).build();
-      assertEquals(HttpStatus.OK, updatedCategoryDtoResponseEntity.getStatusCode());
-      assertEquals(expectedUpdatedCategoryDto, updatedCategoryDtoResponseEntity.getBody());
-   }
 }

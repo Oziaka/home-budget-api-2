@@ -23,7 +23,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-class UserNotificationResourceTest {
+class UserNotificationResourceUnitTest {
 
    private UserNotificationRepository userNotificationRepository;
    private UserProvider userProvider;

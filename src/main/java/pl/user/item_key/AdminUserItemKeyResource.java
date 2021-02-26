@@ -7,15 +7,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import static org.springframework.http.HttpStatus.CREATED;
+
 @RestController
 @AllArgsConstructor
-@RequestMapping("/user_item_key/admin")
-public class UserItemKeyResource {
+@RequestMapping("/admin/user_item_key")
+public class AdminUserItemKeyResource {
 
    private UserItemKeyService userItemKeyService;
 
    @PutMapping("/add")
    public ResponseEntity<UserItemKeyDto> addUserItemKey(@RequestBody UserItemKeyDto userItemKeyDto) {
-      return ResponseEntity.ok(userItemKeyService.addUserItemKey(userItemKeyDto));
+      return ResponseEntity.status(CREATED).body(userItemKeyService.addUserItemKey(userItemKeyDto));
    }
 }

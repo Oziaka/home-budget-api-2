@@ -24,12 +24,13 @@ import static org.springframework.http.converter.json.Jackson2ObjectMapperBuilde
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static pl.Profile.TEST_MVC_PROFILE_NAME;
 import static pl.tool.JsonTool.asJsonString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("test")
+@ActiveProfiles(TEST_MVC_PROFILE_NAME)
 public class FriendShipResourceMvcTest {
    @Autowired
    private MockMvc mockMvc;

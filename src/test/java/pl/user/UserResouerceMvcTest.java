@@ -21,13 +21,14 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static pl.Profile.TEST_MVC_PROFILE_NAME;
 import static pl.tool.JsonTool.asJsonString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("test")
-public class UserResouerceWebMvcTest {
+@ActiveProfiles(TEST_MVC_PROFILE_NAME)
+public class UserResouerceMvcTest {
 
    @Autowired
    private MockMvc mockMvc;

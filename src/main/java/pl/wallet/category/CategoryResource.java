@@ -46,15 +46,6 @@ public class CategoryResource {
       return ResponseEntity.ok(categoryService.editCategory(principal, categoryId, categoryDto));
    }
 
-   @GetMapping(path = "/admin/default_categories")
-   public ResponseEntity<Set<CategoryDto>> getDefaultCategories() {
-      return ResponseEntity.ok(categoryService.getDefaultCategories());
-   }
-
-   @PostMapping(path = "/admin/edit/{categoryId}")
-   public ResponseEntity<CategoryDto> editDefaultCategory(@PathVariable Long categoryId, @RequestBody CategoryDto categoryDto) {
-      return ResponseEntity.ok(categoryService.editDefaultCategory(categoryId, categoryDto));
-   }
 
 
 }

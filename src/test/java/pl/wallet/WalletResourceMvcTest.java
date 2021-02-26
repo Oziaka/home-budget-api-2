@@ -33,12 +33,13 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static pl.Profile.TEST_MVC_PROFILE_NAME;
 import static pl.tool.JsonTool.asJsonString;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
-@ActiveProfiles("test")
+@ActiveProfiles(TEST_MVC_PROFILE_NAME)
 public class WalletResourceMvcTest {
    @Autowired
    private MockMvc mockMvc;

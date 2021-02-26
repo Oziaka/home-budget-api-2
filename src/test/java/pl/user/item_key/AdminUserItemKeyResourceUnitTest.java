@@ -10,9 +10,9 @@ import org.springframework.http.ResponseEntity;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-class UserItemKeyResourceTest {
+class AdminUserItemKeyResourceUnitTest {
 
-   private UserItemKeyResource userItemKeyResource;
+   private AdminUserItemKeyResource adminUserItemKeyResource;
    private UserItemKeyService userItemKeyService;
    private UserItemKeyRepository userItemKeyRepository;
 
@@ -20,7 +20,7 @@ class UserItemKeyResourceTest {
    void init() {
       userItemKeyRepository = Mockito.mock(UserItemKeyRepository.class);
       userItemKeyService = new UserItemKeyService(userItemKeyRepository);
-      userItemKeyResource = new UserItemKeyResource(userItemKeyService);
+      adminUserItemKeyResource = new AdminUserItemKeyResource(userItemKeyService);
    }
 
    @Test
@@ -33,7 +33,7 @@ class UserItemKeyResourceTest {
          argument.setId(id);
          return argument;
       });
-      ResponseEntity<UserItemKeyDto> userItemKeyDtoResponseEntity = userItemKeyResource.addUserItemKey(UserItemKeyMapper.toDto(userItemKey));
+      ResponseEntity<UserItemKeyDto> userItemKeyDtoResponseEntity = adminUserItemKeyResource.addUserItemKey(UserItemKeyMapper.toDto(userItemKey));
       // then
       userItemKey.setId(id);
       UserItemKeyDto expectedUserItemKey = UserItemKeyMapper.toDto(userItemKey);
