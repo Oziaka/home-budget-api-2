@@ -1,4 +1,4 @@
-package pl.wallet.category;
+package pl.wallet.transaction;
 
 import org.apache.commons.lang3.RandomUtils;
 import pl.wallet.transaction.dto.TransactionDto;

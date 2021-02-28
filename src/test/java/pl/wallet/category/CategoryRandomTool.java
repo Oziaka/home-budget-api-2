@@ -1,6 +1,7 @@
 package pl.wallet.category;
 
 import pl.tool.RandomUtils;
+import pl.wallet.transaction.TransactionRandomTool;
 
 public class CategoryRandomTool {
    public static Category randomCategory() {

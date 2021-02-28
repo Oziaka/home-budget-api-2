@@ -14,18 +14,15 @@ import pl.wallet.WalletRandomTool;
 import pl.wallet.category.Category;
 import pl.wallet.category.CategoryRandomTool;
 import pl.wallet.category.CategoryService;
-import pl.wallet.category.TransactionRandomTool;
+import pl.wallet.transaction.TransactionRandomTool;
 import pl.wallet.transaction.dto.TransactionDto;
 import pl.wallet.transaction.enums.Type;
 import pl.wallet.transaction.model.Transaction;
-import pl.wallet.transaction.model.TransactionBack;
-import pl.wallet.transaction.model.TransactionLoanOrBorrow;
 import pl.wallet.transaction.repository.TransactionRepository;
 import pl.wallet.transaction.service.TransactionService;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;

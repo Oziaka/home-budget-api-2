@@ -24,13 +24,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
          .antMatchers("/index.html", "/h2-console/**", "/register**", "/login**", "/", "/user",
             "/swagger-ui.html", "/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security",
             "/webjars/**").permitAll()
-         .antMatchers( "/admin/**").hasRole("ADMIN")
-         .anyRequest().hasRole("USER_")
+         .antMatchers("/admin/**").hasRole("ADMIN")
+         .anyRequest().hasRole("USER")
          .and()
          .formLogin().usernameParameter("email").passwordParameter("password")
          .and()
-         .cors()
-         .and()
+         .cors().disable()
          .csrf().disable()
          .headers().frameOptions().disable();
    }

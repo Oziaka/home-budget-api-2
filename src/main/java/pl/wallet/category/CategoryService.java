@@ -95,7 +95,7 @@ public class CategoryService {
    }
 
    public Set<Category> getAllDefaults() {
-      return categoryRepository.getDefaultCategories();
+      return categoryRepository.findAllByIsDefaultIsTrue();
    }
 
    public Optional<Category> getCategory(String email, Long categoryId) {

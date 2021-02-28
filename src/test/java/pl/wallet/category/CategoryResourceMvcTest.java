@@ -108,14 +108,5 @@ public class CategoryResourceMvcTest {
 
    }
 
-//   @Test
-//   void getDefaultCategoriesReturneSetOfDefaultCategories() throws Exception {
-//      UserDto userDto = UserRandomTool.randomUserDto();
-//      this.mockMvc.perform(put("/register")
-//         .content(asJsonString(userDto))
-//         .contentType(APPLICATION_JSON_VALUE));
-//      this.mockMvc.perform(get("/admin/default_categories")
-//         .with(user(userDto.getEmail()).password(userDto.getPassword()).roles("ADMIN_ROLE","USER_ROLE")))
-//         .andExpect(status().isOk());
-//   }
+
 }

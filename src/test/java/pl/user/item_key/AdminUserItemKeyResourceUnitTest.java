@@ -37,7 +37,7 @@ class AdminUserItemKeyResourceUnitTest {
       // then
       userItemKey.setId(id);
       UserItemKeyDto expectedUserItemKey = UserItemKeyMapper.toDto(userItemKey);
-      Assertions.assertEquals(HttpStatus.OK, userItemKeyDtoResponseEntity.getStatusCode());
+      Assertions.assertEquals(HttpStatus.CREATED, userItemKeyDtoResponseEntity.getStatusCode());
       Assertions.assertEquals(expectedUserItemKey, userItemKeyDtoResponseEntity.getBody());
 
    }

@@ -35,7 +35,7 @@ public class AdminCategoryUnitTest {
       // given
       Set<Category> defaultCategories = Stream.iterate(0, i -> i + 1).limit(10L).map(i -> CategoryRandomTool.randomCategory()).collect(Collectors.toSet());
       // when
-      when(categoryRepository.getDefaultCategories()).thenReturn(defaultCategories);
+      when(categoryRepository.findAllByIsDefaultIsTrue()).thenReturn(defaultCategories);
       ResponseEntity<Set<CategoryDto>> defautlCategoriesResponseEntity = adminCategoryResource.getDefaultCategories();
       // then
       Set<CategoryDto> expectedDefaultCateogiresDto = defaultCategories.stream().map(CategoryMapper::toDto).collect(Collectors.toSet());

@@ -92,7 +92,7 @@ class CategoryResourceUnitTest {
       Set<Category> defaultCategories = Stream.iterate(0, i -> i + 1).limit(10).map(i -> CategoryRandomTool.randomCategory()).collect(Collectors.toSet());
       // when
       when(userProvider.get(any())).thenAnswer(invocation -> User.builder().email(invocation.getArgument(0, Principal.class).getName()).categories(userCategories).build());
-      when(categoryRepository.getDefaultCategories()).thenReturn(defaultCategories);
+      when(categoryRepository.findAllByIsDefaultIsTrue()).thenReturn(defaultCategories);
       ResponseEntity<Set<CategoryDto>> userCategoriesResponseEntity = categoryResource.restoreDefaultCategories(user::getEmail);
       // then
       Set<CategoryDto> expectedUserCategories = userCategories.stream().map(CategoryMapper::toDto).collect(Collectors.toSet());

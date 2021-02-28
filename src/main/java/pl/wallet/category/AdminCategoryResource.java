@@ -17,7 +17,7 @@ public class AdminCategoryResource {
 
    private CategoryService categoryService;
 
-   @GetMapping(path = "/default_categories")
+   @GetMapping(path = "/default_categories", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
    public ResponseEntity<Set<CategoryDto>> getDefaultCategories() {
       return ResponseEntity.ok(categoryService.getDefaultCategories());
    }
