@@ -10,14 +10,14 @@ import pl.user.UserDto;
 @EqualsAndHashCode
 public class InvitationDto {
 
-  private Long id;
-  private UserDto inviter;
-  private UserDto invited;
+   private Long id;
+   private UserDto inviter;
+   private UserDto invited;
 
-  @Builder
-  public InvitationDto(Long id, UserDto inviter, UserDto invited) {
-    this.id = id;
-    this.inviter = inviter;
-    this.invited = invited;
-  }
+   @Builder
+   public InvitationDto(Long id, UserDto inviter, UserDto invited) {
+      this.id = id;
+      this.inviter = inviter;
+      this.invited = invited;
+   }
 }

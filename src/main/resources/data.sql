@@ -1,6 +1,6 @@
 INSERT INTO user_role (user_role_id, description, role_name, is_default)
-VALUES (1, 'Default role', 'USER_ROLE', true);
-VALUES (2, 'God of server role likes root', 'ADMIN_ROLE', false);
+VALUES (1, 'Default role', 'USER', true);
+VALUES (2, 'God of server role likes root', 'ADMIN', false);
 
 INSERT INTO category (category_id, description, name, type, is_default)
 VALUES (1, 'Good expense', 'Food', 0, true);

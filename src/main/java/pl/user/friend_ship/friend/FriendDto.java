@@ -11,14 +11,14 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 public class FriendDto {
 
-  private UserDto friend;
-  private LocalDateTime dateOfAdding;
-  private Long friendShipId;
+   private UserDto friend;
+   private LocalDateTime dateOfAdding;
+   private Long friendShipId;
 
-  @Builder
-  public FriendDto(UserDto friend, LocalDateTime dateOfAdding, Long friendShipId) {
-    this.friend = friend;
-    this.dateOfAdding = dateOfAdding;
-    this.friendShipId = friendShipId;
-  }
+   @Builder
+   public FriendDto(UserDto friend, LocalDateTime dateOfAdding, Long friendShipId) {
+      this.friend = friend;
+      this.dateOfAdding = dateOfAdding;
+      this.friendShipId = friendShipId;
+   }
 }

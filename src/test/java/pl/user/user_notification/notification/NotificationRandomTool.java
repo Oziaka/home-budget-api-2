@@ -8,12 +8,12 @@ import java.util.Map;
 import static pl.tool.RandomUtils.randomString;
 
 public class NotificationRandomTool {
-  public static Notification randomNotification() {
-    return Notification.builder()
-      .tittle(randomString())
-      .dateOfAdding(LocalDateTime.now())
-      .items(Map.of(randomString(), randomString(), randomString(), randomString()))
-      .build();
-  }
+   public static Notification randomNotification() {
+      return Notification.builder()
+         .tittle(randomString())
+         .dateOfAdding(LocalDateTime.now())
+         .items(Map.of(randomString(), randomString(), randomString(), randomString()))
+         .build();
+   }
 
 }

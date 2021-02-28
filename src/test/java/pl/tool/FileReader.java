@@ -9,19 +9,19 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 public class FileReader {
-  public FileReader(String filePath) {
-    this.filePath = filePath;
-  }
+   public FileReader(String filePath) {
+      this.filePath = filePath;
+   }
 
-  private String filePath;
+   private String filePath;
 
-  public byte[] getFile() {
-    try {
-      return Files.readAllBytes(Paths.get(filePath));
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
-    return null;
-  }
+   public byte[] getFile() {
+      try {
+         return Files.readAllBytes(Paths.get(filePath));
+      } catch (IOException e) {
+         e.printStackTrace();
+      }
+      return null;
+   }
 
 }
