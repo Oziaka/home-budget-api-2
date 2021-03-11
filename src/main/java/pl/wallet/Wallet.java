@@ -50,7 +50,7 @@ public class Wallet {
 
    public void addUser(User user) {
       if (users == null)
-         users = new HashSet<>(Set.of(user));
+         users = new HashSet<>(Collections.singleton(user));
       users.add(user);
    }
 
