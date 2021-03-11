@@ -128,7 +128,7 @@
                 <configuration>
                     <appName>home-budget-api-v2</appName>
                     <processTypes>
-                        <web>java -jar -Dserver.port=$PORT target/${project.build.finalName}</web>
+                        <web>java -jar -Dserver.port=$PORT target/${project.build.finalName}.jar</web>
                     </processTypes>
                 </configuration>
             </plugin>
