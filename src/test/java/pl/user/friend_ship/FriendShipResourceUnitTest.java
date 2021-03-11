@@ -66,7 +66,6 @@ class FriendShipResourceUnitTest {
       assertEquals(HttpStatus.CREATED, friendShipDtoResponseEntity.getStatusCode());
       assertThat(friendShipDtoResponseEntity.getBody()).isEqualToIgnoringNullFields(expectedFriendShipDto);
       assertThat(((FriendShipDto) friendShipDtoResponseEntity.getBody()).getDateOfAdding()).isAfterOrEqualTo(timeBeforeGetResponse);
-      assertThat(((FriendShipDto) friendShipDtoResponseEntity.getBody()).getDateOfAdding()).isBefore(LocalDateTime.now());
    }
 
    @Test
