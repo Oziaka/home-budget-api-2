@@ -1,9 +1,11 @@
 package pl.wallet;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import pl.user.User;
 import pl.wallet.transaction.model.Transaction;
+import pl.wallet.transaction.model.TransactionRecurring;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -40,6 +42,10 @@ public class Wallet {
    @OneToOne
    private User owner;
 
+   @OneToMany(mappedBy = "wallet")
+   private List<TransactionRecurring> transactionsRecurring;
+
+
    public void addTransaction(Transaction transaction) {
       this.balance = transaction.getCategory().getType().countBalance(this, transaction);
    }
@@ -50,7 +56,7 @@ public class Wallet {
 
    public void addUser(User user) {
       if (users == null)
-         users = new HashSet<>(Collections.singleton(user));
+         users = new HashSet<>(Collections.singletonList(user));
       users.add(user);
    }
 
@@ -58,13 +64,23 @@ public class Wallet {
       this.users = this.users.stream().filter(u -> !u.equals(user)).collect(Collectors.toSet());
    }
 
+   public void addTransactionRecurring(TransactionRecurring transactionRecurring) {
+      if (transactionsRecurring == null)
+         transactionsRecurring = new ArrayList<>();
+      this.transactionsRecurring.add(transactionRecurring);
+   }
+
+   public void removeTransactionRecurring(TransactionRecurring transactionRecurring) {
+      this.transactionsRecurring = transactionsRecurring.stream().filter(t -> t.equals(transactionRecurring)).collect(Collectors.toList());
+   }
 
    @Builder
-   public Wallet(String name, BigDecimal balance, List<Transaction> transactions, Set<User> users, User owner) {
+   public Wallet(String name, BigDecimal balance, List<Transaction> transactions, Set<User> users, User owner, List<TransactionRecurring> transactionsRecurring) {
       this.name = name;
       this.balance = balance;
       this.transactions = transactions;
       this.users = users;
       this.owner = owner;
+      this.transactionsRecurring = transactionsRecurring;
    }
 }
