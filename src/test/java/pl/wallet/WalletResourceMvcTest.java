@@ -22,10 +22,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
@@ -58,7 +55,7 @@ public class WalletResourceMvcTest {
          .id(2L)
          .name(walletDto.getName())
          .owner(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())
-         .users(new HashSet<>(Set.of(UserDto.builder().userName(userDto.getUserName()).email(userDto.getEmail()).build())))
+         .users(new HashSet<>(Collections.singleton(UserDto.builder().userName(userDto.getUserName()).email(userDto.getEmail()).build())))
          .balance(walletDto.getBalance())
          .build();
       mockMvc.perform(put("/wallet/add").with(user(userDto.getEmail()).password(userDto.getPassword()))
@@ -79,11 +76,11 @@ public class WalletResourceMvcTest {
       this.mockMvc.perform(put("/register")
          .content(asJsonString(UserRandomTool.randomUserDto()))
          .contentType(APPLICATION_JSON_VALUE));
-      List<WalletDto> expectedWalletsDto = List.of(WalletDto.builder()
+      List<WalletDto> expectedWalletsDto = Collections.singletonList(WalletDto.builder()
          .id(1L)
          .name("Wallet")
          .owner(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())
-         .users(new HashSet<>(Set.of(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())))
+         .users(new HashSet<>(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())))
          .balance(BigDecimal.valueOf(0.0))
          .build());
       // when
@@ -105,7 +102,7 @@ public class WalletResourceMvcTest {
          .id(1L)
          .name(walletDtoWithUpdatedName.getName())
          .owner(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())
-         .users(new HashSet<>(Set.of(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())))
+         .users(new HashSet<>(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())))
          .balance(BigDecimal.valueOf(0.0))
          .build();
       // when
@@ -141,7 +138,7 @@ public class WalletResourceMvcTest {
          .id(1L)
          .name("Wallet")
          .owner(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())
-         .users(new HashSet<>(Set.of(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())))
+         .users(new HashSet<>(Collections.singletonList(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())))
          .balance(BigDecimal.valueOf(0.0))
          .build();
       // when
@@ -176,7 +173,7 @@ public class WalletResourceMvcTest {
          .id(1L)
          .name("Wallet")
          .owner(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())
-         .users(new HashSet<>(Set.of(
+         .users(new HashSet<>(Arrays.asList(
             UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build(),
             UserDto.builder().email(userFriendDto.getEmail()).userName(userFriendDto.getUserName()).build()
          )))
@@ -218,7 +215,7 @@ public class WalletResourceMvcTest {
          .id(1L)
          .name("Wallet")
          .owner(UserDto.builder().email(userFriendDto.getEmail()).userName(userFriendDto.getUserName()).build())
-         .users(new HashSet<>(Set.of(
+         .users(new HashSet<>(Arrays.asList(
             UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build(),
             UserDto.builder().email(userFriendDto.getEmail()).userName(userFriendDto.getUserName()).build()
          )))
@@ -260,7 +257,7 @@ public class WalletResourceMvcTest {
          .id(1L)
          .name("Wallet")
          .owner(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())
-         .users(new HashSet<>(Set.of(
+         .users(new HashSet<>(Arrays.asList(
             UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build()
          )))
          .balance(BigDecimal.valueOf(0.0))

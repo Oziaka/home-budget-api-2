@@ -16,10 +16,7 @@ import pl.user.friend_ship.FriendShipService;
 import pl.wallet.transaction.service.TransactionService;
 
 import java.security.Principal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -69,7 +66,7 @@ class WalletResourceUnitTest {
          .id(1L)
          .name(walletToAdding.getName())
          .owner(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())
-         .users(new HashSet<>(Set.of(
+         .users(new HashSet<>(Collections.singleton(
             UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())))
          .balance(walletToAdding.getBalance())
          .build();
@@ -118,7 +115,7 @@ class WalletResourceUnitTest {
          .name(walletWithUpdatedFields.getName())
          .id(wallet.getId())
          .owner(UserDto.builder().userName(userDto.getUserName()).email(user.getEmail()).build())
-         .users(Set.of(
+         .users(Collections.singleton(
             UserDto.builder().userName(userDto.getUserName()).email(user.getEmail()).build()
          ))
          .balance(wallet.getBalance()).build();
@@ -185,7 +182,7 @@ class WalletResourceUnitTest {
       // then
       WalletDto expectedWalletDto = getWalletDtoBuilder(WalletMapper.toDto(wallet))
          .owner(UserDto.builder().email(user.getEmail()).userName(user.getUserName()).build())
-         .users(Set.of(
+         .users(new HashSet<>(Arrays.asList(
             UserDto.builder()
                .email(friendDto.getEmail())
                .userName(friendDto.getUserName())
@@ -193,7 +190,7 @@ class WalletResourceUnitTest {
             UserDto.builder()
                .email(userDto.getEmail())
                .userName(userDto.getUserName())
-               .build()))
+               .build())))
          .build();
       assertEquals(HttpStatus.OK, walletDtoResponseEntity.getStatusCode());
       assertEquals(expectedWalletDto, walletDtoResponseEntity.getBody());
@@ -221,14 +218,14 @@ class WalletResourceUnitTest {
       // then
       WalletDto expectedWalletDto = getWalletDtoBuilder(WalletMapper.toDto(wallet))
          .owner(UserDto.builder().userName(newOwnerDto.getUserName())
-            .email(newOwnerDto.getEmail()).build()).users(Set.of(
+            .email(newOwnerDto.getEmail()).build()).users(new HashSet<>(Arrays.asList(
             UserDto.builder()
                .userName(userDto.getUserName())
                .email(userDto.getEmail())
                .build(),
             UserDto.builder()
                .userName(newOwner.getUserName())
-               .email(newOwnerDto.getEmail()).build()))
+               .email(newOwnerDto.getEmail()).build())))
          .build();
       assertEquals(HttpStatus.OK, walletDtoResponseEntity.getStatusCode());
       assertEquals(expectedWalletDto, walletDtoResponseEntity.getBody());
@@ -254,7 +251,7 @@ class WalletResourceUnitTest {
       Principal principal = userDto::getEmail;
       ResponseEntity<WalletDto> walletDtoResponseEntity = walletResource.removeFriendFromWallet(principal, wallet.getId(), removingUserDto.getEmail());
       // then
-      WalletDto expectedWalletDto = getWalletDtoBuilder(WalletMapper.toDto(wallet)).owner(UserDto.builder().userName(userDto.getUserName()).email(userDto.getEmail()).build()).users(Set.of(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())).build();
+      WalletDto expectedWalletDto = getWalletDtoBuilder(WalletMapper.toDto(wallet)).owner(UserDto.builder().userName(userDto.getUserName()).email(userDto.getEmail()).build()).users(Collections.singleton(UserDto.builder().email(userDto.getEmail()).userName(userDto.getUserName()).build())).build();
       assertEquals(HttpStatus.OK, walletDtoResponseEntity.getStatusCode());
       assertEquals(expectedWalletDto, walletDtoResponseEntity.getBody());
    }

@@ -46,7 +46,7 @@ class FriendShipResourceUnitTest {
    }
 
    @Test
-   void addFriendReturnFriendShipDto() {
+   void addFriendReturnFriendShipDto() throws InterruptedException {
       // given
       UserDto userDto = UserRandomTool.randomUserDto();
       UserDto friendDto = UserRandomTool.randomUserDto();
@@ -65,7 +65,7 @@ class FriendShipResourceUnitTest {
       FriendShipDto expectedFriendShipDto = FriendShipDto.builder().id(1L).user(UserDto.builder().email(friendDto.getEmail()).build()).user2(UserDto.builder().email(userDto.getEmail()).build()).build();
       assertEquals(HttpStatus.CREATED, friendShipDtoResponseEntity.getStatusCode());
       assertThat(friendShipDtoResponseEntity.getBody()).isEqualToIgnoringNullFields(expectedFriendShipDto);
-      assertThat(((FriendShipDto) friendShipDtoResponseEntity.getBody()).getDateOfAdding()).isStrictlyBetween(timeBeforeGetResponse, LocalDateTime.now());
+      assertThat(((FriendShipDto) friendShipDtoResponseEntity.getBody()).getDateOfAdding()).isAfterOrEqualTo(timeBeforeGetResponse);
    }
 
    @Test

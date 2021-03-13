@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import pl.user.*;
 
 import java.security.Principal;
+import java.util.Collections;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -61,7 +62,7 @@ class CategoryResourceUnitTest {
       Long cateogryId = 1L;
       category.setId(cateogryId);
       // when
-      when(userProvider.get(any())).thenAnswer(invocation -> User.builder().email(invocation.getArgument(0, Principal.class).getName()).categories(Set.of(category)).build());
+      when(userProvider.get(any())).thenAnswer(invocation -> User.builder().email(invocation.getArgument(0, Principal.class).getName()).categories(Collections.singleton(category)).build());
       when(userProvider.save(any())).thenAnswer(u -> u.getArgument(0, User.class));
       ResponseEntity removeCategoryResponseEntity = categoryResource.removeCategory(userDto::getEmail, cateogryId);
       // then

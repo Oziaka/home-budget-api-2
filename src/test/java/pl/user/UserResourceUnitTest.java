@@ -15,9 +15,7 @@ import pl.wallet.WalletProvider;
 import pl.wallet.category.CategoryService;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -50,7 +48,7 @@ class UserResourceUnitTest {
       UserDto userToRegistration = UserRandomTool.randomUserDto();
       // when
       Mockito.when(passwordEncoder.encode(any())).thenReturn(userToRegistration.getPassword());
-      List<UserRole> defaultUserRoles = List.of(new UserRole("ROLE_USER", "Default role"));
+      List<UserRole> defaultUserRoles = Collections.singletonList(new UserRole("ROLE_USER", "Default role"));
       Mockito.when(userRoleService.getDefaults()).thenReturn(new ArrayList<>(defaultUserRoles));
       User userReturnedByUserRepository = User.builder().userName(userToRegistration.getUserName()).email(userToRegistration.getEmail()).password(userToRegistration.getPassword()).id(1L).build();
       Mockito.when(userRepository.save(any())).thenReturn(userReturnedByUserRepository);
@@ -70,7 +68,7 @@ class UserResourceUnitTest {
       userWithUpdatedFields.addItem("favoriteWalletId", "1");
       // when
       Mockito.when(userRepository.findByEmail(any())).thenReturn(Optional.empty(), Optional.of(user));
-      Mockito.when(userItemKeyService.getAll()).thenReturn(new ArrayList<>(List.of(UserItemKey.builder().name("favoriteWalletId").build())));
+      Mockito.when(userItemKeyService.getAll()).thenReturn(new ArrayList<>(Collections.singletonList(UserItemKey.builder().name("favoriteWalletId").build())));
       Mockito.when(userRepository.save(any())).thenAnswer(invocation -> {
          User userToSave = invocation.getArgument(0, User.class);
          userToSave.setPassword(null);

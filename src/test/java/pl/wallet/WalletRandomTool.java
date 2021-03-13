@@ -6,6 +6,7 @@ import pl.user.UserDto;
 import pl.user.UserMapper;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,7 +29,7 @@ public class WalletRandomTool {
          .name("Wallet")
          .balance(BigDecimal.valueOf(0.0))
          .owner(owner)
-         .users(new HashSet<>(Set.of(owner)))
+         .users(new HashSet<>(Collections.singleton(owner)))
          .build();
    }
 
@@ -50,11 +51,11 @@ public class WalletRandomTool {
 
 
    public static Wallet randomWallet(User user) {
-      return randomWalletBuilder().owner(user).users(new HashSet<>(Set.of(user))).build();
+      return randomWalletBuilder().owner(user).users(new HashSet<>(Collections.singletonList(user))).build();
    }
 
    public static WalletDto randomWalletDto(UserDto userDto) {
-      return randomWalletDtoBuilder().owner(userDto).users(new HashSet<>(Set.of(userDto))).build();
+      return randomWalletDtoBuilder().owner(userDto).users(new HashSet<>(Collections.singletonList(userDto))).build();
    }
 
 }
