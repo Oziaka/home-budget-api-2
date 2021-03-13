@@ -24,10 +24,6 @@ public class TransactionRecurringResource {
       return ResponseEntity.ok(transactionRecurringService.addTransactionRecurring(principal, walletId, transactionRecurringDto));
    }
 
-   @PostMapping("/{transactionRecurringId}/edit")
-   public ResponseEntity<TransactionRecurringDto> editTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId, @Valid @RequestBody TransactionRecurringDto transactionRecurringDto) {
-      return ResponseEntity.ok(transactionRecurringService.editTransactionRecurring(principal, walletId, transactionRecurringId, transactionRecurringDto));
-   }
 
    @PostMapping("/{transactionRecurringId}/remove")
    public ResponseEntity<TransactionRecurringDto> removeTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId) {

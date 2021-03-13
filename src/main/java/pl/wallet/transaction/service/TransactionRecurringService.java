@@ -23,7 +23,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @EnableScheduling
-public class TransactionRecurringService {
+public  class TransactionRecurringService {
 
    private TransactionRecurringRepository transactionRecurringRepository;
    private UserService userService;
@@ -77,7 +77,7 @@ public class TransactionRecurringService {
       return transactionRecurring;
    }
 
-   public TransactionRecurringDto addTransactionRecurring(Principal principal, Long walletId, TransactionRecurringDto transactionRecurringDto) {
+    public TransactionRecurringDto addTransactionRecurring(Principal principal, Long walletId, TransactionRecurringDto transactionRecurringDto) {
       User user = userService.getUser(principal);
       Wallet wallet = walletService.isUserWallet(principal.getName(), walletId);
       Category category = categoryService.getCategory(user, transactionRecurringDto.getTransaction().getCategoryId());
@@ -88,20 +88,6 @@ public class TransactionRecurringService {
       return TransactionRecurringMapper.toDto(savedTransactionRecurring);
    }
 
-   public TransactionRecurringDto editTransactionRecurring(Principal principal, Long walletId, Long transactionRecurringId, TransactionRecurringDto transactionRecurringDto) {
-      TransactionRecurring transactionRecurring = this.getOne(principal.getName(), walletId, transactionRecurringId);
-      Category category = categoryService.getCategory(principal.getName(), transactionRecurringDto.getTransaction().getCategoryId()).orElseThrow(ThereIsNoYourPropertyException::new);
-      TransactionRecurring transactionRecurringWithNewValues = TransactionRecurringMapper.toEntity(transactionRecurringDto, category);
-      TransactionRecurring editedTransactionRecurring = updateNotNullFields(transactionRecurringDto, transactionRecurringWithNewValues);
-      return null;
-   }
-
-   //    TODO Finish this
-   private TransactionRecurring updateNotNullFields(TransactionRecurringDto newTransactionRecurring, TransactionRecurring oldTransactionRecurring) {
-      TransactionRecurring toUpdateTransactionRecurring = oldTransactionRecurring;
-//        toUpdateTransactionRecurring.set
-      return toUpdateTransactionRecurring;
-   }
 
    public void removeTransactionRecurring(Principal principal, Long walletId, Long transactionRecurringId) {
       this.remove(this.getOne(principal.getName(), walletId, transactionRecurringId));

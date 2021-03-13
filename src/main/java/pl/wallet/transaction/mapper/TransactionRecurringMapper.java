@@ -19,12 +19,4 @@ public class TransactionRecurringMapper {
          .transaction(TransactionMapper.toEntity(transactionRecurringDto.getTransaction(), category))
          .build();
    }
-
-   private static boolean validStartTime(TransactionRecurringDto transactionRecurringDto) {
-      return false;
-   }
-
-   private static LocalDateTime countFirstAdding(TransactionRecurringDto transactionRecurringDto) {
-      return null;
-   }
 }
