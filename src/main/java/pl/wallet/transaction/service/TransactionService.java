@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import pl.exception.InvalidTransactionException;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserProvider;
 import pl.wallet.Wallet;
@@ -14,6 +12,8 @@ import pl.wallet.category.Category;
 import pl.wallet.category.CategoryService;
 import pl.wallet.transaction.dto.TransactionDto;
 import pl.wallet.transaction.enums.Type;
+import pl.wallet.transaction.exception.TransactionException;
+import pl.wallet.transaction.exception.TransactionExcetpion;
 import pl.wallet.transaction.mapper.TransactionMapper;
 import pl.wallet.transaction.model.Transaction;
 import pl.wallet.transaction.model.TransactionBack;
@@ -36,7 +36,7 @@ public class TransactionService {
 
     public TransactionDto addTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
         Wallet wallet = getWallet(principal.getName(), walletId);
-        Category category = categoryService.getCategory(principal.getName(), transactionDto.getCategoryId()).orElseThrow(ThereIsNoYourPropertyException::new);
+        Category category = categoryService.getCategory(principal.getName(), transactionDto.getCategoryId()).orElseThrow(()->new TransactionException(TransactionExcetpion.NO_YOUR_PROPERTY));
         Transaction transaction = TransactionMapper.toEntity(transactionDto, category);
         transaction.setWallet(wallet);
         if (transaction instanceof TransactionBack)
@@ -82,10 +82,10 @@ public class TransactionService {
                 TransactionBack savedTransactionBack = saveTransactionBack((TransactionBack) transaction, transactionLoanOrBorrow);
                 return TransactionMapper.toDto(savedTransactionBack);
             } else {
-                throw new InvalidTransactionException();
+                throw new TransactionException(TransactionExcetpion.INVALID_TRANSACTION);
             }
         } else {
-            throw new InvalidTransactionException();
+            throw new TransactionException(TransactionExcetpion.INVALID_TRANSACTION);
         }
     }
 
@@ -103,7 +103,7 @@ public class TransactionService {
 
 
     private Wallet getWallet(String email, Long walletId) {
-        return walletProvider.get(email, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
+        return walletProvider.get(email, walletId).orElseThrow(()->new TransactionException(TransactionExcetpion.NO_YOUR_PROPERTY));
     }
 
     public void removeTransaction(Principal principal, Long walletId, Long transactionId) {
@@ -127,7 +127,7 @@ public class TransactionService {
     }
 
     public Transaction get(String email, Long walletId, Long transactionId) {
-        return transactionRepository.findByuEmailAndWalletIdAndTransactionId(email, transactionId, walletId).orElseThrow(ThereIsNoYourPropertyException::new);
+        return transactionRepository.findByuEmailAndWalletIdAndTransactionId(email, transactionId, walletId).orElseThrow(()->new TransactionException(TransactionExcetpion.NO_YOUR_PROPERTY));
     }
 
     private List<? extends Transaction> getAll(Pageable pageable, Specification<Transaction> transactionSpecification) {

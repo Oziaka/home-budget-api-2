@@ -3,7 +3,6 @@ package pl.user;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.exception.DataNotFoundException;
 import pl.security.user_role.UserRole;
 import pl.security.user_role.UserRoleService;
 import pl.user.item_key.UserItemKey;
@@ -58,7 +57,7 @@ public class UserService {
 
     UserDto editUser(Principal principal, UserDto userDto) {
         if (!isUserHasUniqueEmail(userDto.getEmail()))
-            throw new RuntimeException("User must have unique email");
+            throw new UserException(UserError.NOT_UNIQUE_EMAIL);
         User user = this.getUser(principal);
         User updatedUser = updateUserFromNotNullFieldsInUserDto(user, userDto);
         User savedUser = this.saveUser(updatedUser);
@@ -102,7 +101,7 @@ public class UserService {
     }
 
     private User getUser(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new DataNotFoundException("User not found"));
+        return userRepository.findByEmail(email).orElseThrow(() -> new UserException(UserError.NOT_FOUND));
     }
 
     public User getUser(Principal principal) {

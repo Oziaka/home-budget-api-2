@@ -2,8 +2,6 @@ package pl.wallet.category;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.DataNotFoundException;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserProvider;
 
@@ -54,7 +52,7 @@ public class CategoryService {
     CategoryDto editDefaultCategory(Long categoryId, CategoryDto categoryDto) {
         Category category = this.getCategory(categoryId);
         if (!category.getIsDefault())
-            throw new RuntimeException("You can not edit no default or not exist category");
+            throw new CategoryException(CategoryError.CAN_NOT_EDIT_DEFAULT);
         updateNotNullFieldsInCategoryDtoToCategory(category, categoryDto);
         if (categoryDto.getIsDefault() != null) category.setIsDefault(categoryDto.getIsDefault());
         Category savedCategory = this.save(category);
@@ -71,19 +69,18 @@ public class CategoryService {
         User user = userProvider.get(principal);
         Category category = this.getCategory(user, categoryId);
         if (category.getIsDefault())
-            throw new RuntimeException("You can not edit default or not exist category");
+            throw new CategoryException(CategoryError.CAN_NOT_EDIT_DEFAULT);
         category = updateNotNullFieldsInCategoryDtoToCategory(category, categoryDto);
         Category savedCategory = this.save(category);
         return CategoryMapper.toDto(savedCategory);
     }
 
     public Category getCategory(User user, Long categoryId) {
-        return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(ThereIsNoYourPropertyException::new);
+        return categoryRepository.findByIdAndUsers(categoryId, user).orElseThrow(() -> new CategoryException(CategoryError.NO_YOUR_PROPERTY));
     }
 
     private Category getCategory(Long categoryId) {
-        return categoryRepository.findById(categoryId).orElseThrow(() ->
-          new DataNotFoundException("Category not found"));
+        return categoryRepository.findById(categoryId).orElseThrow(() -> new CategoryException(CategoryError.NO_YOUR_PROPERTY));
     }
 
     private Category save(Category category) {

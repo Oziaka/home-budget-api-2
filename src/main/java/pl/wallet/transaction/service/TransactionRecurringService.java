@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserService;
 import pl.wallet.Wallet;
@@ -12,6 +11,8 @@ import pl.wallet.WalletService;
 import pl.wallet.category.Category;
 import pl.wallet.category.CategoryService;
 import pl.wallet.transaction.dto.TransactionRecurringDto;
+import pl.wallet.transaction.exception.TransactionException;
+import pl.wallet.transaction.exception.TransactionExcetpion;
 import pl.wallet.transaction.mapper.TransactionRecurringMapper;
 import pl.wallet.transaction.model.TransactionRecurring;
 import pl.wallet.transaction.repository.TransactionRecurringRepository;
@@ -38,8 +39,7 @@ public class TransactionRecurringService {
           .filter(transactionRecurring -> transactionRecurring.getDateOfNextAdding().isAfter(LocalDateTime.now()))
           .peek(transactionRecurring -> transactionService.save(transactionRecurring.getTransaction()))
           .peek(transactionRecurring -> transactionRecurring.setDateOfLastAdding(LocalDateTime.now()))
-          .peek(transactionRecurring -> countNextAddition(transactionRecurring))
-          .filter(transactionRecurring -> transactionRecurring != null)
+          .peek(this::countNextAddition)
           .forEach(transactionRecurringRepository::save);
     }
 
@@ -98,7 +98,7 @@ public class TransactionRecurringService {
     }
 
     private TransactionRecurring getOne(String email, Long walletId, Long transactionRecurringId) {
-        return transactionRecurringRepository.get(email, walletId, transactionRecurringId).orElseThrow(ThereIsNoYourPropertyException::new);
+        return transactionRecurringRepository.get(email, walletId, transactionRecurringId).orElseThrow(()-> new TransactionException(TransactionExcetpion.NO_YOUR_PROPERTY));
     }
 
     public void remove(TransactionRecurring transactionRecurring) {

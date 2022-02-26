@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserProvider;
 import pl.user.user_notification.notification.notification.Notification;
@@ -39,7 +38,7 @@ public class UserNotificationService {
     }
 
     private UserNotification getOne(String email, Long userNotificationId) {
-        return userNotificationRepository.getByUserEmailAndAndId(email, userNotificationId).orElseThrow(ThereIsNoYourPropertyException::new);
+        return userNotificationRepository.getByUserEmailAndAndId(email, userNotificationId).orElseThrow(() -> new UserNotificationException(UserNotificationError.NO_YOUR_PROPERTY));
     }
 
     public UserNotification save(UserNotification userNotification) {

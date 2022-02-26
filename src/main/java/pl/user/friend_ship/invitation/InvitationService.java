@@ -2,8 +2,6 @@ package pl.user.friend_ship.invitation;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.DataNotFoundException;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserProvider;
 import pl.user.friend_ship.FriendShip;
@@ -27,11 +25,11 @@ public class InvitationService {
         User inviter = userProvider.get(principal);
         User invited = userProvider.get(invitedUserEmail::toString);
         if (checkCouldUserDoNotAddYourself(inviter, invited))
-            throw new RuntimeException("Can not add yourself to friend");
+            throw new InvitationException(InvitationError.CAN_NOT_ADD_YOURSELF_TO_FRIENDS);
         if (checkCouldUserAlreadyInvite(inviter, invited))
-            throw new RuntimeException("Can only send one invite to another user");
+            throw new InvitationException(InvitationError.CAN_ONLY_SEND_ONE_INVITATION_TO_ONE_USER);
         if (checkCouldUserDoNotInviteAlreadyFriend(inviter, invited))
-            throw new RuntimeException("Can not invite already friend");
+            throw new InvitationException(InvitationError.CAN_NOT_SEND_INVITATION_TO_FRIEND);
 //        TODO Notification to invited user
         if (checkCouldInvitedSendInviteEarly(inviter, invited)) {
             this.remove(invited, inviter);
@@ -95,7 +93,7 @@ public class InvitationService {
     }
 
     public void remove(User inviter, User invited) {
-        this.remove(invitationRepository.findAllByInviterAndInvited(inviter, invited).orElseThrow(() -> new DataNotFoundException("Can not find invitation")));
+        this.remove(invitationRepository.findAllByInviterAndInvited(inviter, invited).orElseThrow(() -> new InvitationException(InvitationError.NOT_FOUND)));
     }
 
     public void remove(Invitation invitation) {
@@ -103,11 +101,11 @@ public class InvitationService {
     }
 
     public Invitation getOneByInviter(User inviter, Long invitationId) {
-        return invitationRepository.findByInviterAndId(inviter, invitationId).orElseThrow(ThereIsNoYourPropertyException::new);
+        return invitationRepository.findByInviterAndId(inviter, invitationId).orElseThrow(() -> new InvitationException(InvitationError.NOT_YOUR_PROPERTY));
     }
 
     public Invitation getOneByInvited(User invited, Long invitationId) {
-        return invitationRepository.findByInvitedAndId(invited, invitationId).orElseThrow(ThereIsNoYourPropertyException::new);
+        return invitationRepository.findByInvitedAndId(invited, invitationId).orElseThrow(() -> new InvitationException(InvitationError.NOT_YOUR_PROPERTY));
     }
 
     public List<Invitation> getAllByInviter(User inviter) {

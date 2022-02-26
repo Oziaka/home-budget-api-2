@@ -2,7 +2,6 @@ package pl.user.friend_ship;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserProvider;
 import pl.user.friend_ship.friend.FriendDto;
@@ -58,19 +57,15 @@ public class FriendShipService {
     }
 
     private FriendShip getOne(User user, Long friendShipId) {
-        return friendShipRepository.findByUserAndId(user, friendShipId).orElseThrow(ThereIsNoYourPropertyException::new);
+        return friendShipRepository.findByUserAndId(user, friendShipId).orElseThrow(() -> new FriendShipException(FriendShipError.NOT_FOUND));
     }
 
     private FriendShip getOne(User user, User user2) {
-        return friendShipRepository.findByUserAndUser2(user, user2).orElseThrow(() -> new RuntimeException("Friend ship not found"));
+        return friendShipRepository.findByUserAndUser2(user, user2).orElseThrow(() -> new FriendShipException(FriendShipError.NOT_FOUND));
     }
 
     private void remove(FriendShip friendShip) {
         friendShipRepository.delete(friendShip);
     }
 
-    public boolean isFriends(User user, User user2) {
-        friendShipRepository.findByUserAndUser2(user, user2).orElseThrow(() -> new RuntimeException("You are not friends"));
-        return true;
-    }
 }

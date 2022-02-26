@@ -2,7 +2,6 @@ package pl.wallet;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.user.User;
 import pl.user.UserProvider;
 import pl.user.friend_ship.FriendShipProvider;
@@ -113,14 +112,14 @@ public class WalletService {
     }
 
     public Wallet isUserWallet(String email, Long walletId) {
-        return walletRepository.findByIdAndUserEmail(walletId, email).orElseThrow(ThereIsNoYourPropertyException::new);
+        return walletRepository.findByIdAndUserEmail(walletId, email).orElseThrow(()->new WalletException(WalletError.NO_YOUR_PROPERTY));
     }
 
     private Wallet getByOwner(User owner, Long walletId) {
-        return walletRepository.findByIdAndOwner(walletId, owner).orElseThrow(ThereIsNoYourPropertyException::new);
+        return walletRepository.findByIdAndOwner(walletId, owner).orElseThrow(()->new WalletException(WalletError.NO_YOUR_PROPERTY));
     }
 
     private Wallet getWallet(User user, Long id) {
-        return walletRepository.findByIdAndUserEmail(id, user.getEmail()).orElseThrow(ThereIsNoYourPropertyException::new);
+        return walletRepository.findByIdAndUserEmail(id, user.getEmail()).orElseThrow(()->new WalletException(WalletError.NO_YOUR_PROPERTY));
     }
 }
