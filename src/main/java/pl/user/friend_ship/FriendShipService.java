@@ -19,58 +19,58 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class FriendShipService {
 
-   private InvitationProvider invitationProvider;
-   private UserProvider userProvider;
-   private FriendShipRepository friendShipRepository;
+    private InvitationProvider invitationProvider;
+    private UserProvider userProvider;
+    private FriendShipRepository friendShipRepository;
 
-   FriendShipDto add(Principal principal, Long invitationId) {
-      User user = userProvider.get(principal);
-      Invitation invitation = invitationProvider.getOneByInvited(user, invitationId);
-      invitationProvider.remove(invitation);
-      FriendShip friendShip = FriendShip.builder().user(invitation.getInvited()).user2(invitation.getInviter()).dateOfAdding(LocalDateTime.now()).build();
-      FriendShip friendShip2 = FriendShip.builder().user(invitation.getInviter()).user2(invitation.getInvited()).dateOfAdding(friendShip.getDateOfAdding()).build();
-      FriendShip savedFriendShip = this.save(friendShip);
-      this.save(friendShip2);
+    FriendShipDto add(Principal principal, Long invitationId) {
+        User user = userProvider.get(principal);
+        Invitation invitation = invitationProvider.getOneByInvited(user, invitationId);
+        invitationProvider.remove(invitation);
+        FriendShip friendShip = FriendShip.builder().user(invitation.getInvited()).user2(invitation.getInviter()).dateOfAdding(LocalDateTime.now()).build();
+        FriendShip friendShip2 = FriendShip.builder().user(invitation.getInviter()).user2(invitation.getInvited()).dateOfAdding(friendShip.getDateOfAdding()).build();
+        FriendShip savedFriendShip = this.save(friendShip);
+        this.save(friendShip2);
 //      TODO tell second user by notification
-      return FriendShipMapper.toDto(savedFriendShip);
-   }
+        return FriendShipMapper.toDto(savedFriendShip);
+    }
 
-   List<FriendDto> getFriends(Principal principal) {
-      User user = userProvider.get(principal);
-      return this.getAll(user).stream().map(FriendMapper::toDto).collect(Collectors.toList());
-   }
+    List<FriendDto> getFriends(Principal principal) {
+        User user = userProvider.get(principal);
+        return this.getAll(user).stream().map(FriendMapper::toDto).collect(Collectors.toList());
+    }
 
-   void remove(Principal principal, Long friendShipId) {
-      User user = userProvider.get(principal);
-      FriendShip friendShip = this.getOne(user, friendShipId);
-      FriendShip friendShip2 = this.getOne(friendShip.getUser2(), user);
-      this.remove(friendShip);
-      this.remove(friendShip2);
+    void remove(Principal principal, Long friendShipId) {
+        User user = userProvider.get(principal);
+        FriendShip friendShip = this.getOne(user, friendShipId);
+        FriendShip friendShip2 = this.getOne(friendShip.getUser2(), user);
+        this.remove(friendShip);
+        this.remove(friendShip2);
 //        TODO notification to second user
-   }
+    }
 
-   public FriendShip save(FriendShip friendShip) {
-      return friendShipRepository.save(friendShip);
-   }
+    public FriendShip save(FriendShip friendShip) {
+        return friendShipRepository.save(friendShip);
+    }
 
-   private List<FriendShip> getAll(User user) {
-      return friendShipRepository.findALlByUser(user);
-   }
+    private List<FriendShip> getAll(User user) {
+        return friendShipRepository.findALlByUser(user);
+    }
 
-   private FriendShip getOne(User user, Long friendShipId) {
-      return friendShipRepository.findByUserAndId(user, friendShipId).orElseThrow(ThereIsNoYourPropertyException::new);
-   }
+    private FriendShip getOne(User user, Long friendShipId) {
+        return friendShipRepository.findByUserAndId(user, friendShipId).orElseThrow(ThereIsNoYourPropertyException::new);
+    }
 
-   private FriendShip getOne(User user, User user2) {
-      return friendShipRepository.findByUserAndUser2(user, user2).orElseThrow(() -> new RuntimeException("Friend ship not found"));
-   }
+    private FriendShip getOne(User user, User user2) {
+        return friendShipRepository.findByUserAndUser2(user, user2).orElseThrow(() -> new RuntimeException("Friend ship not found"));
+    }
 
-   private void remove(FriendShip friendShip) {
-      friendShipRepository.delete(friendShip);
-   }
+    private void remove(FriendShip friendShip) {
+        friendShipRepository.delete(friendShip);
+    }
 
-   public boolean isFriends(User user, User user2) {
-      friendShipRepository.findByUserAndUser2(user, user2).orElseThrow(() -> new RuntimeException("You are not friends"));
-      return true;
-   }
+    public boolean isFriends(User user, User user2) {
+        friendShipRepository.findByUserAndUser2(user, user2).orElseThrow(() -> new RuntimeException("You are not friends"));
+        return true;
+    }
 }

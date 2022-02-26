@@ -10,11 +10,11 @@ import javax.persistence.criteria.Root;
 
 public class IsUserNotification implements Specification<UserNotification> {
 
-   public IsUserNotification(User user) {
-   }
+    public IsUserNotification(User user) {
+    }
 
-   @Override
-   public Predicate toPredicate(Root<UserNotification> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-      return null;
-   }
+    @Override
+    public Predicate toPredicate(Root<UserNotification> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
+        return null;
+    }
 }

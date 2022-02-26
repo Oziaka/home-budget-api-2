@@ -12,12 +12,13 @@ import pl.user.UserRandomTool;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 import static pl.Profile.TEST_MVC_PROFILE_NAME;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static pl.tool.JsonTool.asJsonString;
 
 @SpringBootTest
@@ -26,22 +27,22 @@ import static pl.tool.JsonTool.asJsonString;
 @ActiveProfiles(TEST_MVC_PROFILE_NAME)
 public class AdminCategoryResourceMvcTest {
 
-   @Autowired
-   private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-   @Test
-   void getDefaultCategoriesReturneSetOfDefaultCategories() throws Exception {
-      //given
-      UserDto userDto = UserRandomTool.randomUserDto();
-      this.mockMvc.perform(put("/register")
-         .content(asJsonString(userDto))
-         .contentType(APPLICATION_JSON_VALUE));
-      //when
-      //then
-      this.mockMvc.perform(get("/admin/category/default_categories")
-         .with(user(userDto.getEmail()).password(userDto.getPassword()).roles("ADMIN")))
-         .andExpect(status().isOk())
-         .andExpect(jsonPath("$",hasSize(1)))
-         .andDo(print());
-   }
+    @Test
+    void getDefaultCategoriesReturneSetOfDefaultCategories() throws Exception {
+        //given
+        UserDto userDto = UserRandomTool.randomUserDto();
+        this.mockMvc.perform(put("/register")
+          .content(asJsonString(userDto))
+          .contentType(APPLICATION_JSON_VALUE));
+        //when
+        //then
+        this.mockMvc.perform(get("/admin/category/default_categories")
+            .with(user(userDto.getEmail()).password(userDto.getPassword()).roles("ADMIN")))
+          .andExpect(status().isOk())
+          .andExpect(jsonPath("$", hasSize(1)))
+          .andDo(print());
+    }
 }

@@ -8,14 +8,14 @@ import pl.user.User;
 @AllArgsConstructor
 @Service
 public class InvitationProvider {
-   private InvitationRepository invitationRepository;
+    private InvitationRepository invitationRepository;
 
-   public Invitation getOneByInvited(User invited, Long invitationId) {
-      return invitationRepository.findByInvitedAndId(invited, invitationId).orElseThrow(ThereIsNoYourPropertyException::new);
-   }
+    public Invitation getOneByInvited(User invited, Long invitationId) {
+        return invitationRepository.findByInvitedAndId(invited, invitationId).orElseThrow(ThereIsNoYourPropertyException::new);
+    }
 
-   public void remove(Invitation invitation) {
-      invitationRepository.delete(invitation);
-   }
+    public void remove(Invitation invitation) {
+        invitationRepository.delete(invitation);
+    }
 
 }

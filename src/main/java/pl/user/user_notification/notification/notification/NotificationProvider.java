@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 @Service
 public class NotificationProvider {
-   private NotificationRepository notificationRepository;
+    private NotificationRepository notificationRepository;
 
-   public Notification save(Notification notification) {
-      return notificationRepository.save(notification);
-   }
+    public Notification save(Notification notification) {
+        return notificationRepository.save(notification);
+    }
 }

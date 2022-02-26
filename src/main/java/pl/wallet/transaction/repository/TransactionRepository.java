@@ -14,11 +14,11 @@ import java.util.Optional;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
-   List<? extends Transaction> findAll(Specification<Transaction> transactionSpecification, Pageable pageable);
+    List<? extends Transaction> findAll(Specification<Transaction> transactionSpecification, Pageable pageable);
 
-   @Query("SELECT t FROM Transaction t INNER JOIN Wallet w ON t.wallet = w WHERE w.id = :walletId")
-   List<? extends Transaction> getTransactionsByWalletId(@Param("walletId") Long walletId);
+    @Query("SELECT t FROM Transaction t INNER JOIN Wallet w ON t.wallet = w WHERE w.id = :walletId")
+    List<? extends Transaction> getTransactionsByWalletId(@Param("walletId") Long walletId);
 
-   @Query("SELECT t FROM User u INNER JOIN u.wallets w INNER JOIN w.transactions t WHERE u.email = :email AND w.id = :walletId AND t.id = :transactionId")
-   Optional<? extends Transaction> findByuEmailAndWalletIdAndTransactionId(@Param("email") String email, @Param("walletId") Long walletId, @Param("transactionId") Long transactionIds);
+    @Query("SELECT t FROM User u INNER JOIN u.wallets w INNER JOIN w.transactions t WHERE u.email = :email AND w.id = :walletId AND t.id = :transactionId")
+    Optional<? extends Transaction> findByuEmailAndWalletIdAndTransactionId(@Param("email") String email, @Param("walletId") Long walletId, @Param("transactionId") Long transactionIds);
 }

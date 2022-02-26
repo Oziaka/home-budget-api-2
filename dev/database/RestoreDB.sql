@@ -1,4 +1,4 @@
 drop
-database `home-budget`
+    database `home-budget`
 create
-database `home-budget`
+    database `home-budget`

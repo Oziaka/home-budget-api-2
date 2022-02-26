@@ -14,10 +14,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RequestMapping("/admin/user_item_key")
 public class AdminUserItemKeyResource {
 
-   private UserItemKeyService userItemKeyService;
+    private UserItemKeyService userItemKeyService;
 
-   @PutMapping("/add")
-   public ResponseEntity<UserItemKeyDto> addUserItemKey(@RequestBody UserItemKeyDto userItemKeyDto) {
-      return ResponseEntity.status(CREATED).body(userItemKeyService.addUserItemKey(userItemKeyDto));
-   }
+    @PutMapping("/add")
+    public ResponseEntity<UserItemKeyDto> addUserItemKey(@RequestBody UserItemKeyDto userItemKeyDto) {
+        return ResponseEntity.status(CREATED).body(userItemKeyService.addUserItemKey(userItemKeyDto));
+    }
 }

@@ -12,32 +12,32 @@ import java.util.List;
 @AllArgsConstructor
 public class InvitationResource {
 
-   private InvitationService invitationService;
+    private InvitationService invitationService;
 
-   @PutMapping("/invite")
-   public ResponseEntity<Object> inviteUser(Principal principal, @RequestBody String invitedUserEmail) {
-      return ResponseEntity.status(HttpStatus.CREATED).body(invitationService.invite(principal, invitedUserEmail.replace("\"", "")));
-   }
+    @PutMapping("/invite")
+    public ResponseEntity<Object> inviteUser(Principal principal, @RequestBody String invitedUserEmail) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(invitationService.invite(principal, invitedUserEmail.replace("\"", "")));
+    }
 
-   @DeleteMapping("/invitation/cancel/{invitationId}")
-   public ResponseEntity cancelInvitation(Principal principal, @PathVariable Long invitationId) {
-      invitationService.cancelInvitation(principal, invitationId);
-      return ResponseEntity.noContent().build();
-   }
+    @DeleteMapping("/invitation/cancel/{invitationId}")
+    public ResponseEntity cancelInvitation(Principal principal, @PathVariable Long invitationId) {
+        invitationService.cancelInvitation(principal, invitationId);
+        return ResponseEntity.noContent().build();
+    }
 
-   @DeleteMapping("/invitation/remove/{invitationId}")
-   public ResponseEntity removeInvitation(Principal principal, @PathVariable Long invitationId) {
-      invitationService.removeInvitation(principal, invitationId);
-      return ResponseEntity.noContent().build();
-   }
+    @DeleteMapping("/invitation/remove/{invitationId}")
+    public ResponseEntity removeInvitation(Principal principal, @PathVariable Long invitationId) {
+        invitationService.removeInvitation(principal, invitationId);
+        return ResponseEntity.noContent().build();
+    }
 
-   @GetMapping("invitation/from_user")
-   public ResponseEntity<List<InvitationDto>> getInvitationsFromUser(Principal principal) {
-      return ResponseEntity.ok(invitationService.getInvitationsFromUser(principal));
-   }
+    @GetMapping("invitation/from_user")
+    public ResponseEntity<List<InvitationDto>> getInvitationsFromUser(Principal principal) {
+        return ResponseEntity.ok(invitationService.getInvitationsFromUser(principal));
+    }
 
-   @GetMapping("invitation/to_user")
-   public ResponseEntity<List<InvitationDto>> getInvitationsToUser(Principal principal) {
-      return ResponseEntity.ok(invitationService.getInvitationsToUser(principal));
-   }
+    @GetMapping("invitation/to_user")
+    public ResponseEntity<List<InvitationDto>> getInvitationsToUser(Principal principal) {
+        return ResponseEntity.ok(invitationService.getInvitationsToUser(principal));
+    }
 }

@@ -2,7 +2,6 @@ package pl.wallet;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.exception.ThereIsNoYourPropertyException;
 import pl.wallet.transaction.model.Transaction;
 
 import java.util.Optional;
@@ -11,18 +10,18 @@ import java.util.Optional;
 @AllArgsConstructor
 public class WalletProvider {
 
-   private WalletRepository walletRepository;
+    private WalletRepository walletRepository;
 
-   public Wallet save(Wallet wallet) {
-      return walletRepository.save(wallet);
-   }
+    public Wallet save(Wallet wallet) {
+        return walletRepository.save(wallet);
+    }
 
-   public Optional<Wallet> get(String email, Long walletId) {
-      return walletRepository.findByIdAndUserEmail(walletId, email);
-   }
+    public Optional<Wallet> get(String email, Long walletId) {
+        return walletRepository.findByIdAndUserEmail(walletId, email);
+    }
 
-   public Wallet addTransaction(Wallet wallet, Transaction transaction) {
-      wallet.addTransaction(transaction);
-      return save(wallet);
-   }
+    public Wallet addTransaction(Wallet wallet, Transaction transaction) {
+        wallet.addTransaction(transaction);
+        return save(wallet);
+    }
 }

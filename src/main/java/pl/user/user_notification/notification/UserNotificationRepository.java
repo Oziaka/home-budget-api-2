@@ -11,7 +11,7 @@ import java.util.Optional;
 @Repository
 public interface UserNotificationRepository extends JpaRepository<UserNotification, Long> {
 
-   List<UserNotification> findAll(Specification<UserNotification> userNotificationSpecification, Pageable pageable);
+    List<UserNotification> findAll(Specification<UserNotification> userNotificationSpecification, Pageable pageable);
 
-   Optional<UserNotification> getByUserEmailAndAndId(String email, Long userNotificationId);
+    Optional<UserNotification> getByUserEmailAndAndId(String email, Long userNotificationId);
 }

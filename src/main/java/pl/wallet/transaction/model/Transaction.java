@@ -19,40 +19,40 @@ import java.time.LocalDateTime;
 @DiscriminatorColumn(name = "dType")
 public class Transaction {
 
-   @Column(name = "transaction_id")
-   @Id
-   @GeneratedValue(strategy = GenerationType.IDENTITY)
-   private Long id;
+    @Column(name = "transaction_id")
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-   @Column(insertable = false, updatable = false)
-   private String dType;
+    @Column(insertable = false, updatable = false)
+    private String dType;
 
-   @Column(nullable = false)
-   private String name;
+    @Column(nullable = false)
+    private String name;
 
-   private String description;
+    private String description;
 
-   @OneToOne
-   private Category category;
+    @OneToOne
+    private Category category;
 
-   @Column(nullable = false)
-   private BigDecimal price;
+    @Column(nullable = false)
+    private BigDecimal price;
 
-   @ManyToOne
-   private Wallet wallet;
+    @ManyToOne
+    private Wallet wallet;
 
-   @CreationTimestamp
-   private LocalDateTime dateOfPurchase;
+    @CreationTimestamp
+    private LocalDateTime dateOfPurchase;
 
 
-   @Builder
-   public Transaction(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase) {
-      this.name = name;
-      this.description = description;
-      this.category = category;
-      this.price = price;
-      this.wallet = wallet;
-      this.dateOfPurchase = dateOfPurchase;
-   }
+    @Builder
+    public Transaction(String name, String description, Category category, BigDecimal price, Wallet wallet, LocalDateTime dateOfPurchase) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.price = price;
+        this.wallet = wallet;
+        this.dateOfPurchase = dateOfPurchase;
+    }
 }
 

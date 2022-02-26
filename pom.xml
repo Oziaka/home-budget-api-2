@@ -128,7 +128,9 @@
                 <configuration>
                     <appName>home-budget-api-v2</appName>
                     <processTypes>
-                        <web>java -jar -Dspring.profiles.active=heroku -Dserver.port=$PORT target/${project.build.finalName}</web>
+                        <web>java -jar -Dspring.profiles.active=heroku -Dserver.port=$PORT
+                            target/${project.build.finalName}
+                        </web>
                     </processTypes>
                 </configuration>
             </plugin>

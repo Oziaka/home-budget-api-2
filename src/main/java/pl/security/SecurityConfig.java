@@ -10,27 +10,27 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-   @Bean
-   public PasswordEncoder passwordEncoder() {
-      return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-   }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
 
-   @Override
-   protected void configure(HttpSecurity http) throws Exception {
-      http
-         .httpBasic()
-         .and()
-         .authorizeRequests()
-         .antMatchers("/index.html", "/h2-console/**", "/register**", "/login**", "/", "/user",
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http
+          .httpBasic()
+          .and()
+          .authorizeRequests()
+          .antMatchers("/index.html", "/h2-console/**", "/register**", "/login**", "/", "/user",
             "/swagger-ui.html", "/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security",
             "/webjars/**").permitAll()
-         .antMatchers("/admin/**").hasRole("ADMIN")
-         .anyRequest().hasRole("USER")
-         .and()
-         .formLogin().usernameParameter("email").passwordParameter("password")
-         .and()
-         .cors().disable()
-         .csrf().disable()
-         .headers().frameOptions().disable();
-   }
+          .antMatchers("/admin/**").hasRole("ADMIN")
+          .anyRequest().hasRole("USER")
+          .and()
+          .formLogin().usernameParameter("email").passwordParameter("password")
+          .and()
+          .cors().disable()
+          .csrf().disable()
+          .headers().frameOptions().disable();
+    }
 }

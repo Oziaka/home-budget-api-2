@@ -30,37 +30,37 @@ import java.util.List;
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
 public class TransactionResource {
-   private TransactionService transactionService;
+    private TransactionService transactionService;
 
-   @PutMapping(value = "/add")
-   public ResponseEntity<TransactionDto> addTransaction(Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
-      return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.addTransaction(principal, walletId, transactionDto));
-   }
+    @PutMapping(value = "/add")
+    public ResponseEntity<TransactionDto> addTransaction(Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(transactionService.addTransaction(principal, walletId, transactionDto));
+    }
 
-   @GetMapping(value = "/{transactionId}", consumes = MediaType.ALL_VALUE)
-   public ResponseEntity<TransactionDto> getTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
-      return ResponseEntity.ok(transactionService.getTransaction(principal, walletId, transactionId));
-   }
+    @GetMapping(value = "/{transactionId}", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<TransactionDto> getTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
+        return ResponseEntity.ok(transactionService.getTransaction(principal, walletId, transactionId));
+    }
 
-   @PostMapping(value = "/{transactionId}/edit", consumes = MediaType.ALL_VALUE)
-   public ResponseEntity<TransactionDto> editTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId, @Valid @RequestBody TransactionDto transactionDto) {
-      return ResponseEntity.status(HttpStatus.ACCEPTED).body(transactionService.editTransaction(principal, walletId, transactionId, transactionDto));
-   }
+    @PostMapping(value = "/{transactionId}/edit", consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<TransactionDto> editTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId, @Valid @RequestBody TransactionDto transactionDto) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(transactionService.editTransaction(principal, walletId, transactionId, transactionDto));
+    }
 
-   @DeleteMapping(value = "/{transactionId}/remove", consumes = MediaType.ALL_VALUE, produces = MediaType.ALL_VALUE)
-   public ResponseEntity removeTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
-      transactionService.removeTransaction(principal, walletId, transactionId);
-      return ResponseEntity.noContent().build();
-   }
+    @DeleteMapping(value = "/{transactionId}/remove", consumes = MediaType.ALL_VALUE, produces = MediaType.ALL_VALUE)
+    public ResponseEntity removeTransaction(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionId) {
+        transactionService.removeTransaction(principal, walletId, transactionId);
+        return ResponseEntity.noContent().build();
+    }
 
-   @GetMapping(consumes = MediaType.ALL_VALUE)
-   public ResponseEntity<List<TransactionDto>> getWalletTransactions(Principal principal,
-                                                                     @PageableDefault(page = 0, size = 40)
-                                                                     @SortDefault.SortDefaults({
+    @GetMapping(consumes = MediaType.ALL_VALUE)
+    public ResponseEntity<List<TransactionDto>> getWalletTransactions(Principal principal,
+                                                                      @PageableDefault(page = 0, size = 40)
+                                                                      @SortDefault.SortDefaults({
                                                                         @SortDefault(sort = "dateOfPurchase", direction = Sort.Direction.DESC),
                                                                         @SortDefault(sort = "name", direction = Sort.Direction.ASC)})
                                                                         Pageable pageable,
-                                                                     @And({
+                                                                      @And({
                                                                         @Spec(path = "category.transactionType", params = "transactionType", spec = Equal.class),
                                                                         @Spec(path = "isFinished", params = "isFinished", spec = Equal.class),
                                                                         @Spec(path = "wallet.id", pathVars = "walletId", spec = Equal.class),
@@ -69,7 +69,7 @@ public class TransactionResource {
                                                                         @Spec(path = "dateOfPurchase", params = "start", spec = GreaterThanOrEqual.class),
                                                                         @Spec(path = "dateOfPurchase", params = "end", spec = LessThanOrEqual.class)})
                                                                         Specification<Transaction> transactionSpecification,
-                                                                     @RequestParam(defaultValue = "false") Boolean groupingTransactionBack) {
-      return ResponseEntity.ok(transactionService.getWalletTransactions(principal, pageable, transactionSpecification, groupingTransactionBack));
-   }
+                                                                      @RequestParam(defaultValue = "false") Boolean groupingTransactionBack) {
+        return ResponseEntity.ok(transactionService.getWalletTransactions(principal, pageable, transactionSpecification, groupingTransactionBack));
+    }
 }

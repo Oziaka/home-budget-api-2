@@ -1,5 +1,5 @@
 package pl;
 
 public interface Profile {
-   String TEST_MVC_PROFILE_NAME = "test";
+    String TEST_MVC_PROFILE_NAME = "test";
 }

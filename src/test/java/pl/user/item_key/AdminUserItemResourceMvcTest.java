@@ -23,26 +23,26 @@ import static pl.tool.JsonTool.asJsonString;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @ActiveProfiles(TEST_MVC_PROFILE_NAME)
 public class AdminUserItemResourceMvcTest {
-   @Autowired
-   private MockMvc mockMvc;
+    @Autowired
+    private MockMvc mockMvc;
 
-   @Test
-   void addUserItemKeyReturnedUserItemKeyDtoWhenUserIsAdmin() throws Exception {
-      // given
-      UserDto userDto = UserRandomTool.randomUserDto();
-      this.mockMvc.perform(put("/register")
-         .content(asJsonString(userDto))
-         .contentType(APPLICATION_JSON_VALUE));
-      UserItemKeyDto userItemKeyDto = UserItemKeyDto.builder().name("best_friend_name").build();
-      // when
-      // then
-      UserItemKeyDto expectedUserItemKeyDto = UserItemKeyDto.builder().id(2L).name(userItemKeyDto.getName()).build();
-      this.mockMvc.perform(put("/admin/user_item_key/add")
-         .content(asJsonString(userItemKeyDto))
-         .contentType(APPLICATION_JSON_VALUE)
-         .with(user(userDto.getEmail()).password(userDto.getPassword()).roles("ADMIN")))
-         .andExpect(status().isCreated())
-         .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-         .andExpect(content().json(asJsonString(expectedUserItemKeyDto)));
-   }
+    @Test
+    void addUserItemKeyReturnedUserItemKeyDtoWhenUserIsAdmin() throws Exception {
+        // given
+        UserDto userDto = UserRandomTool.randomUserDto();
+        this.mockMvc.perform(put("/register")
+          .content(asJsonString(userDto))
+          .contentType(APPLICATION_JSON_VALUE));
+        UserItemKeyDto userItemKeyDto = UserItemKeyDto.builder().name("best_friend_name").build();
+        // when
+        // then
+        UserItemKeyDto expectedUserItemKeyDto = UserItemKeyDto.builder().id(2L).name(userItemKeyDto.getName()).build();
+        this.mockMvc.perform(put("/admin/user_item_key/add")
+            .content(asJsonString(userItemKeyDto))
+            .contentType(APPLICATION_JSON_VALUE)
+            .with(user(userDto.getEmail()).password(userDto.getPassword()).roles("ADMIN")))
+          .andExpect(status().isCreated())
+          .andExpect(content().contentType(APPLICATION_JSON_VALUE))
+          .andExpect(content().json(asJsonString(expectedUserItemKeyDto)));
+    }
 }

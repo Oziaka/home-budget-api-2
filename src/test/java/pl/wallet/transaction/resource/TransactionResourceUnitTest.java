@@ -26,49 +26,50 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class TransactionResourceUnitTest {
 
-   private TransactionResource transactionResource;
-   private TransactionService transactionService;
-   private TransactionRepository transactionRepository;
-   private UserProvider userProvider;
-   private WalletProvider walletProvider;
-   private CategoryService categoryService;
+    private TransactionResource transactionResource;
+    private TransactionService transactionService;
+    private TransactionRepository transactionRepository;
+    private UserProvider userProvider;
+    private WalletProvider walletProvider;
+    private CategoryService categoryService;
 
-   @BeforeEach
-   void init() {
-      transactionRepository = mock(TransactionRepository.class);
-      userProvider = mock(UserProvider.class);
-      walletProvider = mock(WalletProvider.class);
-      categoryService = mock(CategoryService.class);
-      transactionService = new TransactionService(transactionRepository, userProvider, walletProvider, categoryService);
-      transactionResource = new TransactionResource(transactionService);
-      when(userProvider.get(any())).thenAnswer(invocation -> User.builder().email(invocation.getArgument(0, Principal.class).getName()).build());
-   }
+    @BeforeEach
+    void init() {
+        transactionRepository = mock(TransactionRepository.class);
+        userProvider = mock(UserProvider.class);
+        walletProvider = mock(WalletProvider.class);
+        categoryService = mock(CategoryService.class);
+        transactionService = new TransactionService(transactionRepository, userProvider, walletProvider, categoryService);
+        transactionResource = new TransactionResource(transactionService);
+        when(userProvider.get(any())).thenAnswer(invocation -> User.builder().email(invocation.getArgument(0, Principal.class).getName()).build());
+    }
 
-   @Test
-   void addTransactionReturnSavedTransactionDtoWhenAllFieldsValidDedicatedToSimpleOrBorrowOrLoanTransaction() {
-      // given
-      LocalDateTime timeBefore = LocalDateTime.now();
-      User user = UserRandomTool.randomUser();
-      Wallet wallet = WalletRandomTool.randomWallet(user);
-      Category category = CategoryRandomTool.randomCategory();
-      while (category.getType() == Type.BORROW_BACK || category.getType() == Type.LOAN_BACK)
-         category.setType(TransactionRandomTool.randomTransactionType());
-      TransactionDto transactionDto = TransactionRandomTool.randomTransactionDto();
-      // when
-      when(walletProvider.get(any(), any())).thenReturn(Optional.of(wallet));
-      when(categoryService.getCategory(anyString(), any())).thenReturn(Optional.of(category));
-      when(transactionRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0, Transaction.class));
-      ResponseEntity<TransactionDto> savedTransactionDtoResponeEntity = transactionResource.addTransaction(user::getEmail, wallet.getId(), transactionDto);
-      // then
-      TransactionDto expectedSavedTransactionDto = TransactionDto.builder().build();
-      Assertions.assertEquals(HttpStatus.CREATED, savedTransactionDtoResponeEntity.getStatusCode());
-      assertThat(savedTransactionDtoResponeEntity.getBody()).isEqualToIgnoringNullFields(expectedSavedTransactionDto);
-      assertThat(savedTransactionDtoResponeEntity.getBody().getDateOfPurchase()).isBetween(timeBefore, LocalDateTime.now());
-   }
+    @Test
+    void addTransactionReturnSavedTransactionDtoWhenAllFieldsValidDedicatedToSimpleOrBorrowOrLoanTransaction() {
+        // given
+        LocalDateTime timeBefore = LocalDateTime.now();
+        User user = UserRandomTool.randomUser();
+        Wallet wallet = WalletRandomTool.randomWallet(user);
+        Category category = CategoryRandomTool.randomCategory();
+        while (category.getType() == Type.BORROW_BACK || category.getType() == Type.LOAN_BACK)
+            category.setType(TransactionRandomTool.randomTransactionType());
+        TransactionDto transactionDto = TransactionRandomTool.randomTransactionDto();
+        // when
+        when(walletProvider.get(any(), any())).thenReturn(Optional.of(wallet));
+        when(categoryService.getCategory(anyString(), any())).thenReturn(Optional.of(category));
+        when(transactionRepository.save(any())).thenAnswer(invocation -> invocation.getArgument(0, Transaction.class));
+        ResponseEntity<TransactionDto> savedTransactionDtoResponeEntity = transactionResource.addTransaction(user::getEmail, wallet.getId(), transactionDto);
+        // then
+        TransactionDto expectedSavedTransactionDto = TransactionDto.builder().build();
+        Assertions.assertEquals(HttpStatus.CREATED, savedTransactionDtoResponeEntity.getStatusCode());
+        assertThat(savedTransactionDtoResponeEntity.getBody()).isEqualToIgnoringNullFields(expectedSavedTransactionDto);
+        assertThat(savedTransactionDtoResponeEntity.getBody().getDateOfPurchase()).isBetween(timeBefore, LocalDateTime.now());
+    }
 }

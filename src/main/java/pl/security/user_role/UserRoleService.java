@@ -11,31 +11,31 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserRoleService {
 
-   private UserRoleRepository userRoleRepository;
+    private UserRoleRepository userRoleRepository;
 
-   List<UserRoleDto> getAllRoles() {
-      return this.getAll().stream().map(UserRoleMapper::toDto).collect(Collectors.toList());
-   }
+    List<UserRoleDto> getAllRoles() {
+        return this.getAll().stream().map(UserRoleMapper::toDto).collect(Collectors.toList());
+    }
 
-   UserRoleDto updateRole(UserRoleDto userRoleDto, Long userRoleId) {
-      UserRole role = this.getOne(userRoleId);
-      role.setDescription(userRoleDto.getDescription());
-      return UserRoleMapper.toDto(this.save(role));
-   }
+    UserRoleDto updateRole(UserRoleDto userRoleDto, Long userRoleId) {
+        UserRole role = this.getOne(userRoleId);
+        role.setDescription(userRoleDto.getDescription());
+        return UserRoleMapper.toDto(this.save(role));
+    }
 
-   public List<UserRole> getDefaults() {
-      return userRoleRepository.getDefaultRoles();
-   }
+    public List<UserRole> getDefaults() {
+        return userRoleRepository.getDefaultRoles();
+    }
 
-   private List<UserRole> getAll() {
-      return userRoleRepository.findAll();
-   }
+    private List<UserRole> getAll() {
+        return userRoleRepository.findAll();
+    }
 
-   public UserRole getOne(Long userRoleId) {
-      return userRoleRepository.findById(userRoleId).orElseThrow(() -> new DataNotFoundException("User role not found"));
-   }
+    public UserRole getOne(Long userRoleId) {
+        return userRoleRepository.findById(userRoleId).orElseThrow(() -> new DataNotFoundException("User role not found"));
+    }
 
-   private UserRole save(UserRole userRole) {
-      return userRoleRepository.save(userRole);
-   }
+    private UserRole save(UserRole userRole) {
+        return userRoleRepository.save(userRole);
+    }
 }
