@@ -9,6 +9,7 @@ import pl.user.item_key.UserItemKey;
 import pl.user.item_key.UserItemKeyService;
 import pl.wallet.Wallet;
 import pl.wallet.WalletProvider;
+import pl.wallet.category.CategoryProvider;
 import pl.wallet.category.CategoryService;
 
 import java.math.BigDecimal;
@@ -24,7 +25,7 @@ public class UserService {
     private UserRepository userRepository;
     private UserRoleService userRoleService;
     private PasswordEncoder passwordEncoder;
-    private CategoryService categoryService;
+    private CategoryProvider categoryProvider;
     private UserItemKeyService userItemKeyService;
     private WalletProvider walletProvider;
 
@@ -40,7 +41,7 @@ public class UserService {
     }
 
     private void addDefaultCategories(User user) {
-        categoryService.getAllDefaults().forEach(user::addCategory);
+        categoryProvider.getAllDefaults().forEach(user::addCategory);
     }
 
     private void addDefaultRoles(User user) {

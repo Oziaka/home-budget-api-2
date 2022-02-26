@@ -12,6 +12,7 @@ import pl.security.user_role.UserRoleService;
 import pl.user.item_key.UserItemKey;
 import pl.user.item_key.UserItemKeyService;
 import pl.wallet.WalletProvider;
+import pl.wallet.category.CategoryProvider;
 import pl.wallet.category.CategoryService;
 
 import java.security.Principal;
@@ -27,7 +28,7 @@ class UserResourceUnitTest {
     private UserRepository userRepository;
     private UserRoleService userRoleService;
     private PasswordEncoder passwordEncoder;
-    private CategoryService categoryService;
+    private CategoryProvider categoryProvider;
     private UserItemKeyService userItemKeyService;
     private WalletProvider walletProvider;
     private UserService userService;
@@ -38,10 +39,10 @@ class UserResourceUnitTest {
         userRepository = Mockito.mock(UserRepository.class);
         userRoleService = Mockito.mock(UserRoleService.class);
         passwordEncoder = Mockito.mock(PasswordEncoder.class);
-        categoryService = Mockito.mock(CategoryService.class);
+        categoryProvider = Mockito.mock(CategoryProvider.class);
         userItemKeyService = Mockito.mock(UserItemKeyService.class);
         walletProvider = Mockito.mock(WalletProvider.class);
-        userService = new UserService(userRepository, userRoleService, passwordEncoder, categoryService, userItemKeyService, walletProvider);
+        userService = new UserService(userRepository, userRoleService, passwordEncoder, categoryProvider, userItemKeyService, walletProvider);
         userResource = new UserResource(userService);
     }
 
