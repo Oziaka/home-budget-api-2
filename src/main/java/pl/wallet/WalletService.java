@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import pl.user.User;
 import pl.user.UserProvider;
 import pl.user.friend_ship.FriendShipProvider;
+import pl.wallet.transaction.provider.TransactionProvider;
 
 import java.security.Principal;
 import java.util.Collections;

@@ -16,11 +16,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @RestController
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
+@RequestMapping("/api")
 public class UserResource {
 
-    private UserService userService;
+    private final UserService userService;
 
-    @PutMapping(path = "/register", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PostMapping(path = "/register", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> register(@RequestBody @Valid UserDto userDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUserWithDefaultsResources(userDto));
     }

@@ -26,11 +26,11 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping(path = "/wallet/{walletId}/transaction")
+@RequestMapping(path = "/api/wallet/{walletId}/transaction")
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
 public class TransactionResource {
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
 
     @PutMapping(value = "/add")
     public ResponseEntity<TransactionDto> addTransaction(Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionDto transactionDto) {

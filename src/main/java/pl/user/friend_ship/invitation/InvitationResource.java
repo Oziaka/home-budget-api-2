@@ -10,23 +10,24 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("/api")
 public class InvitationResource {
 
     private InvitationService invitationService;
 
-    @PutMapping("/invite")
+    @PostMapping("/invite")
     public ResponseEntity<Object> inviteUser(Principal principal, @RequestBody String invitedUserEmail) {
         return ResponseEntity.status(HttpStatus.CREATED).body(invitationService.invite(principal, invitedUserEmail.replace("\"", "")));
     }
 
     @DeleteMapping("/invitation/cancel/{invitationId}")
-    public ResponseEntity cancelInvitation(Principal principal, @PathVariable Long invitationId) {
+    public ResponseEntity<?> cancelInvitation(Principal principal, @PathVariable Long invitationId) {
         invitationService.cancelInvitation(principal, invitationId);
         return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/invitation/remove/{invitationId}")
-    public ResponseEntity removeInvitation(Principal principal, @PathVariable Long invitationId) {
+    public ResponseEntity<?> removeInvitation(Principal principal, @PathVariable Long invitationId) {
         invitationService.removeInvitation(principal, invitationId);
         return ResponseEntity.noContent().build();
     }

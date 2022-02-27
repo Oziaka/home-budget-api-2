@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import pl.user.*;
 import pl.user.friend_ship.FriendShipProvider;
+import pl.wallet.transaction.provider.TransactionProvider;
 
 import java.security.Principal;
 import java.util.*;

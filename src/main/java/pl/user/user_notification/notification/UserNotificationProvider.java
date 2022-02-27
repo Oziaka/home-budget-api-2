@@ -14,15 +14,15 @@ import java.util.stream.Collectors;
 @Service
 public class UserNotificationProvider {
 
-    private UserNotificationRepository userNotificationRepository;
-    private NotificationProvider notificationProvider;
+    private final UserNotificationRepository userNotificationRepository;
+    private final NotificationProvider notificationProvider;
 
     public void saveUserNotification(Notification notification, User... users) {
         saveUserNotification(notification, Arrays.stream(users).collect(Collectors.toList()));
     }
 
     public void saveUserNotification(Notification notification, List<User> users) {
-        Notification savedNotification = notificationProvider.save(notification);
+        notificationProvider.save(notification);
         for (User user : users) {
             userNotificationRepository.save(createUserNotification(notification, user));
         }

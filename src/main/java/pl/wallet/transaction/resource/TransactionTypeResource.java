@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping(value = "/transaction", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/transaction", produces = MediaType.APPLICATION_JSON_VALUE)
 @CrossOrigin("${cors.allowed-origins}")
 public class TransactionTypeResource {
     @GetMapping("/types")

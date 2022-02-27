@@ -12,12 +12,12 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/friend")
+@RequestMapping("/api/friend")
 public class FriendShipResource {
 
-    private FriendShipService friendShipService;
+    private final FriendShipService friendShipService;
 
-    @PutMapping("/add/{invitationId}")
+    @PostMapping("/add/{invitationId}")
     public ResponseEntity<FriendShipDto> addFriend(Principal principal, @PathVariable Long invitationId) {
         return ResponseEntity.status(HttpStatus.CREATED).body(friendShipService.add(principal, invitationId));
     }

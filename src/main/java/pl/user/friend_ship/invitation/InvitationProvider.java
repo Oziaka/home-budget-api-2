@@ -7,7 +7,7 @@ import pl.user.User;
 @AllArgsConstructor
 @Service
 public class InvitationProvider {
-    private InvitationRepository invitationRepository;
+    private final InvitationRepository invitationRepository;
 
     public Invitation getOneByInvited(User invited, Long invitationId) {
         return invitationRepository.findByInvitedAndId(invited, invitationId).orElseThrow(()->new InvitationException(InvitationError.NOT_FOUND));

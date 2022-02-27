@@ -18,9 +18,9 @@ import java.util.Set;
 @AllArgsConstructor
 public class CategoryResource {
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
-    @PutMapping(path = "/add")
+    @PostMapping(path = "/add")
     public ResponseEntity<CategoryDto> addCategory(Principal principal, @Valid @RequestBody CategoryDto categoryDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.addCategory(principal, categoryDto));
     }

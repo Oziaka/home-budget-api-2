@@ -22,12 +22,12 @@ public class UserService {
 
     private static final String DEFAULT_WALLET_NAME = "Wallet";
 
-    private UserRepository userRepository;
-    private UserRoleService userRoleService;
-    private PasswordEncoder passwordEncoder;
-    private CategoryProvider categoryProvider;
-    private UserItemKeyService userItemKeyService;
-    private WalletProvider walletProvider;
+    private final UserRepository userRepository;
+    private final UserRoleService userRoleService;
+    private final PasswordEncoder passwordEncoder;
+    private final CategoryProvider categoryProvider;
+    private final UserItemKeyService userItemKeyService;
+    private final WalletProvider walletProvider;
 
     UserDto addUserWithDefaultsResources(UserDto userDto) {
         User user = UserMapper.toEntity(userDto);

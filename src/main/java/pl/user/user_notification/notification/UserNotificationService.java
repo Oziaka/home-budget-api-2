@@ -16,9 +16,9 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class UserNotificationService {
-    private UserNotificationRepository userNotificationRepository;
-    private UserProvider userProvider;
-    private NotificationProvider notificationProvider;
+    private final UserNotificationRepository userNotificationRepository;
+    private final UserProvider userProvider;
+    private final NotificationProvider notificationProvider;
 
     List<UserNotificationDto> getNotifications(Principal principal, Pageable pageable, Specification<UserNotification> userNotificationSpecification) {
         User user = userProvider.get(principal);

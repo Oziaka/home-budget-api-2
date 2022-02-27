@@ -11,10 +11,10 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/admin/user_item_key")
+@RequestMapping("api/admin/user_item_key")
 public class AdminUserItemKeyResource {
 
-    private UserItemKeyService userItemKeyService;
+    private final UserItemKeyService userItemKeyService;
 
     @PutMapping("/add")
     public ResponseEntity<UserItemKeyDto> addUserItemKey(@RequestBody UserItemKeyDto userItemKeyDto) {

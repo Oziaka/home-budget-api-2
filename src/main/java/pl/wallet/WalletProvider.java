@@ -10,7 +10,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class WalletProvider {
 
-    private WalletRepository walletRepository;
+    private final WalletRepository walletRepository;
 
     public Wallet save(Wallet wallet) {
         return walletRepository.save(wallet);

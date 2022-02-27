@@ -9,7 +9,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class CategoryProvider {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
     public Set<Category> getAllDefaults() {
         return categoryRepository.findAllByIsDefaultIsTrue();
     }

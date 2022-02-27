@@ -8,7 +8,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 public class UserItemKeyService {
-    private UserItemKeyRepository userItemKeyRepository;
+    private final UserItemKeyRepository userItemKeyRepository;
 
     UserItemKeyDto addUserItemKey(UserItemKeyDto userItemKeyDto) {
         UserItemKey userItemKey = UserItemKeyMapper.toEntity(userItemKeyDto);

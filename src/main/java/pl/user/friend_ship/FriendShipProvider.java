@@ -8,7 +8,7 @@ import pl.user.User;
 @AllArgsConstructor
 public class FriendShipProvider {
 
-    private FriendShipRepository friendShipRepository;
+    private final FriendShipRepository friendShipRepository;
 
     public FriendShip save(FriendShip friendShip) {
         return friendShipRepository.save(friendShip);

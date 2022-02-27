@@ -26,11 +26,11 @@ import java.util.List;
 @EnableScheduling
 public class TransactionRecurringService {
 
-    private TransactionRecurringRepository transactionRecurringRepository;
-    private UserService userService;
-    private WalletService walletService;
-    private CategoryService categoryService;
-    private TransactionService transactionService;
+    private final TransactionRecurringRepository transactionRecurringRepository;
+    private final UserService userService;
+    private final WalletService walletService;
+    private final CategoryService categoryService;
+    private final TransactionService transactionService;
 
     @Scheduled(fixedDelay = 60 * 1000)
     private void addTransactionAndCalculateTheNextAddition() {

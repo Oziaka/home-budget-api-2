@@ -14,14 +14,14 @@ import java.util.List;
 
 @Validated
 @RestController
-@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/wallet")
+@RequestMapping(produces = MediaType.APPLICATION_JSON_VALUE, path = "/api/wallet")
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
 public class WalletResource {
 
-    private WalletService walletService;
+    private final WalletService walletService;
 
-    @PutMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<WalletDto> addWallet(Principal principal, @Valid @RequestBody WalletDto walletDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(walletService.addWallet(principal, walletDto));
     }

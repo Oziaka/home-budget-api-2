@@ -17,7 +17,7 @@ import java.util.List;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/notification")
+@RequestMapping("/api/notification")
 public class UserNotificationResource {
 
     private UserNotificationService userNotificationService;

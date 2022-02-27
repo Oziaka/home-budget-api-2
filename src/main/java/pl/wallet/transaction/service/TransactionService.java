@@ -29,10 +29,10 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TransactionService {
 
-    private TransactionRepository transactionRepository;
-    private UserProvider userProvider;
-    private WalletProvider walletProvider;
-    private CategoryService categoryService;
+    private final TransactionRepository transactionRepository;
+    private final UserProvider userProvider;
+    private final WalletProvider walletProvider;
+    private final CategoryService categoryService;
 
     public TransactionDto addTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
         Wallet wallet = getWallet(principal.getName(), walletId);

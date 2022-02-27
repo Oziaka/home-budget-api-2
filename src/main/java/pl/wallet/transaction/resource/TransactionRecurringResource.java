@@ -12,20 +12,20 @@ import java.security.Principal;
 
 @Validated
 @RestController
-@RequestMapping("/wallet/{walletId}/transaction_recurring")
+@RequestMapping("/api/wallet/{walletId}/transaction_recurring")
 @AllArgsConstructor
 @CrossOrigin("${cors.allowed-origins}")
 public class TransactionRecurringResource {
 
-    private TransactionRecurringService transactionRecurringService;
+    private final TransactionRecurringService transactionRecurringService;
 
-    @PutMapping("/add")
+    @PostMapping("/add")
     public ResponseEntity<TransactionRecurringDto> addTransactionRecurring(Principal principal, @PathVariable Long walletId, @Valid @RequestBody TransactionRecurringDto transactionRecurringDto) {
         return ResponseEntity.ok(transactionRecurringService.addTransactionRecurring(principal, walletId, transactionRecurringDto));
     }
 
 
-    @PostMapping("/{transactionRecurringId}/remove")
+    @PostMapping("/remove/{transactionRecurringId}")
     public ResponseEntity<TransactionRecurringDto> removeTransactionRecurring(Principal principal, @PathVariable Long walletId, @PathVariable Long transactionRecurringId) {
         transactionRecurringService.removeTransactionRecurring(principal, walletId, transactionRecurringId);
         return ResponseEntity.noContent().build();

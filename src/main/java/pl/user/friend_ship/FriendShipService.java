@@ -18,9 +18,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class FriendShipService {
 
-    private InvitationProvider invitationProvider;
-    private UserProvider userProvider;
-    private FriendShipRepository friendShipRepository;
+    private final InvitationProvider invitationProvider;
+    private final UserProvider userProvider;
+    private final FriendShipRepository friendShipRepository;
 
     FriendShipDto add(Principal principal, Long invitationId) {
         User user = userProvider.get(principal);

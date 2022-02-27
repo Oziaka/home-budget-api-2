@@ -1,4 +1,4 @@
-package pl.wallet;
+package pl.wallet.transaction.provider;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import pl.wallet.transaction.repository.TransactionRepository;
 @AllArgsConstructor
 public class TransactionProvider {
 
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
 
     public void removeWalletTransactions(Long walletId) {
         transactionRepository.getTransactionsByWalletId(walletId).forEach(transaction -> this.remove(transaction.getId()));

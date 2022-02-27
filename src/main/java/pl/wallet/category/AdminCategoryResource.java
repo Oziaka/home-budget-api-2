@@ -11,11 +11,11 @@ import java.util.Set;
 @Validated
 @RestController
 @CrossOrigin("${cors.allowed-origins}")
-@RequestMapping(path = "/admin/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/admin/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class AdminCategoryResource {
 
-    private CategoryService categoryService;
+    private final CategoryService categoryService;
 
     @GetMapping(path = "/default_categories", consumes = MediaType.ALL_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Set<CategoryDto>> getDefaultCategories() {
