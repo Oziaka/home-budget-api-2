@@ -32,7 +32,7 @@ public class UserResouerceMvcTest {
     void registerReturnUserDtoWhenRegisteredSuccessful() throws Exception {
         UserDto userToRegistration = UserRandomTool.randomUserDto();
         UserDto expectedUserDto = UserDto.builder().email(userToRegistration.getEmail()).userName(userToRegistration.getUserName()).build();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
             .content(asJsonString(userToRegistration))
             .contentType(APPLICATION_JSON_VALUE))
           .andExpect(status().isCreated())
@@ -43,17 +43,17 @@ public class UserResouerceMvcTest {
     @Test
     void userReturnedPrincipalWhenUserIsAuthorized() throws Exception {
         UserDto user = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(get("/user").with(user(user.getEmail()).password(user.getPassword())))
+        this.mockMvc.perform(get("/api/user").with(user(user.getEmail()).password(user.getPassword())))
           .andExpect(status().isOk());
     }
 
     @Test
-    void loginRedirectWhenIsSuccessfulLoged() throws Exception {
+    void loginRedirectWhenIsSuccessfulLogged() throws Exception {
         UserDto user = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(user))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(post("/login").content(asJsonString(user)))
+        this.mockMvc.perform(post("/api/login").content(asJsonString(user)))
           .andExpect(status().is(302))
           .andExpect(content().string(""));
 
@@ -64,10 +64,10 @@ public class UserResouerceMvcTest {
         UserDto user = UserRandomTool.randomUserDto();
         UserDto userWithNewValue = UserRandomTool.randomUserDto();
         UserDto expectedUserDto = UserDto.builder().email(userWithNewValue.getEmail()).userName(userWithNewValue.getUserName()).items(new HashMap<>()).build();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(user))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(post("/user/edit").with(user(user.getEmail()).password(user.getPassword()))
+        this.mockMvc.perform(put("/api/user/edit").with(user(user.getEmail()).password(user.getPassword()))
             .content(asJsonString(userWithNewValue))
             .contentType(APPLICATION_JSON_VALUE))
           .andDo(print())

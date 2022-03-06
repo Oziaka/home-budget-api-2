@@ -34,13 +34,13 @@ public class FriendShipResourceMvcTest {
         // given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
           .content(asJsonString(invitedDto.getEmail()))
           .with(user(userDto.getEmail()).password(userDto.getPassword()))
           .contentType(APPLICATION_JSON_VALUE));
@@ -50,7 +50,7 @@ public class FriendShipResourceMvcTest {
           .build();
         // when
         // then
-        this.mockMvc.perform(put("/friend/add/1").with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
+        this.mockMvc.perform(post("/api/friend/add/1").with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
           .andExpect(status().isCreated())
           .andExpect(content().contentType(APPLICATION_JSON_VALUE))
           .andExpect(jsonPath("$.id").value(expectedFriendShipDto.getId()))
@@ -66,31 +66,31 @@ public class FriendShipResourceMvcTest {
         // given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
           .content(asJsonString(invitedDto.getEmail()))
           .with(user(userDto.getEmail()).password(userDto.getPassword()))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/friend/add/1").with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
+        this.mockMvc.perform(post("/api/friend/add/1").with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
           .andExpect(status().isCreated())
           .andExpect(content().contentType(APPLICATION_JSON_VALUE));
         List<FriendDto> expectedFriendDto = Collections.singletonList(FriendDto.builder().friend(userDto).friendShipId(1L).build());
         List<FriendDto> expectedFriendDto2 = Collections.singletonList(FriendDto.builder().friend(invitedDto).friendShipId(2L).build());
         // when
         // then
-        this.mockMvc.perform(get("/friend").with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
+        this.mockMvc.perform(get("/api/friend").with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
           .andExpect(status().isOk())
           .andExpect(content().contentType(APPLICATION_JSON_VALUE))
           .andExpect(jsonPath("$[0].friendShipId").value(expectedFriendDto.get(0).getFriendShipId()))
           .andExpect(jsonPath("$[0].friend.email").value(expectedFriendDto.get(0).getFriend().getEmail()))
           .andExpect(jsonPath("$[0].friend.userName").value(expectedFriendDto.get(0).getFriend().getUserName()))
           .andExpect(jsonPath("$[0].dateOfAdding").isNotEmpty());
-        this.mockMvc.perform(get("/friend").with(user(userDto.getEmail()).password(userDto.getPassword())))
+        this.mockMvc.perform(get("/api/friend").with(user(userDto.getEmail()).password(userDto.getPassword())))
           .andExpect(status().isOk())
           .andExpect(content().contentType(APPLICATION_JSON_VALUE))
           .andExpect(jsonPath("$[0].friendShipId").value(expectedFriendDto2.get(0).getFriendShipId()))
@@ -104,22 +104,22 @@ public class FriendShipResourceMvcTest {
         // given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
           .content(asJsonString(invitedDto.getEmail()))
           .with(user(userDto.getEmail()).password(userDto.getPassword()))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/friend/add/1").with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
+        this.mockMvc.perform(post("/api/friend/add/1").with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
           .andExpect(status().isCreated())
           .andExpect(content().contentType(APPLICATION_JSON_VALUE));
         // when
         // then
-        this.mockMvc.perform(delete("/friend/remove/2").with(user(userDto.getEmail()).password(userDto.getPassword())))
+        this.mockMvc.perform(delete("/api/friend/remove/2").with(user(userDto.getEmail()).password(userDto.getPassword())))
           .andExpect(status().isNoContent());
     }
 }

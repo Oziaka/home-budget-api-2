@@ -5,7 +5,7 @@ import pl.wallet.category.CategoryMapper;
 import pl.wallet.transaction.dto.TransactionDto;
 import pl.wallet.transaction.enums.Type;
 import pl.wallet.transaction.exception.TransactionException;
-import pl.wallet.transaction.exception.TransactionExcetpion;
+import pl.wallet.transaction.exception.TransactionError;
 import pl.wallet.transaction.model.Transaction;
 import pl.wallet.transaction.model.TransactionBack;
 import pl.wallet.transaction.model.TransactionLoanOrBorrow;
@@ -41,7 +41,7 @@ public class TransactionMapper {
               .dateOfPurchase(transactionDto.getDateOfPurchase())
               .category(category)
               .build();
-        else throw new TransactionException(TransactionExcetpion.INVALID_TRANSACTION);
+        else throw new TransactionException(TransactionError.INVALID_TRANSACTION);
     }
 
     public static TransactionDto toDto(Transaction transaction) {

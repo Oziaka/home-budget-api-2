@@ -34,10 +34,10 @@ public class InvitationResourceMvcTest {
         // given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
         InvitationDto expectedInvitationDto = InvitationDto.builder().id(1L)
@@ -46,7 +46,7 @@ public class InvitationResourceMvcTest {
           .build();
         // when
         // then
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
             .content(asJsonString(invitedDto.getEmail()))
             .with(user(userDto.getEmail()).password(userDto.getPassword()))
             .contentType(APPLICATION_JSON_VALUE))
@@ -60,13 +60,13 @@ public class InvitationResourceMvcTest {
         //given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
             .content(asJsonString(userDto.getEmail()))
             .with(user(invitedDto.getEmail()).password(invitedDto.getPassword()))
             .contentType(APPLICATION_JSON_VALUE))
@@ -77,7 +77,7 @@ public class InvitationResourceMvcTest {
           .build();
         // when
         // then
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
             .content(asJsonString(invitedDto.getEmail()))
             .with(user(userDto.getEmail()).password(userDto.getPassword()))
             .contentType(APPLICATION_JSON_VALUE))
@@ -93,19 +93,19 @@ public class InvitationResourceMvcTest {
         //given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
           .content(asJsonString(userDto.getEmail()))
           .with(user(invitedDto.getEmail()).password(invitedDto.getPassword()))
           .contentType(APPLICATION_JSON_VALUE));
         // when
         // then
-        this.mockMvc.perform(delete("/invitation/cancel/1")
+        this.mockMvc.perform(delete("/api/invitation/cancel/1")
             .with(user(invitedDto.getEmail()).password(invitedDto.getPassword())))
           .andExpect(status().isNoContent());
     }
@@ -115,19 +115,19 @@ public class InvitationResourceMvcTest {
         //given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
           .content(asJsonString(userDto.getEmail()))
           .with(user(invitedDto.getEmail()).password(invitedDto.getPassword()))
           .contentType(APPLICATION_JSON_VALUE));
         // when
         // then
-        this.mockMvc.perform(delete("/invitation/remove/1")
+        this.mockMvc.perform(delete("/api/invitation/remove/1")
             .with(user(userDto.getEmail()).password(userDto.getPassword())))
           .andExpect(status().isNoContent());
     }
@@ -137,13 +137,13 @@ public class InvitationResourceMvcTest {
         // given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
           .content(asJsonString(invitedDto.getEmail()))
           .with(user(userDto.getEmail()).password(userDto.getPassword()))
           .contentType(APPLICATION_JSON_VALUE));
@@ -153,7 +153,7 @@ public class InvitationResourceMvcTest {
           .build());
         // when
         // then
-        this.mockMvc.perform(get("/invitation/from_user")
+        this.mockMvc.perform(get("/api/invitation/from_user")
             .content(asJsonString(invitedDto.getEmail()))
             .with(user(userDto.getEmail()).password(userDto.getPassword()))
             .contentType(APPLICATION_JSON_VALUE))
@@ -168,13 +168,13 @@ public class InvitationResourceMvcTest {
         // given
         UserDto userDto = UserRandomTool.randomUserDto();
         UserDto invitedDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(invitedDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(put("/invite")
+        this.mockMvc.perform(post("/api/invite")
           .content(asJsonString(invitedDto.getEmail()))
           .with(user(userDto.getEmail()).password(userDto.getPassword()))
           .contentType(APPLICATION_JSON_VALUE));
@@ -184,7 +184,7 @@ public class InvitationResourceMvcTest {
           .build());
         // when
         // then
-        this.mockMvc.perform(get("/invitation/to_user")
+        this.mockMvc.perform(get("/api/invitation/to_user")
             .with(user(invitedDto.getEmail()).password(invitedDto.getPassword()))
             .contentType(APPLICATION_JSON_VALUE))
           .andExpect(status().isOk())

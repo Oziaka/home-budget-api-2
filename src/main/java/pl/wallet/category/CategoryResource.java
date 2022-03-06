@@ -14,7 +14,7 @@ import java.util.Set;
 @Validated
 @RestController
 @CrossOrigin("${cors.allowed-origins}")
-@RequestMapping(path = "/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(path = "/api/category", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 @AllArgsConstructor
 public class CategoryResource {
 

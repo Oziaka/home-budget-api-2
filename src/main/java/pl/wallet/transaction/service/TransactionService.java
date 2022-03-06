@@ -13,7 +13,7 @@ import pl.wallet.category.CategoryService;
 import pl.wallet.transaction.dto.TransactionDto;
 import pl.wallet.transaction.enums.Type;
 import pl.wallet.transaction.exception.TransactionException;
-import pl.wallet.transaction.exception.TransactionExcetpion;
+import pl.wallet.transaction.exception.TransactionError;
 import pl.wallet.transaction.mapper.TransactionMapper;
 import pl.wallet.transaction.model.Transaction;
 import pl.wallet.transaction.model.TransactionBack;
@@ -36,7 +36,7 @@ public class TransactionService {
 
     public TransactionDto addTransaction(Principal principal, Long walletId, TransactionDto transactionDto) {
         Wallet wallet = getWallet(principal.getName(), walletId);
-        Category category = categoryService.getCategory(principal.getName(), transactionDto.getCategoryId()).orElseThrow(()->new TransactionException(TransactionExcetpion.NO_YOUR_PROPERTY));
+        Category category = categoryService.getCategory(principal.getName(), transactionDto.getCategoryId()).orElseThrow(()->new TransactionException(TransactionError.NO_YOUR_PROPERTY));
         Transaction transaction = TransactionMapper.toEntity(transactionDto, category);
         transaction.setWallet(wallet);
         if (transaction instanceof TransactionBack)
@@ -82,10 +82,10 @@ public class TransactionService {
                 TransactionBack savedTransactionBack = saveTransactionBack((TransactionBack) transaction, transactionLoanOrBorrow);
                 return TransactionMapper.toDto(savedTransactionBack);
             } else {
-                throw new TransactionException(TransactionExcetpion.INVALID_TRANSACTION);
+                throw new TransactionException(TransactionError.INVALID_TRANSACTION);
             }
         } else {
-            throw new TransactionException(TransactionExcetpion.INVALID_TRANSACTION);
+            throw new TransactionException(TransactionError.INVALID_TRANSACTION);
         }
     }
 
@@ -103,7 +103,7 @@ public class TransactionService {
 
 
     private Wallet getWallet(String email, Long walletId) {
-        return walletProvider.get(email, walletId).orElseThrow(()->new TransactionException(TransactionExcetpion.NO_YOUR_PROPERTY));
+        return walletProvider.get(email, walletId).orElseThrow(()->new TransactionException(TransactionError.NO_YOUR_PROPERTY));
     }
 
     public void removeTransaction(Principal principal, Long walletId, Long transactionId) {
@@ -127,7 +127,7 @@ public class TransactionService {
     }
 
     public Transaction get(String email, Long walletId, Long transactionId) {
-        return transactionRepository.findByuEmailAndWalletIdAndTransactionId(email, transactionId, walletId).orElseThrow(()->new TransactionException(TransactionExcetpion.NO_YOUR_PROPERTY));
+        return transactionRepository.findByuEmailAndWalletIdAndTransactionId(email, transactionId, walletId).orElseThrow(()->new TransactionException(TransactionError.NO_YOUR_PROPERTY));
     }
 
     private List<? extends Transaction> getAll(Pageable pageable, Specification<Transaction> transactionSpecification) {

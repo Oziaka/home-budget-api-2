@@ -12,8 +12,7 @@ import pl.user.UserRandomTool;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,18 +30,18 @@ public class AdminCategoryResourceMvcTest {
     private MockMvc mockMvc;
 
     @Test
-    void getDefaultCategoriesReturneSetOfDefaultCategories() throws Exception {
+    void getDefaultCategoriesReturnedSetOfDefaultCategories() throws Exception {
         //given
         UserDto userDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
         //when
         //then
-        this.mockMvc.perform(get("/admin/category/default_categories")
+        this.mockMvc.perform(get("/api/admin/category/default_categories")
             .with(user(userDto.getEmail()).password(userDto.getPassword()).roles("ADMIN")))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("$", hasSize(1)))
+          .andExpect(jsonPath("$", hasSize(8)))
           .andDo(print());
     }
 }

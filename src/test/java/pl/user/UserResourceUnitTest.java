@@ -8,12 +8,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import pl.security.user_role.UserRole;
+import pl.security.user_role.UserRoleProvider;
 import pl.security.user_role.UserRoleService;
 import pl.user.item_key.UserItemKey;
 import pl.user.item_key.UserItemKeyService;
 import pl.wallet.WalletProvider;
 import pl.wallet.category.CategoryProvider;
-import pl.wallet.category.CategoryService;
 
 import java.security.Principal;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 
 class UserResourceUnitTest {
     private UserRepository userRepository;
-    private UserRoleService userRoleService;
+    private UserRoleProvider userRoleProvider;
     private PasswordEncoder passwordEncoder;
     private CategoryProvider categoryProvider;
     private UserItemKeyService userItemKeyService;
@@ -37,12 +37,12 @@ class UserResourceUnitTest {
     @BeforeEach
     void init() {
         userRepository = Mockito.mock(UserRepository.class);
-        userRoleService = Mockito.mock(UserRoleService.class);
+        userRoleProvider = Mockito.mock(UserRoleProvider.class);
         passwordEncoder = Mockito.mock(PasswordEncoder.class);
         categoryProvider = Mockito.mock(CategoryProvider.class);
         userItemKeyService = Mockito.mock(UserItemKeyService.class);
         walletProvider = Mockito.mock(WalletProvider.class);
-        userService = new UserService(userRepository, userRoleService, passwordEncoder, categoryProvider, userItemKeyService, walletProvider);
+        userService = new UserService(userRepository, userRoleProvider, passwordEncoder, categoryProvider, userItemKeyService, walletProvider);
         userResource = new UserResource(userService);
     }
 
@@ -53,7 +53,7 @@ class UserResourceUnitTest {
         // when
         Mockito.when(passwordEncoder.encode(any())).thenReturn(userToRegistration.getPassword());
         List<UserRole> defaultUserRoles = Collections.singletonList(new UserRole("ROLE_USER", "Default role"));
-        Mockito.when(userRoleService.getDefaults()).thenReturn(new ArrayList<>(defaultUserRoles));
+        Mockito.when(userRoleProvider.getDefaults()).thenReturn(new ArrayList<>(defaultUserRoles));
         User userReturnedByUserRepository = User.builder().userName(userToRegistration.getUserName()).email(userToRegistration.getEmail()).password(userToRegistration.getPassword()).id(1L).build();
         Mockito.when(userRepository.save(any())).thenReturn(userReturnedByUserRepository);
         ResponseEntity<UserDto> registeredUserResponseEntity = userResource.register(userToRegistration);

@@ -9,12 +9,12 @@ import pl.user.UserService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/user_role")
+@RequestMapping("api/admin/user_role")
 @AllArgsConstructor
 public class AdminUserRoleResource {
 
-    private UserRoleService userRoleService;
-    private UserService userService;
+    private static UserRoleService userRoleService;
+    private static UserService userService;
 
     @GetMapping
     public ResponseEntity<List<UserRoleDto>> getUserRoles() {

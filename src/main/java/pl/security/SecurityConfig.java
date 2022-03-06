@@ -21,13 +21,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
           .httpBasic()
           .and()
           .authorizeRequests()
-          .antMatchers("/index.html", "/h2-console/**", "/register**", "/login**", "/", "/user",
+          .antMatchers("/index.html", "/h2-console/**", "/api/register**", "/api/login**", "/", "/api/user",
             "/swagger-ui.html", "/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security",
             "/webjars/**").permitAll()
-          .antMatchers("/admin/**").hasRole("ADMIN")
+          .antMatchers("/api/admin/**").hasRole("ADMIN")
           .anyRequest().hasRole("USER")
           .and()
-          .formLogin().usernameParameter("email").passwordParameter("password")
+          .formLogin().usernameParameter("email").passwordParameter("password").loginPage("/api/login")
           .and()
           .cors().disable()
           .csrf().disable()

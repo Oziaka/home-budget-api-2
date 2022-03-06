@@ -7,7 +7,7 @@ import pl.exception.AppError;
 
 @Getter
 @AllArgsConstructor
-public enum TransactionExcetpion implements AppError {
+public enum TransactionError implements AppError {
     NO_YOUR_PROPERTY("There is no your property", HttpStatus.BAD_REQUEST),
     INVALID_TRANSACTION("Invalid transaction", HttpStatus.BAD_REQUEST);
     private String message;

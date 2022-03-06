@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class UserRoleService {
 
-    private UserRoleRepository userRoleRepository;
+    private final UserRoleRepository userRoleRepository;
 
     List<UserRoleDto> getAllRoles() {
         return this.getAll().stream().map(UserRoleMapper::toDto).collect(Collectors.toList());

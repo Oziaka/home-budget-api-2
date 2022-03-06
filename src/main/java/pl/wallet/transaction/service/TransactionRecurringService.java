@@ -12,9 +12,10 @@ import pl.wallet.category.Category;
 import pl.wallet.category.CategoryService;
 import pl.wallet.transaction.dto.TransactionRecurringDto;
 import pl.wallet.transaction.exception.TransactionException;
-import pl.wallet.transaction.exception.TransactionExcetpion;
+import pl.wallet.transaction.exception.TransactionError;
 import pl.wallet.transaction.mapper.TransactionRecurringMapper;
 import pl.wallet.transaction.model.TransactionRecurring;
+import pl.wallet.transaction.provider.TransactionRecurringProvider;
 import pl.wallet.transaction.repository.TransactionRecurringRepository;
 
 import java.security.Principal;
@@ -31,6 +32,7 @@ public class TransactionRecurringService {
     private final WalletService walletService;
     private final CategoryService categoryService;
     private final TransactionService transactionService;
+    private final TransactionRecurringProvider transactionRecurringProvider;
 
     @Scheduled(fixedDelay = 60 * 1000)
     private void addTransactionAndCalculateTheNextAddition() {
@@ -98,7 +100,7 @@ public class TransactionRecurringService {
     }
 
     private TransactionRecurring getOne(String email, Long walletId, Long transactionRecurringId) {
-        return transactionRecurringRepository.get(email, walletId, transactionRecurringId).orElseThrow(()-> new TransactionException(TransactionExcetpion.NO_YOUR_PROPERTY));
+        return transactionRecurringRepository.get(email, walletId, transactionRecurringId).orElseThrow(()-> new TransactionException(TransactionError.NO_YOUR_PROPERTY));
     }
 
     public void remove(TransactionRecurring transactionRecurring) {

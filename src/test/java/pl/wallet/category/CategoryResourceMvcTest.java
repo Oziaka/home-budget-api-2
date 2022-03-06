@@ -32,12 +32,12 @@ public class CategoryResourceMvcTest {
     @Test
     void addCategoryReturnedCategoryDtoWhenCategoryAdded() throws Exception {
         UserDto userDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
         CategoryDto categoryDto = CategoryRandomTool.randomCategoryDto();
         CategoryDto expectedCategoryDto = categoryDto;
-        this.mockMvc.perform(put("/category/add").with(user(userDto.getEmail()).password(userDto.getPassword()))
+        this.mockMvc.perform(post("/api/category/add").with(user(userDto.getEmail()).password(userDto.getPassword()))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(expectedCategoryDto)))
           .andExpect(content().contentType(APPLICATION_JSON_VALUE))
@@ -47,27 +47,27 @@ public class CategoryResourceMvcTest {
     @Test
     void getUserCategoriesReturnedAllUserCategories() throws Exception {
         UserDto userDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(MediaType.APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(get("/category")
+        this.mockMvc.perform(get("/api/category")
             .with(user(userDto.getEmail()).password(userDto.getPassword())))
           .andExpect(status().isOk())
           .andExpect(content().contentType(APPLICATION_JSON_VALUE))
-          .andExpect(jsonPath("$", hasSize(1)));
+          .andExpect(jsonPath("$", hasSize(8)));
     }
 
     @Test
     void removeCategoryDoNotReturnedAnything() throws Exception {
         UserDto userDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
         CategoryDto categoryDto = CategoryRandomTool.randomCategoryDto();
-        this.mockMvc.perform(put("/category/add").with(user(userDto.getEmail()).password(userDto.getPassword()))
+        this.mockMvc.perform(post("/api/category/add").with(user(userDto.getEmail()).password(userDto.getPassword()))
           .contentType(MediaType.APPLICATION_JSON_VALUE)
           .content(asJsonString(categoryDto)));
-        this.mockMvc.perform(delete("/category/remove/2").with(user(userDto.getEmail()).password(userDto.getPassword()))
+        this.mockMvc.perform(delete("/api/category/remove/2").with(user(userDto.getEmail()).password(userDto.getPassword()))
             .contentType(MediaType.APPLICATION_JSON_VALUE)
             .content(asJsonString(categoryDto)))
           .andExpect(status().isNoContent())
@@ -77,28 +77,28 @@ public class CategoryResourceMvcTest {
     @Test
     void restoreDefaultCategoriesReturnedAllUserCategories() throws Exception {
         UserDto userDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
-        this.mockMvc.perform(post("/category/restore_default_categories").with(user(userDto.getEmail()).password(userDto.getPassword())))
+        this.mockMvc.perform(post("/api/category/restore_default_categories").with(user(userDto.getEmail()).password(userDto.getPassword())))
           .andExpect(status().isOk())
-          .andExpect(jsonPath("$", hasSize(1)));
+          .andExpect(jsonPath("$", hasSize(8)));
     }
 
     @Test
     void editCategoryReturnedUpdatedCategory() throws Exception {
         UserDto userDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
         CategoryDto categoryDto = CategoryRandomTool.randomCategoryDto();
-        this.mockMvc.perform(put("/category/add")
+        this.mockMvc.perform(post("/api/category/add")
           .with(user(userDto.getEmail()).password(userDto.getPassword()))
           .contentType(MediaType.APPLICATION_JSON_VALUE)
           .content(asJsonString(categoryDto)));
         CategoryDto updatedCategoryDto = CategoryRandomTool.randomCategoryDto();
-        CategoryDto expectedCategoryDto = CategoryDto.builder().id(2L).isDefault(false).description(updatedCategoryDto.getDescription()).name(updatedCategoryDto.getName()).type(categoryDto.getType()).build();
-        this.mockMvc.perform(post("/category/edit/2")
+        CategoryDto expectedCategoryDto = CategoryDto.builder().id(9L).isDefault(false).description(updatedCategoryDto.getDescription()).name(updatedCategoryDto.getName()).type(categoryDto.getType()).build();
+        this.mockMvc.perform(post("/api/category/edit/9")
             .contentType(APPLICATION_JSON_VALUE)
             .with(user(userDto.getEmail()).password(userDto.getPassword()))
             .content(asJsonString(updatedCategoryDto)))

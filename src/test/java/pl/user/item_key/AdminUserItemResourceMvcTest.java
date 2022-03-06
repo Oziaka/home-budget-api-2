@@ -12,6 +12,7 @@ import pl.user.UserRandomTool;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -30,14 +31,14 @@ public class AdminUserItemResourceMvcTest {
     void addUserItemKeyReturnedUserItemKeyDtoWhenUserIsAdmin() throws Exception {
         // given
         UserDto userDto = UserRandomTool.randomUserDto();
-        this.mockMvc.perform(put("/register")
+        this.mockMvc.perform(post("/api/register")
           .content(asJsonString(userDto))
           .contentType(APPLICATION_JSON_VALUE));
         UserItemKeyDto userItemKeyDto = UserItemKeyDto.builder().name("best_friend_name").build();
         // when
         // then
         UserItemKeyDto expectedUserItemKeyDto = UserItemKeyDto.builder().id(2L).name(userItemKeyDto.getName()).build();
-        this.mockMvc.perform(put("/admin/user_item_key/add")
+        this.mockMvc.perform(post("/api/admin/user_item_key/add")
             .content(asJsonString(userItemKeyDto))
             .contentType(APPLICATION_JSON_VALUE)
             .with(user(userDto.getEmail()).password(userDto.getPassword()).roles("ADMIN")))

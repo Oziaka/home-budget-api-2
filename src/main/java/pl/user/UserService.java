@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.security.user_role.UserRole;
-import pl.security.user_role.UserRoleService;
+import pl.security.user_role.UserRoleProvider;
 import pl.user.item_key.UserItemKey;
 import pl.user.item_key.UserItemKeyService;
 import pl.wallet.Wallet;
 import pl.wallet.WalletProvider;
 import pl.wallet.category.CategoryProvider;
-import pl.wallet.category.CategoryService;
 
 import java.math.BigDecimal;
 import java.security.Principal;
@@ -23,7 +22,7 @@ public class UserService {
     private static final String DEFAULT_WALLET_NAME = "Wallet";
 
     private final UserRepository userRepository;
-    private final UserRoleService userRoleService;
+    private final UserRoleProvider userRoleProvider;
     private final PasswordEncoder passwordEncoder;
     private final CategoryProvider categoryProvider;
     private final UserItemKeyService userItemKeyService;
@@ -45,7 +44,7 @@ public class UserService {
     }
 
     private void addDefaultRoles(User user) {
-        userRoleService.getDefaults().forEach(user::addRole);
+        userRoleProvider.getDefaults().forEach(user::addRole);
     }
 
     private void encodePassword(User user) {
@@ -67,7 +66,7 @@ public class UserService {
 
     public UserDto grantPermission(Long userRoleId, String email) {
         User user = this.getUser(() -> email);
-        UserRole userRole = userRoleService.getOne(userRoleId);
+        UserRole userRole = userRoleProvider.getOne(userRoleId);
         user.addRole(userRole);
         User save = this.saveUser(user);
         return UserMapper.toDtoWithRoles(save);
@@ -75,7 +74,7 @@ public class UserService {
 
     public UserDto revokePermission(Long userRoleId, String email) {
         User user = this.getUser(() -> email);
-        UserRole userRole = userRoleService.getOne(userRoleId);
+        UserRole userRole = userRoleProvider.getOne(userRoleId);
         user.removeRole(userRole);
         User save = this.saveUser(user);
         return UserMapper.toDtoWithRoles(save);

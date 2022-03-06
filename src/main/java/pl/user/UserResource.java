@@ -36,7 +36,7 @@ public class UserResource {
         return ResponseEntity.ok(userService.getProfile(principal));
     }
 
-    @PostMapping(path = "/user/edit", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/user/edit", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<UserDto> editUser(Principal principal, @RequestBody UserDto userDto) {
         return ResponseEntity.ok(userService.editUser(principal, userDto));
     }

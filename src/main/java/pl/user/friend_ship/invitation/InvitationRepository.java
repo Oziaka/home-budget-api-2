@@ -13,8 +13,6 @@ public interface InvitationRepository extends JpaRepository<Invitation, Long> {
 
     Optional<Invitation> findAllByInviterAndInvited(User inviter, User invited);
 
-    void removeByInviterAndInvited(User inviter, User Invited);
-
     void delete(Invitation invitation);
 
     Optional<Invitation> findByInviterAndId(User inviter, Long invitationId);
