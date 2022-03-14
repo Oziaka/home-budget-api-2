@@ -1,6 +1,5 @@
 package pl.wallet.currency;
 
-import io.swagger.models.Response;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -16,10 +15,10 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/api/currency")
 public class CurrencyResource {
-   private CurrencyService currencyService;
+    private CurrencyService currencyService;
 
-   @GetMapping
-   public ResponseEntity<List<CurrencyDto>> getCurrencies(Principal principal){
-      return ResponseEntity.ok(currencyService.getAll());
-   }
+    @GetMapping
+    public ResponseEntity<List<CurrencyDto>> getCurrencies(Principal principal) {
+        return ResponseEntity.ok(currencyService.getAll());
+    }
 }

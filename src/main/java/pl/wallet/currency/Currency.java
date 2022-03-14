@@ -16,15 +16,17 @@ public class Currency {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "currency_id")
     private Long id;
-    private String country;
+    private String StateOrTerritory;
     private String currency;
     private String code;
+    private String symbol;
 
     @Builder
-    public Currency(Long id, String country, String currency, String code) {
+    public Currency(Long id, String stateOrTerritory, String currency, String code, String symbol) {
         this.id = id;
-        this.country = country;
+        this.StateOrTerritory = stateOrTerritory;
         this.currency = currency;
         this.code = code;
+        this.symbol = symbol;
     }
 }

@@ -1,4 +1,5 @@
 package pl.wallet.currency;
+
 import lombok.*;
 
 
@@ -8,17 +9,19 @@ import lombok.*;
 @NoArgsConstructor
 public class CurrencyDto {
 
-   private Long id;
-   private String country;
-   private String currency;
-   private String code;
-   
+    private Long id;
+    private String stateOrTerritory;
+    private String currency;
+    private String code;
+    private String symbol;
 
-   @Builder
-   public CurrencyDto(Long id,  String country, String currency, String code){
-    this.id = id;
-    this.country = country;
-    this.currency = currency;
-    this.code = code;
-}
+
+    @Builder
+    public CurrencyDto(Long id, String stateOrTerritory, String currency, String code, String symbol) {
+        this.id = id;
+        this.stateOrTerritory = stateOrTerritory;
+        this.currency = currency;
+        this.code = code;
+        this.symbol = symbol;
+    }
 }

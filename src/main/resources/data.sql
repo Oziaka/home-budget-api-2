@@ -14,8 +14,8 @@ VALUES (1, 'Good expense', 'Food', 0, true),
        (6, 'Receiving the loan', 'Loan back', 5, true),
        (7, 'Entertainment', 'Entertainment', 0, true),
        (8, 'Everybody like getting presents', 'Present', 1, true);
-INSERT INTO user_item_key
 
+INSERT INTO user_item_key
     (user_item_key_id, name)
 VALUES (1, 'favoriteWalletId');
 
