@@ -8,7 +8,7 @@ import pl.exception.AppError;
 @Getter
 @AllArgsConstructor
 public enum CurrencyError implements AppError {
-    ;
+;
     private final String message;
     private final HttpStatus status;
 }

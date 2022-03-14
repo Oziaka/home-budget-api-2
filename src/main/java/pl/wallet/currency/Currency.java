@@ -10,7 +10,6 @@ import javax.persistence.*;
 @Setter
 @Entity
 @Table(name = "currency")
-@ToString
 public class Currency {
 
     @Id

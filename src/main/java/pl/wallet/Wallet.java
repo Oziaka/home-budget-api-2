@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import org.hibernate.annotations.Cascade;
 import pl.user.User;
+import pl.wallet.currency.Currency;
 import pl.wallet.transaction.model.Transaction;
 import pl.wallet.transaction.model.TransactionRecurring;
 
@@ -47,15 +48,19 @@ public class Wallet {
     @OneToMany(mappedBy = "wallet")
     private List<TransactionRecurring> transactionsRecurring;
 
+    @OneToOne
+    private Currency currency;
 
     @Builder
-    public Wallet(String name, BigDecimal balance, List<Transaction> transactions, Set<User> users, User owner, List<TransactionRecurring> transactionsRecurring) {
+    public Wallet(Long id, String name, BigDecimal balance, List<Transaction> transactions, Set<User> users, User owner, List<TransactionRecurring> transactionsRecurring, Currency currency) {
+        this.id = id;
         this.name = name;
         this.balance = balance;
         this.transactions = transactions;
         this.users = users;
         this.owner = owner;
         this.transactionsRecurring = transactionsRecurring;
+        this.currency = currency;
     }
 
     public void addTransaction(Transaction transaction) {
